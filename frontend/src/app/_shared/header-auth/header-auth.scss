@@ -1,0 +1,79 @@
+.introduction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+
+  .img-box {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary, #CC4A00); 
+    border-radius: 20px;                      
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(204, 74, 0, 0.2); // Ombre douce sous le logo
+    margin-bottom: 15px;
+
+    img {
+      width: 45px;                            
+      height: 45px;
+      object-fit: contain;
+    }
+  }
+
+  h1 {
+    color: var(--primary, #CC4A00);
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  p {
+    color: var(--text-muted, #595959);  
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+.header-auth {
+  display: flex;
+  background-color: var(--surface-element, #E0E0E0); 
+  padding: 4px;                                      // Espace entre la pilule blanche et le fond
+  border-radius: 14px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;                             
+  margin-left: auto;
+  margin-right: auto;
+
+  // Style de base pour les deux boutons
+  .btn-auth {
+    flex: 1;                      // Force les deux boutons à faire exactement la même taille
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-muted, #595959);              
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    outline: none;
+
+ 
+    // pour habiller l'onglet sur lequel le colocataire se trouve :
+    &.active {
+      background-color: var(--surface-active, #FFFFFF); // Bulle blanche
+      color: var(--text-main, #242424);                 // Texte gris très foncé ultra-lisible
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);        // Légère ombre pour décoller la bulle blanche
+    }
+
+    // Effet discret au survol de l'onglet inactif
+    &:not(.active):hover {
+      color: var(--text-main, #242424);
+      opacity: 0.8;
+    }
+  }
+}

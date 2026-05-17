@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-button-record',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './button-record.html',
   styleUrl: './button-record.scss',
 })
-export class ButtonRecord {}
+export class ButtonRecord {
+  @Input() buttonText:string=""
+}

@@ -1,1 +1,18 @@
-<p>login works!</p>
+<app-header-auth></app-header-auth>
+
+<section class="login-card">
+    <p class="subtitle">Connectez-vous pour accéder à votre espace colocation</p>
+    <form>
+        <app-input labelText="Email" srcAssetInput="assets/logo-envelope.png" altAssetInput="Logo enveloppe"
+            inputType="text" placeholderText="votreemail@exemple.com">
+        </app-input>
+
+        <app-input labelText="Email" srcAssetInput="assets/logo-padlock.png" altAssetInput="Logo cadenas"
+            inputType="password" placeholderText="••••••••">
+        </app-input>
+        <app-btn-record buttonText="Se connecter"></app-btn-record>
+
+    </form>
+    <a routerLink="/authentification/forgot_password" class="forgot-link">Mot de passe oublié ?</a>
+
+</section>
