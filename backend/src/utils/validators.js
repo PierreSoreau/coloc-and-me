@@ -1,3 +1,7 @@
+//ce fichier recense l'ensemble des fonctions qui permettent
+//de contrôler le contenu écrit renseigné dans les input
+//de connection/inscriptio (mdp, email, nom...)
+
 export const checkDataWithRegex = (name) => {
   //ce regex autorise tout sauf < > { } par exemple
   const Regex = /^[a-zA-ZÀ-ÿ\s'\-]+$/;
