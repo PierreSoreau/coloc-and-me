@@ -1,3 +1,17 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './_core/guards/auth.guards';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    {
+        path: "auth", loadChildren: () => import("./features/authentification/auth.routes")
+            .then(m => m.authRoutes)
+    },
+
+    // 3. RÈGLES GLOBALES
+    //si jamais l'utilisateur tape http://localhost:400/ alors ça le ramène à auth/login
+    { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
+    { path: '**', redirectTo: '/auth/login' }
+];
+
+
+

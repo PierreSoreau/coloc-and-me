@@ -9,7 +9,7 @@ import { Observable, tap } from 'rxjs';
 
 //on définit le type des variables que l'on va 
 // retrouver en paramètre de la fonction login
-export interface LoginCredientials {
+export interface LoginCredentials {
   email_adress: string;
   password: string;
 }
@@ -33,7 +33,7 @@ export class AuthService {
 
   //credential c'est le contenu à envoyer dans la requête
   //Observable représente la réponse de Node à retourner au composant 
-  login(credential: LoginCredientials): Observable<AuthResponse> {
+  login(credential: LoginCredentials): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credential)
       .pipe(tap(response => {
         //si la réponse de Node fonctionne on enregistre en localStorage la session 

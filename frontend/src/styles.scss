@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  /* --- 1. Les Fonds (Backgrounds) --- */
+  --bg-app: #FAFAF7;       
+  --bg-card: #FFFFFF;     
+
+  /* --- 2. La Couleur de Marque (Coloc&Me) --- */
+   
+  --primary: #CC4A00;      
+  --primary-hover: #A33A00; 
+  --text-on-primary: #FFFFFF;
+
+  /* --- 3. Les Textes --- */
+  --text-main: #242424;    /* Gris très foncé (presque noir) pour Titres et Inputs */
+  --text-muted: #595959;   /* Gris moyen pour les sous-titres (ex: "Mot de passe oublié ?") */
+
+  /* --- 4. Les Éléments d'Interface (Inputs & Toggle) --- */
+  --surface-element: #E0E0E0; /* Fond des inputs et fond du bouton toggle inactif */
+  --surface-active: #FFFFFF;  /* Fond du bouton toggle actif (Connexion) */
+  --border-element: #767676;  /* Bordure accessible sur les inputs*/
+}
