@@ -2,17 +2,19 @@
 
 <section class="login-card">
     <p class="subtitle">Connectez-vous pour accéder à votre espace colocation</p>
-    <form>
+    <form [formGroup]="loginForm">
         <app-input labelText="Email" srcAssetInput="assets/logo-envelope.png" altAssetInput="Logo enveloppe"
-            inputType="text" placeholderText="votreemail@exemple.com">
+            inputType="text" placeholderText="votreemail@exemple.com" controlName="email" [form]="loginForm"
+            [errorMessage]="getErrorMessage('L\'Email','email')">
         </app-input>
 
-        <app-input labelText="Email" srcAssetInput="assets/logo-padlock.png" altAssetInput="Logo cadenas"
-            inputType="password" placeholderText="••••••••">
+        <app-input labelText="Mot de passe" srcAssetInput="assets/logo-padlock.png" altAssetInput="Logo cadenas"
+            inputType="password" placeholderText="••••••••" controlName="password" [form]="loginForm"
+            [errorMessage]="getErrorMessage('Le mot de passe','password')">
         </app-input>
         <app-button-record buttonText="Se connecter"></app-button-record>
 
     </form>
-    <a routerLink="/authentification/forgot_password" class="forgot-link">Mot de passe oublié ?</a>
+    <a routerLink="/auth/forgot-password" class="forgot-link">Mot de passe oublié ?</a>
 
 </section>

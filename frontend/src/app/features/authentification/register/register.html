@@ -1,1 +1,37 @@
-<p>register works!</p>
+<app-header-auth></app-header-auth>
+
+<section class="register-card">
+
+    <p class="subtitle">Créez votre compte pour rejoindre votre colocation</p>
+    <form [formGroup]="registerForm">
+        <app-input labelText="Prénom" srcAssetInput="assets/logo-user.png" altAssetInput="Logo utilisateur"
+            inputType="text" placeholderText="Jean" [errorMessage]="getErrorMessage('Le Prénom','firstName')"
+            controlName="firstName" [form]="registerForm">
+        </app-input>
+
+        <app-input labelText="Nom" srcAssetInput="assets/logo-user.png" altAssetInput="Logo utilisateur"
+            inputType="text" placeholderText="Dupont" [errorMessage]="getErrorMessage('Le Nom','lastName')"
+            controlName="lastName" [form]="registerForm">
+        </app-input>
+
+        <app-input labelText="Email" srcAssetInput="assets/logo-envelope.png" altAssetInput="Logo enveloppe"
+            inputType="text" placeholderText="votreemail@exemple.com"
+            [errorMessage]="getErrorMessage('L\'Email','email')" controlName="email" [form]="registerForm">
+        </app-input>
+
+        <app-input labelText="Mot de passe" srcAssetInput="assets/logo-padlock.png" altAssetInput="Logo cadenas"
+            inputType="password" placeholderText="••••••••"
+            [errorMessage]="getErrorMessage('Le Mot de passe','password')" controlName="password" [form]="registerForm">
+        </app-input>
+
+        <app-input labelText="Confirmation Mot de passe" srcAssetInput="assets/logo-padlock.png"
+            altAssetInput="Logo cadenas" inputType="password" placeholderText="••••••••"
+            [errorMessage]="getConfirmPasswordError()" controlName="confirmPassword" [form]="registerForm">
+        </app-input>
+
+        <app-button-record buttonText="S'inscrire"></app-button-record>
+
+    </form>
+    <a routerLink="/auth/register" class="back-home">Retour à la connection</a>
+
+</section>

@@ -7,10 +7,21 @@
 
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import apiRouter from "./routes/index.js";
+
+dotenv.config(); //permet d'activer dotenv
 
 //on instancie express pour pouvoir utiliser ses outils
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:4200", //autorise uniquement  cet url (Angular) à envoyer des tokens et des json
+    methods: ["GET", "PUT", "POST", "DELETE"], //les types de requêtes autorosisées
+    allowedHeaders: ["Content-Type", "Authorization"], //les types d'infos autorisées TOKEN et JSON
+  }),
+);
 
 //permet de transformer en objet js un message qui est en json de base pour pouvoir le manipuler
 //c'est indispensable parce que angular va envoyer que du json au serveur donc faut forcément un traducteur
@@ -18,8 +29,6 @@ const app = express();
 // use veut dire pour toutes les requêtes qui passent
 // par ici, applique cette règle
 app.use(express.json());
-
-app.use("/api", apiRouter);
 
 //s'il y a une requête au guichet "/" on renvoit le message le serveur....
 app.get("/", (req, res) => {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header-auth',
-  imports: [NgClass],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header-auth.html',
   styleUrl: './header-auth.scss',
 })

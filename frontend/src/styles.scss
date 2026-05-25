@@ -1,20 +1,63 @@
 :root {
   /* --- 1. Les Fonds (Backgrounds) --- */
-  --bg-app: #FAFAF7;       
-  --bg-card: #FFFFFF;     
+  --bg-app: #FFFFFF;
+  --bg-card: #EBE5DC;
 
   /* --- 2. La Couleur de Marque (Coloc&Me) --- */
-   
-  --primary: #CC4A00;      
-  --primary-hover: #A33A00; 
+
+  --primary: #CC4A00;
+  --primary-hover: #A33A00;
   --text-on-primary: #FFFFFF;
 
   /* --- 3. Les Textes --- */
-  --text-main: #242424;    /* Gris très foncé (presque noir) pour Titres et Inputs */
-  --text-muted: #595959;   /* Gris moyen pour les sous-titres (ex: "Mot de passe oublié ?") */
+  --font-principale: 'Roboto', 'Helvetica Neue', sans-serif;
+  --text-main: #242424;
+  /* Gris très foncé (presque noir) pour Titres et Inputs */
+  --text-muted: #545454;
+  /* Gris moyen pour les sous-titres (ex: "Mot de passe oublié ?") */
 
   /* --- 4. Les Éléments d'Interface (Inputs & Toggle) --- */
-  --surface-element: #E0E0E0; /* Fond des inputs et fond du bouton toggle inactif */
-  --surface-active: #FFFFFF;  /* Fond du bouton toggle actif (Connexion) */
-  --border-element: #767676;  /* Bordure accessible sur les inputs*/
+  --surface-element: #F0F0F0;
+  /* Fond des inputs et fond du bouton toggle inactif */
+  --surface-active: #FFFFFF;
+  /* Fond du bouton toggle actif (Connexion) */
+  --border-element: #707070;
+  /* Bordure accessible sur les inputs*/
+  --surface-box: #EBE7E0;
+  /* Fond de la div bouton */
+
+
+
+
+}
+
+html,
+body {
+  margin: 10px 0 0 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+
+  font-family: var(--font-principale);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Rend le texte plus net sur les écrans modernes */
+  -webkit-font-smoothing: antialiased;
+}
+
+app-root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto auto;
+}
+
+* {
+  box-sizing: border-box;
 }

@@ -1,50 +1,107 @@
-.input-container{
-    gap:10px;
-    width: auto;
-    height:auto;    
+.input-container {
+    gap: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-    .input-label{
-        font-size:16px;
+    .input-label {
+        font-size: 16px;
         color: var(--text-main);
 
     }
-
 
 }
 
 /*On ne met pas plus de 3 niveau de hiérarchie dans un scss 
 donc c'est pour ça que input box n'est pas dans input container*/
-.input-box{
-    border:1px solid var(--border-element);
-    font-size:16px;
+.input-box {
+    border: 1px solid var(--primary);
+    background-color: var(--surface-element);
+    height: 55px;
+    font-size: 16px;
     color: var(--text-muted);
-    height:auto;
-    padding-left:40px;
+    padding-left: 40px;
     padding-bottom: 16px;
-    padding-top:16px;
+    padding-top: 16px;
     padding-right: 10px;
-    position:relative;
-    display:flex;
+    position: relative;
+    display: flex;
     border-radius: 8px;
     transition: border-color 0.2s;
+    align-items: center;
+    outline: none;
+    margin-bottom: 5px;
 
-    .input-logo{
-        height:20px;
-        width:20px;
+    .input-logo {
+        height: 20px;
+        width: 20px;
         position: absolute;
-        left:10px;
+        left: 10px;
         pointer-events: none; // Évite que l'icône bloque le clic de la souris sur l'input
 
     }
-/*le & fait référence au nom du parent direct 
-donc concrètement ça veut dire .input-box:focus*/
-    &:focus {
-        border-color: var(--text-main);
-        box-shadow: 0 0 0 4px rgba(204, 74, 0, 0.15);
+
+    input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        /*prend la même taille et la même police que le parent*/
+        font-family: inherit;
+        font-size: inherit;
+        color: var(--text-main);
+
+        &::placeholder {
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+    }
+
+    /*le & fait référence au nom du parent direct 
+donc concrètement ça veut dire .input-box:focus 
+mais comme input-box est une div et pas un .input-box
+il faut mettre within pour dire de prendre en compte
+au focus de tous les éléments de input-box*/
+    &:focus-within {
+        box-shadow: 0 0 0 4px rgb(#CC4A00, 0.5);
     }
 
 
 }
 
+.error-text {
+    color: #D32F2F;
+    font-size: 13px;
+    margin-left: 5px;
+    animation: fadeIn 0.3s ease;
+    font-family: var(--font-principale);
+    font-weight: 700;
+}
 
 
+.input-box.has-error {
+    border-color: #D32F2F;
+
+    &:focus-within {
+        /* les 3 zeros signifient que le halo n'est pas décalé et pas flou
+        le 4px c'est l'épaisseur du halo
+        le rgb c'est la couleur du halo mais avec 15% d'opacité */
+        box-shadow: 0 0 0 4px rgb(211, 47, 47, 0.15);
+    }
+}
+
+/*c'est une animation de fondue sur la span de message d'erreur
+On part d'un message d'erreur invisible en opacité 0 et situé vers le haut de 5px et on arrive 
+vers le bas en total visibilité*/
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}

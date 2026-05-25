@@ -2,15 +2,17 @@ import { ButtonRecord } from './../../../_shared/button/button_record/button-rec
 import { Component, inject, OnInit } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
 import { HeaderAuth } from '../../../_shared/header-auth/header-auth';
-import { Router } from '@angular/router';
 import { AuthService, LoginCredentials } from '../services/auth.services';
 import { Title } from '@angular/platform-browser';
+import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 
 
 
 @Component({
   selector: 'app-login',
-  imports: [ButtonRecord, InputComponent, HeaderAuth],
+  imports: [ButtonRecord, InputComponent, HeaderAuth, RouterLink, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -23,6 +25,21 @@ export class Login implements OnInit {
   ngOnInit(): void {
     this.loginTitle.setTitle('Coloc&Me | Connection')
   }
+  loginForm: FormGroup
+
+  constructor(private fb: FormBuilder) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/)]],
+    })
+  }
+
+  getErrorMessage(textField: string, nameField: string): string {
+    const control = this.loginForm.get(nameField);
+
+    return getFieldErrorMessage(textField, control);
+  }
+
 
   onSubmit(loginData: LoginCredentials): void {
     this.authService.login(loginData).subscribe({

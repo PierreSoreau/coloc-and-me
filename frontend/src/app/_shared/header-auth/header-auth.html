@@ -1,11 +1,11 @@
 <div class="introduction">
     <div class="img-box">
-        <img src="src/assets/logo-house.png" alt="logo application coloc&me" />
+        <img src="assets/logo-house.png" alt="logo application coloc&me" />
     </div>
     <h1>Coloc&Me</h1>
     <p>Gérez votre colocation en toute simplicité</p>
 </div>
 <div class="header-auth">
-    <button class="btn-auth" [ngClass]="{ 'active': true }">Connexion</button>
-    <button class="btn-auth" [ngClass]="{ 'active': false }">Inscription</button>
+    <a class="btn-auth" routerLinkActive="active" routerLink="/auth/login">Connexion</a>
+    <a class="btn-auth" routerLinkActive="active" routerLink="/auth/register">Inscription</a>
 </div>
