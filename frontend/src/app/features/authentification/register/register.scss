@@ -1,14 +1,13 @@
 .register-card {
+    /* STYLES MOBILE (Par défaut) */
     background-color: var(--bg-card, #FFFFFF);
     border-radius: 16px;
     padding: 20px 25px;
-
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-
     width: 95%;
     max-width: 420px;
     min-width: 300px;
-    margin: 20px auto 0px auto;
+    margin: 20px auto 20px auto;
 
     .subtitle {
         color: var(--text-muted, #595959);
@@ -24,7 +23,7 @@
     }
 
     .back-home {
-        display: block; // Prend toute la largeur pour faciliter le centrage
+        display: block;
         text-align: center;
         color: var(--text-muted, #595959);
         font-size: 12px;
@@ -34,7 +33,50 @@
 
         &:hover {
             color: var(--text-main, #242424);
-            text-decoration: underline; // Souligne pour confirmer que c'est cliquable
+            text-decoration: underline;
+        }
+    }
+
+    /* --- 💊 TABLETTE (768px et plus) --- */
+    @media (min-width: 768px) {
+        max-width: 500px;
+        padding: 40px 50px;
+        margin-top: 20px;
+
+        .subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        form {
+            gap: 15px;
+        }
+
+        .back-home {
+            font-size: 14px;
+        }
+    }
+
+    /* -ORDINATEUR (1024px et plus) */
+    @media (min-width: 1024px) {
+        max-width: 650px;
+        margin-top: 20px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; // On coupe la forme en 2 colonnes
+            gap: 20px;
+
+
+
+            //"Sélectionne tous les composants <app-input>, en commençant à partir du 3ème composant (l'email)".
+            //avant le prénom et le nom sont cote à cote
+            //span 2 permet de fusionner les 2 colonnes
+            app-input:nth-child(n+3),
+            app-button-record {
+                grid-column: span 2;
+            }
         }
     }
 }
