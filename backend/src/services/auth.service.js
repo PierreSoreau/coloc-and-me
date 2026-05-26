@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabase";
+import { supabase } from "../config/supabase.js";
 
 // ============================================================================
 // INSCRIPTION
@@ -9,7 +9,6 @@ export const registerUser = async (
   firstname,
   lastname,
   email_adress,
-  photo,
 ) => {
   //l'utilisateur renseigne sur le formulaire angular ses informations d'inscription
   // (password, firstname, lastname...),
@@ -26,6 +25,8 @@ export const registerUser = async (
   // ou que le format est mauvais ça renvoit un message d'erreur
   if (authResponse.error) {
     const supabaseMessage = authResponse.error.message;
+
+    console.log("🚨 VRAIE ERREUR SUPABASE :", supabaseMessage);
 
     if (supabaseMessage === "User already registered") {
       throw new Error("Cet email est déjà utilisé");
@@ -61,7 +62,6 @@ export const registerUser = async (
       firstname: firstname,
       lastname: lastname,
       email_adress: email_adress,
-      photo: photo,
     },
   ]);
 
@@ -163,7 +163,7 @@ export const pageForResetPassword = async (email_adress) => {
   //il a plus qu'à cliquer sur lien cela va le rediriger vers  ${process.env.FRONTEND_URL}${process.env.PORT}/update-password
   //il pourra changer son mot de passe
   const redirectPage = await supabase.auth.resetPasswordForEmail(email_adress, {
-    redirectTo: `${process.env.FRONTEND_URL}${process.env.PORT}/update-password`,
+    redirectTo: `${process.env.FRONTEND_URL}4200/auth/reset-password`,
   });
 
   if (redirectPage.error) {

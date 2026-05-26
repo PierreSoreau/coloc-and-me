@@ -2,7 +2,7 @@
 
 <section class="login-card">
     <p class="subtitle">Connectez-vous pour accéder à votre espace colocation</p>
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <app-input labelText="Email" srcAssetInput="assets/logo-envelope.png" altAssetInput="Logo enveloppe"
             inputType="text" placeholderText="votreemail@exemple.com" controlName="email" [form]="loginForm"
             [errorMessage]="getErrorMessage('L\'Email','email')">

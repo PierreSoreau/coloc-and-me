@@ -3,7 +3,7 @@
 <section class="register-card">
 
     <p class="subtitle">Créez votre compte pour rejoindre votre colocation</p>
-    <form [formGroup]="registerForm">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <app-input labelText="Prénom" srcAssetInput="assets/logo-user.png" altAssetInput="Logo utilisateur"
             inputType="text" placeholderText="Jean" [errorMessage]="getErrorMessage('Le Prénom','firstName')"
             controlName="firstName" [form]="registerForm">
@@ -32,6 +32,6 @@
         <app-button-record buttonText="S'inscrire"></app-button-record>
 
     </form>
-    <a routerLink="/auth/register" class="back-home">Retour à la connection</a>
+    <a routerLink="/auth/login" class="back-home">Retour à la connection</a>
 
 </section>

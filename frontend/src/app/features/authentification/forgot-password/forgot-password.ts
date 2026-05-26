@@ -16,6 +16,9 @@ import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 })
 export class ForgotPassword implements OnInit {
   private forgotPasswordTitle = inject(Title);
+  private authService = inject(AuthService)
+  private router = inject(Router)
+  public isEmitEmail: boolean = false
 
   ngOnInit(): void {
     this.forgotPasswordTitle.setTitle('Coloc&Me | Mot de passe oublié')
@@ -30,6 +33,30 @@ export class ForgotPassword implements OnInit {
       email: ['', [Validators.required, Validators.email]],
     })
   }
+
+
+  onSubmit() {
+    if (this.forgotPasswordForm.invalid) {
+      return
+    }
+
+    const rawData = this.forgotPasswordForm.value
+
+    const cleanData = {
+      email_adress: rawData.email
+    }
+
+    this.authService.forgotPassword(cleanData).subscribe({
+      next: () => {
+        this.isEmitEmail = true
+      },
+      error: (err) => {
+        console.error("Echec reset password", err);
+      }
+    })
+
+  }
+
 
   getErrorMessage(textField: string, nameField: string): string {
     const control = this.forgotPasswordForm.get(nameField);

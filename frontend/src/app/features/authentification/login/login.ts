@@ -41,8 +41,19 @@ export class Login implements OnInit {
   }
 
 
-  onSubmit(loginData: LoginCredentials): void {
-    this.authService.login(loginData).subscribe({
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return
+    }
+
+    const rawData = this.loginForm.value
+
+    const cleanData = {
+      email_adress: rawData.email,
+      password: rawData.password
+    }
+
+    this.authService.login(cleanData).subscribe({
       next: () => {
         this.router.navigate(['/dashboard'])
       },

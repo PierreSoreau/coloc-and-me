@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 import { passwordMatchValidator } from '../../../_shared/validators/password-match';
+import { AuthService, RegisterCredentials, RegisterResponse } from '../services/auth.services';
 
 
 @Component({
@@ -22,6 +23,8 @@ import { passwordMatchValidator } from '../../../_shared/validators/password-mat
 })
 export class Register {
   private registerTitle = inject(Title);
+  private authService = inject(AuthService)
+  private router = inject(Router)
   ngOnInit() {
     this.registerTitle.setTitle("Coloc & Me | Inscription")
   }
@@ -65,6 +68,32 @@ export class Register {
     }
 
     return '';
+  }
+
+  onSubmit() {
+    if (this.registerForm.invalid) {
+      return
+    }
+
+    const rawData = this.registerForm.value;
+
+    const cleanData = {
+      firstname: rawData.firstName,
+      lastname: rawData.lastName,
+      email_adress: rawData.email,
+      password: rawData.password
+    }
+
+    this.authService.register(cleanData).subscribe({
+      next: (response: RegisterResponse) => {
+        console.log(response.message)
+        this.router.navigate(["/auth/login"])
+      },
+      error: (err) => {
+        console.error("Erreur d'inscription", err)
+      }
+    })
+
   }
 
 }
