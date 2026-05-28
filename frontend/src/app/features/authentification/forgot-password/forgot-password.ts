@@ -1,11 +1,12 @@
 import { ButtonRecord } from './../../../_shared/button/button_record/button-record';
 import { Component, inject, OnInit } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
-import { AuthService, LoginCredentials } from '../services/auth.services';
+import { AuthService } from '../services/auth.services';
 import { Title } from '@angular/platform-browser';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -17,8 +18,10 @@ import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 export class ForgotPassword implements OnInit {
   private forgotPasswordTitle = inject(Title);
   private authService = inject(AuthService)
-  private router = inject(Router)
+  private changeDetectorRef = inject(ChangeDetectorRef)
+
   public isEmitEmail: boolean = false
+
 
   ngOnInit(): void {
     this.forgotPasswordTitle.setTitle('Coloc&Me | Mot de passe oublié')
@@ -47,10 +50,17 @@ export class ForgotPassword implements OnInit {
     }
 
     this.authService.forgotPassword(cleanData).subscribe({
-      next: () => {
+      next: (reponse) => {
+        console.log("🟢 SUCCÈS : Angular est bien rentré dans le next !", reponse);
         this.isEmitEmail = true
+        //permet rafraichir l'écran en forcé, je le demande parce que sinon
+        //la page mail envoyé ne se met qu'au deuxième clic du bouton créer un nouveau mail
+        //pourtant le mail est bien envoyé
+        this.changeDetectorRef.detectChanges();
+        //
       },
       error: (err) => {
+        console.error("🔴 ERREUR : La requête a marché, mais Angular a rejeté la réponse !", err);
         console.error("Echec reset password", err);
       }
     })
@@ -62,6 +72,12 @@ export class ForgotPassword implements OnInit {
     const control = this.forgotPasswordForm.get(nameField);
 
     return getFieldErrorMessage(textField, control);
+  }
+
+  toggle(): void {
+    this.isEmitEmail = false
+    this.changeDetectorRef.detectChanges();
+
   }
 
 }

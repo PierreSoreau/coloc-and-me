@@ -10,7 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 //FormBuilder c'est un outil qui permet d'écrire plus facilement les exigences du formulaire
 //Validators c'est le contrôleur qualité 
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
+import { getFieldErrorMessage, getConfirmPasswordError } from '../../../_shared/utils/forms-error';
 import { passwordMatchValidator } from '../../../_shared/validators/password-match';
 import { AuthService, RegisterCredentials, RegisterResponse } from '../services/auth.services';
 
@@ -48,26 +48,8 @@ export class Register {
     return getFieldErrorMessage(textField, control);
   }
 
-
   getConfirmPasswordError(): string {
-    const control = this.registerForm.get('confirmPassword');
-
-
-    if (!control || (!control.touched && !control.dirty)) {
-      return '';
-    }
-
-
-    if (control.hasError('required')) {
-      return 'Veuillez confirmer votre mot de passe.';
-    }
-
-    // On interroge LE FORMULAIRE, pas le champ !
-    if (this.registerForm.hasError('passwordMismatch')) {
-      return 'Les mots de passe ne sont pas identiques.';
-    }
-
-    return '';
+    return getConfirmPasswordError(this.registerForm);
   }
 
   onSubmit() {
@@ -84,6 +66,7 @@ export class Register {
       password: rawData.password
     }
 
+    //subscribe permet de lancer la requette sinon ça ne se lancerait pas et ça écoute la réponse
     this.authService.register(cleanData).subscribe({
       next: (response: RegisterResponse) => {
         console.log(response.message)

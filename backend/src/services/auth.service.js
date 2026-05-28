@@ -104,7 +104,10 @@ export const logIn = async (email_adress, password) => {
     throw new Error(supabaseMessage);
   }
 
-  return checkLogin.data.user.id;
+  return {
+    token: checkLogin.data.session.access_token,
+    refresh_token: checkLogin.data.session.refresh_token,
+  };
 };
 
 // ============================================================================

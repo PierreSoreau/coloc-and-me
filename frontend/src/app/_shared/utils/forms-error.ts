@@ -1,5 +1,5 @@
 
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 //fonction qui permet de sortir le message d'erreur en fonction du type de champ du formulaire
 //control? veut dire est-ce que la constante control existe. C'est la sécurité pour être sur qu'on
@@ -37,4 +37,24 @@ export function getFieldErrorMessage(textField: string, control: AbstractControl
     return ''
 }
 
+export function getConfirmPasswordError(Form: FormGroup, controlName: string = 'confirmPassword'): string {
+    const control = Form.get(controlName);
+
+
+    if (!control || (!control.touched && !control.dirty)) {
+        return '';
+    }
+
+
+    if (control.hasError('required')) {
+        return 'Veuillez confirmer votre mot de passe.';
+    }
+
+    // On interroge LE FORMULAIRE, pas le champ !
+    if (Form.hasError('passwordMismatch')) {
+        return 'Les mots de passe ne sont pas identiques.';
+    }
+
+    return '';
+}
 

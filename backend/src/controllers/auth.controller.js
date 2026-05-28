@@ -80,9 +80,7 @@ export const signIn = async (req, res) => {
 
     const logIn = await authService.logIn(email_adress, password);
 
-    return res
-      .status(200)
-      .json({ message: "Bon retour dans la coloc", userId: logIn });
+    return res.status(200).json(logIn);
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
