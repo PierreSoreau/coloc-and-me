@@ -7,11 +7,13 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 import { ChangeDetectorRef } from '@angular/core';
+import { Location } from '@angular/common';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [ButtonRecord, InputComponent, RouterLink, ReactiveFormsModule],
+  imports: [ButtonRecord, InputComponent, RouterLink, ReactiveFormsModule, ButtonBack],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.scss',
 })
@@ -19,7 +21,7 @@ export class ForgotPassword implements OnInit {
   private forgotPasswordTitle = inject(Title);
   private authService = inject(AuthService)
   private changeDetectorRef = inject(ChangeDetectorRef)
-
+  private location = inject(Location)
   public isEmitEmail: boolean = false
 
 
@@ -27,6 +29,10 @@ export class ForgotPassword implements OnInit {
     this.forgotPasswordTitle.setTitle('Coloc&Me | Mot de passe oublié')
 
 
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   forgotPasswordForm: FormGroup
