@@ -1,12 +1,11 @@
 import { ButtonRecord } from './../../../_shared/button/button_record/button-record';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
 import { AuthService } from '../services/auth.services';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
-import { ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 

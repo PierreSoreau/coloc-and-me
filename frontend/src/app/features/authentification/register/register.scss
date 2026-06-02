@@ -22,6 +22,8 @@
         margin-bottom: 20px;
     }
 
+
+
     .back-home {
         display: block;
         text-align: center;
@@ -78,5 +80,87 @@
                 grid-column: span 2;
             }
         }
+    }
+}
+
+.email-confirmation {
+    background-color: var(--bg-card, #FFFFFF);
+    border-radius: 16px;
+    padding: 20px 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    width: 95%;
+    max-width: 420px;
+    min-width: 300px;
+    margin: 20px auto 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    // --- NOUVEAUX STYLES POUR LE BLOC @else (VISUEL DE SUCCÈS) ---
+
+    // 1. Centrer l'icône de validation
+
+    img {
+        display: block;
+        margin: 0 auto 20px auto;
+        width: 64px; // Ajuste selon la taille réelle de ton asset
+        height: auto;
+    }
+
+    // 2. Le paragraphe principal
+    p {
+        color: var(--text-muted, #595959);
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 30px;
+
+        // L'astuce magique : on force le span (l'e-mail) à agir comme un bloc
+        // Cela crée automatiquement les retours à la ligne avant et après !
+        span {
+            display: block;
+            color: var(--text-main, #242424);
+            font-weight: 600; // En gras comme sur la maquette
+            margin: 10px 0; // Ajoute de l'espace au-dessus et en dessous de l'e-mail
+        }
+    }
+
+    .spam-container {
+        margin-top: 10px;
+
+        // 3. Aligner le texte "Spam" et le lien "Réessayez" sur la même ligne
+        .check-spams {
+            display: inline; // On retire l'effet "bloc" du paragraphe
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .back-register {
+            background: none;
+            border: none;
+            padding: 0;
+            display: inline; // On le met sur la même ligne que le texte précédent
+            margin-left: 5px; // Petit espace après le "ou"
+            color: var(--primary);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--text-main, #242424);
+                text-decoration: underline;
+            }
+        }
+    }
+
+    @media (min-width: 768px) {
+        max-width: 500px;
+        padding: 40px 50px;
+    }
+
+    @media (min-width: 1024px) {
+        max-width: 650px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
     }
 }

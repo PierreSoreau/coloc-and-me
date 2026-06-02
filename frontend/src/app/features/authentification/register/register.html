@@ -1,3 +1,4 @@
+@if(!isEmitEmail){
 <app-header-auth></app-header-auth>
 
 <section class="register-card">
@@ -26,12 +27,28 @@
 
         <app-input labelText="Confirmation Mot de passe" srcAssetInput="assets/logo-padlock.png"
             altAssetInput="Logo cadenas" inputType="password" placeholderText="••••••••"
-            [errorMessage]="getConfirmPasswordError()" controlName=" confirmPassword" [form]="registerForm">
+            [errorMessage]="getConfirmPasswordError()" controlName="confirmPassword" [form]="registerForm">
         </app-input>
 
         <app-button-record buttonText="S'inscrire"></app-button-record>
 
     </form>
     <a routerLink="/auth/login" class="back-home">Retour à la connection</a>
-
 </section>
+}
+
+
+
+@else{
+
+<section class="email-confirmation">
+    <img src="assets/green-check.png" alt="logo check validation" />
+    <h2>Email envoyé</h2>
+    <p>Un email de confirmation de votre adresse mail <span>{{registerForm.value.email}}</span>vous a été envoyé
+        Veuillez vérifier votre boîte de réception et cliquer sur le lien du mail pour valider votre e-mail.</p>
+    <div class="spam-container">
+        <p class="check-spams">Vous n'avez pas reçu l'email ? Vérifiez vos spams ou</p><button type="button"
+            class="back-register" (click)="toggle()">Réessayez</button>
+    </div>
+</section>
+}

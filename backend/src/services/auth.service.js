@@ -66,6 +66,7 @@ export const registerUser = async (
   ]);
 
   if (profilRegister.error) {
+    console.error("🚨 DÉTAIL DE L'ERREUR SUPABASE :", profilRegister.error);
     throw new Error(
       "Une erreur est intervenu au moment de l'enregistrement de vos données",
     );

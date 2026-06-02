@@ -1,1 +1,47 @@
-<p>profil-settings works!</p>
+<h2>Mon profil</h2>
+<section class="profil-container">
+    <div class="box-left-profil">
+        <div class="name-profil-container">
+            <div class="profil-initials">
+                <h2>{{userInitials}}</h2>
+            </div>
+            <h3>{{userfirstname}} {{userlastname}}</h3>
+            <p>{{useremail}}</p>
+        </div>
+        <div class="change-password">
+            <a routerLink="/"><img src="assets/logo-padlock.png" alt="logo cadenas" />
+                <p>Changer le mot de passe</p>
+            </a>
+            <button type="button" (click)="logOut()"><img src="/assets/logo-unplug.svg" alt="logo deconnection" />
+                <p>Se déconnecter</p>
+            </button>
+        </div>
+    </div>
+    <div class="profil-data">
+        <div class="title-profil-data">
+            <img src="assets/logo-user.png" alt="logo profil utilisateur" />
+            <h3>Informations personnelles</h3>
+        </div>
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+            <app-input labelText="Prénom" srcAssetInput="assets/logo-user.png" altAssetInput="logo profil utilisateur"
+                inputType="text" [errorMessage]="getErrorMessage('Le Prénom','firstName')" controlName="firstName"
+                [form]="updateForm"></app-input>
+            <app-input labelText="Nom" srcAssetInput="assets/logo-user.png" altAssetInput="Logo utilisateur"
+                inputType="text" [errorMessage]="getErrorMessage('Le Nom','lastName')" controlName="lastName"
+                [form]="updateForm">
+            </app-input>
+            <div class="new-email">
+                <p class="input-label">Email</p>
+                <div class="new-email-box">
+                    <div class="input">
+                        <img src="assets/logo-envelope.png" alt="logo enveloppe" class="input-logo" />
+                        <p>{{useremail}}</p>
+                    </div>
+                    <a routerLink="" class="link-new-email"><img src="assets/logo-pencil.svg" /></a>
+                </div>
+            </div>
+            <app-button-record buttonText="Enregistrer les modifications"></app-button-record>
+        </form>
+
+    </div>
+</section>

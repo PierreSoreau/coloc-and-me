@@ -1,0 +1,324 @@
+/* --- Configuration du composant complet --- */
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centre le contenu au milieu de l'écran */
+    width: 100%;
+    padding: 20px 20px 60px 20px;
+    /* Espace autour et en bas avant le footer */
+}
+
+/* --- Titre de la page --- */
+h2 {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-main);
+    margin: 20px 0 20px 0;
+    width: 100%;
+    max-width: 600px;
+    /* S'aligne avec le conteneur mobile */
+    text-align: left;
+    /* Aligné à gauche comme sur la maquette */
+}
+
+/* --- Conteneur Principal --- */
+.profil-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- Colonne de gauche (Photo + Sécurité) --- */
+.box-left-profil {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* Espace séparant la photo du bouton déconnexion */
+}
+
+/* --- Carte 1 : En-tête du profil --- */
+.name-profil-container {
+    background-color: var(--bg-app);
+    border: 1px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+
+    .profil-initials {
+        background-color: var(--primary);
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h2 {
+            color: var(--text-on-primary);
+            font-size: 32px;
+            font-weight: 400;
+            margin: 0;
+            text-align: center;
+        }
+    }
+
+    h3 {
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-main);
+        margin: 0 0 8px 0;
+    }
+
+    p {
+        font-size: 15px;
+        color: var(--text-muted);
+        margin: 0;
+    }
+}
+
+/* --- Carte 2 : Bloc Sécurité --- */
+.change-password {
+    background-color: var(--surface-box);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    a,
+    button {
+        background-color: var(--bg-app);
+        border-radius: 8px;
+        padding: 15px 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        cursor: pointer;
+        width: 100%;
+        font-family: var(--font-principale);
+        font-size: 15px;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+
+        }
+    }
+
+    a {
+        border: 1px solid transparent;
+        color: var(--text-main);
+
+        &:hover {
+            background-color: #F9F9F9;
+        }
+    }
+
+    button {
+        border: 1px solid #E53935;
+        color: #E53935;
+
+        img {
+            filter: invert(34%) sepia(85%) saturate(7460%) hue-rotate(349deg) brightness(95%) contrast(85%);
+        }
+
+
+        &:hover {
+            background-color: #FFF5F5;
+        }
+    }
+}
+
+/* --- Carte 3 : Formulaire de modification --- */
+.profil-data {
+    background-color: var(--bg-app);
+    border: 1px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 30px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+
+    .title-profil-data {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        /* Espace entre l'icône et le texte */
+        margin-bottom: 30px;
+        /* Éloigne le titre du premier input */
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: var(--text-main);
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/* --- Faux Input Email (Lecture Seule) --- */
+.new-email {
+    gap: 10px;
+    /* Même espace que ton .input-container */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    /* Garde l'espace avec le bouton en dessous */
+
+    .input-label {
+        font-size: 16px;
+        /* Remis à 16px comme les autres labels */
+        color: var(--text-main);
+        margin: 0;
+    }
+}
+
+.new-email-box {
+    border: 1px solid var(--primary);
+    /* Bordure orange comme les vrais inputs */
+    background-color: var(--surface-element);
+    height: 55px;
+    border-radius: 8px;
+
+    /* Le padding gauche à 10px combiné au gap de 10px permet d'aligner le texte à 40px (10+20+10) */
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 5px;
+    /* Comme sur ton vrai input */
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    /* Conteneur gauche : Icône + Texte */
+    .input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Exactement l'espace nécessaire pour simuler le padding de 40px */
+        flex: 1;
+
+        .input-logo {
+            height: 20px;
+            width: 20px;
+            object-fit: contain;
+            /* J'ai retiré l'opacité pour que l'icône ait la même couleur que les autres */
+        }
+
+        p {
+            margin: 0;
+            font-size: 16px;
+            /* Même taille que le texte tapé */
+            font-family: inherit;
+            color: var(--text-main);
+            /* Texte normal pour faire croire à un vrai input */
+            user-select: none;
+            /* Empêche la sélection, renforce l'effet "bloqué" */
+        }
+    }
+
+    /* Conteneur droit : Le lien avec le crayon */
+    .link-new-email {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 6px;
+        transition: transform 0.2s ease;
+        cursor: pointer;
+
+        img {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ⚠️ CORRECTION ICI : Il manquait les deux points devant hover */
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+
+
+
+
+/* =========================================
+   RESPONSIVE DESIGN (Tablette & Desktop)
+========================================= */
+@media (min-width: 768px) {
+
+    h2 {
+        max-width: 950px;
+        /* S'aligne avec le nouveau grand conteneur */
+        margin-top: 50px;
+    }
+
+    .profil-container {
+        max-width: 950px;
+        /* S'élargit pour accueillir les deux colonnes */
+        flex-direction: row;
+        /* Aligne les deux blocs côte à côte */
+        align-items: flex-start;
+        /* Empêche les colonnes de s'étirer verticalement */
+        gap: 30px;
+    }
+
+    .box-left-profil {
+        width: 35%;
+        /* La colonne de gauche prend ~1/3 de la largeur */
+        min-width: 300px;
+    }
+
+    .profil-data {
+        width: 65%;
+        /* La colonne de droite prend le reste */
+        flex: 1;
+        padding: 40px;
+
+        /* Un peu plus d'air sur grand écran */
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; // On coupe la forme en 2 colonnes
+            gap: 20px;
+
+            //span 2 permet de fusionner les 2 colonnes
+            .new-email,
+            app-button-record {
+                grid-column: span 2;
+            }
+        }
+    }
+
+    .name-profil-container {
+        padding: 50px 40px;
+    }
+}

@@ -1,5 +1,5 @@
 import { ButtonRecord } from './../../../_shared/button/button_record/button-record';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
 import { HeaderAuth } from '../../../_shared/header-auth/header-auth';
 import { Title } from '@angular/platform-browser';
@@ -25,6 +25,8 @@ export class Register {
   private registerTitle = inject(Title);
   private authService = inject(AuthService)
   private router = inject(Router)
+  isEmitEmail: boolean = false;
+  private changeDetectorRef = inject(ChangeDetectorRef)
   ngOnInit() {
     this.registerTitle.setTitle("Coloc & Me | Inscription")
   }
@@ -36,7 +38,7 @@ export class Register {
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       confirmPassword: ['', [Validators.required]],
 
     }, { validators: passwordMatchValidator })
@@ -54,6 +56,7 @@ export class Register {
 
   onSubmit() {
     if (this.registerForm.invalid) {
+      console.log("🚨 Le formulaire est INVALIDE !");
       return
     }
 
@@ -69,13 +72,19 @@ export class Register {
     //subscribe permet de lancer la requette sinon ça ne se lancerait pas et ça écoute la réponse
     this.authService.register(cleanData).subscribe({
       next: (response: RegisterResponse) => {
-        console.log(response.message)
-        this.router.navigate(["/auth/login"])
+        this.isEmitEmail = true
+        this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
         console.error("Erreur d'inscription", err)
       }
     })
+
+  }
+
+  toggle(): void {
+    this.isEmitEmail = false
+    this.changeDetectorRef.detectChanges();
 
   }
 

@@ -26,7 +26,7 @@ export function getFieldErrorMessage(textField: string, control: AbstractControl
     if (control.hasError("pattern")) {
 
         if (textField.toLowerCase().includes("mot de passe")) {
-            return "Le mot de passe n'est pas valide (8 caractères, 1 majuscule, 1 minuscule, 1 chiffre)"
+            return "Le mot de passe n'est pas valide (8 caractères, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial)"
         }
         return "Le format de ${textField} n'est pas valide "
     }

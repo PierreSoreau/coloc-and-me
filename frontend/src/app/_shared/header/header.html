@@ -1,0 +1,42 @@
+<header class="main-navbar">
+
+    <div class="brand">
+        <div class="logo-container">
+            <img src="assets/logo-house.png" alt="Logo Coloc&Me" class="brand-logo" />
+        </div>
+        <h1 class="brand-title">Coloc&Me</h1>
+    </div>
+
+    <nav class="nav-container">
+        <ul class="nav-list">
+            <li>
+                <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                    <img src="assets/logo-home.svg" alt="Icône Accueil" class="nav-icon" />
+                    <span class="nav-text">Accueil</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/depenses" routerLinkActive="active" class="nav-link">
+                    <img src="assets/logo-wallet.svg" alt="Icône Dépenses" class="nav-icon" />
+                    <span class="nav-text">Dépenses</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/taches" routerLinkActive="active" class="nav-link">
+                    <img src="assets/logo-clipboard-check.svg" alt="Icône Tâches" class="nav-icon" />
+                    <span class="nav-text">Tâches</span>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/activites" routerLinkActive="active" class="nav-link">
+                    <img src="assets/logo-calendar.svg" alt="Icône Activités" class="nav-icon" />
+                    <span class="nav-text">Activités</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="profil-initials">
+        <a routerLink="/profil" class="initials"><span class="initials-span">{{userInitials}}</span></a>
+    </div>
+
+</header>

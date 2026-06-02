@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
@@ -6,11 +7,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { passwordMatchValidator } from '../../../_shared/validators/password-match';
 import { getConfirmPasswordError, getFieldErrorMessage } from '../../../_shared/utils/forms-error'
 import { AuthService } from '../services/auth.services';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 
 @Component({
   selector: 'app-reset-password',
-  imports: [InputComponent, ButtonRecord, ReactiveFormsModule],
+  imports: [InputComponent, ButtonRecord, ReactiveFormsModule, ButtonBack],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.scss',
 })
@@ -18,6 +20,8 @@ export class ResetPassword {
 
   private authService = inject(AuthService)
   private router = inject(Router)
+  //permet de faire un router qui mène à la page précédente
+  private location = inject(Location)
 
   resetForm: FormGroup
   constructor(private fb: FormBuilder) {
@@ -26,6 +30,10 @@ export class ResetPassword {
       confirmPassword: ['', [Validators.required]],
 
     }, { validators: passwordMatchValidator })
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getConfirmPasswordError(): string {
