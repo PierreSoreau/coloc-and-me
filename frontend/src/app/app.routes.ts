@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './_core/guards/auth.guards';
 import { Mainlayout } from './mainlayout/mainlayout';
-import { ProfilSettings } from './features/profil/profil-settings/profil-settings';
 import { Dashboard } from './features/dashboard/dashboard';
 
 
@@ -29,7 +28,8 @@ export const routes: Routes = [
             },
 
             {
-                path: "profil", component: ProfilSettings
+                path: "profil",
+                loadChildren: () => import("./features/profil/profil.routes").then(m => m.profilRoutes)
             }
 
         ]

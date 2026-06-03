@@ -58,3 +58,23 @@ export function getConfirmPasswordError(Form: FormGroup, controlName: string = '
     return '';
 }
 
+export function getConfirmEmailError(Form: FormGroup, controlName: string = 'confirmEmail'): string {
+    const control = Form.get(controlName);
+
+
+    if (!control || (!control.touched && !control.dirty)) {
+        return '';
+    }
+
+
+    if (control.hasError('required')) {
+        return 'Veuillez confirmer votre email.';
+    }
+
+    // On interroge LE FORMULAIRE, pas le champ !
+    if (Form.hasError('passwordMismatch')) {
+        return 'Les adresses mail ne sont pas identiques.';
+    }
+
+    return '';
+}

@@ -162,8 +162,8 @@ export const updateNonConfidentialData = async (
 
 export const pageForResetPassword = async (email_adress) => {
   //avec la fonction resetPasswordForEmail, supabase prépare un mail préétablit
-  //ce mail est transmis à Brevo mon site pour envoyer des mails
-  //Brevo envoit ensuite le mail sur la boîte mail de l'interessé
+  //ce mail est transmis à googlemail mon site pour envoyer des mails
+  //googlemail envoit ensuite le mail sur la boîte mail de l'interessé
   //il a plus qu'à cliquer sur lien cela va le rediriger vers  ${process.env.FRONTEND_URL}${process.env.PORT}/update-password
   //il pourra changer son mot de passe
   const redirectPage = await supabase.auth.resetPasswordForEmail(email_adress, {

@@ -4,6 +4,7 @@ import {
   checkPasswordWithRegex,
   checkEmailWithRegex,
 } from "../utils/validators.js";
+import * as profilService from "../services/profil.service.js";
 
 // ============================================================================
 // INSCRIPTION
@@ -109,7 +110,9 @@ export const updateAccount = async (req, res) => {
     const lastname = req.body.lastname;
     //la gestion de la mise à jour de la photo est complexe donc pour le moment standby
     //const photo = req.body.photo;
-    const userId = req.body.userId;
+    const token = req.headers.authorization;
+
+    const uuid = await profilService.getUUID(token);
 
     if (firstname && !checkDataWithRegex(firstname)) {
       return res.status(400).json({
@@ -124,7 +127,7 @@ export const updateAccount = async (req, res) => {
     }
 
     const updateData = await authService.updateNonConfidentialData(
-      userId,
+      uuid,
       //la gestion de la mise à jour de la photo est complexe donc pour le moment standby
       //photo,
       firstname,

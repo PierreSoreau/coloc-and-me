@@ -26,7 +26,7 @@ export class ResetPassword {
   resetForm: FormGroup
   constructor(private fb: FormBuilder) {
     this.resetForm = this.fb.group({
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       confirmPassword: ['', [Validators.required]],
 
     }, { validators: passwordMatchValidator })

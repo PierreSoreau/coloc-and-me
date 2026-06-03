@@ -47,6 +47,9 @@ export interface ResetPasswordCredentials {
   password: string;
 }
 
+
+
+
 //la classe que l'on créé pourra être utilisé autant de fois 
 //que l'on veux dans l'app
 @Injectable({
@@ -82,15 +85,13 @@ export class AuthService {
           localStorage.setItem("token", session.access_token)
           if (session.refresh_token) { localStorage.setItem("refresh_token", session.refresh_token) }
 
-          // On lit l'URL du navigateur. Si elle contient le mot "recovery", 
-          // ça veut dire qu'on vient d'un lien cliqué d'un mail, donc on NE redirige PAS vers le dashboard !
-          //en sachant que recovery est ajouté automatiquement par supabase
-          //il faut aussi prendre en compte la redirection vers la page reset password 
-          //parce que si on va vers la page reset password on a plus recovery dans l'url donc ça va amener à dashboard de nouveau 
-          const isRecoveryEmail = window.location.href.includes('recovery');
+          const currentUrl = this.router.url;
 
-          if (!isRecoveryEmail && !this.router.url.includes('reset-password')) {
-            //ngZone permet à Angular de surveiller la redirection qui est une redirectio géré de base par supabase
+          // On vérifie si l'utilisateur est sur une page "publique" de connexion
+          const isAuthPage = currentUrl.includes('/auth/login') || currentUrl.includes('/auth/register');
+
+          // On ne redirige vers le dashboard QUE s'il vient de se connecter depuis une page auth
+          if (isAuthPage) {
             this.ngZone.run(() => {
               this.router.navigate(["/dashboard"]);
             });
@@ -135,6 +136,11 @@ export class AuthService {
   async resetPassword(credential: ResetPasswordCredentials): Promise<UserResponse> {
     return await this.supabase.auth.updateUser(credential)
   }
+
+  async resetEmail(email_adress: string): Promise<UserResponse> {
+    return await this.supabase.auth.updateUser({ email: email_adress })
+  }
+
 
 
 }

@@ -79,4 +79,14 @@
       opacity: 0.8;
     }
   }
+
+  /* 2. On l'aligne sur la carte tablette */
+  @media (min-width: 768px) {
+    max-width: 500px;
+  }
+
+  /* 3. On l'aligne sur la carte ordinateur */
+  @media (min-width: 1024px) {
+    max-width: 650px;
+  }
 }

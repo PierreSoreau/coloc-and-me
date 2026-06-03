@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
-import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { profilData, ProfilService } from '../services/profil.services';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
@@ -10,7 +10,7 @@ import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 
 @Component({
   selector: 'app-profil-settings',
-  imports: [ButtonRecord, InputComponent, ReactiveFormsModule],
+  imports: [ButtonRecord, InputComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './profil-settings.html',
   styleUrl: './profil-settings.scss',
 })
@@ -23,6 +23,8 @@ export class ProfilSettings implements OnInit {
   userfirstname: string = ""
   userlastname: string = ""
   useremail: string = ""
+  snackBar: boolean = false
+  private changeDetectorRef = inject(ChangeDetectorRef)
 
   updateForm: FormGroup
 
@@ -30,7 +32,6 @@ export class ProfilSettings implements OnInit {
     this.updateForm = this.fb.group({
       firstName: [this.userfirstname, [Validators.required, Validators.minLength(2)]],
       lastName: [this.userlastname, [Validators.required, Validators.minLength(2)]],
-      email: [this.useremail, [Validators.required, Validators.email]]
     })
   }
 
@@ -113,6 +114,40 @@ export class ProfilSettings implements OnInit {
       console.log("formulaire invalide")
       return
     }
+
+    if (!this.token) {
+      return
+    }
+    const newName = {
+      firstname: this.updateForm.get('firstName')?.value,
+      lastname: this.updateForm.get('lastName')?.value,
+      token: this.token
+    }
+
+    this.dataProfil.updateProfil(newName).subscribe({
+      next: (response: string) => {
+        console.log("Nom du profil mis à jour")
+
+        //on est obligé de relancer l'affichage du contenu du profil
+        //qui a changé sinon ça se met pas à jour (nom, prenom, initiales)
+        this.userfirstname = newName.firstname
+        this.userlastname = newName.lastname
+        this.userInitials = (this.userfirstname.charAt(0) + this.userlastname.charAt(0)).toUpperCase();
+        this.snackBar = true;
+
+        //changeDetectorRef permet de réveiller Angular dans le cas 
+        //ou il veut pas afficher un élément qui arrive après qu'il
+        //ait affiché tout une page
+        this.changeDetectorRef.detectChanges();
+
+        setTimeout(() => { this.snackBar = false; this.changeDetectorRef.detectChanges(); }, 3000)
+
+
+      },
+      error: (err) => {
+        console.log("Impossible de mettre à jour les informations du profil", err)
+      }
+    })
   }
 
 }

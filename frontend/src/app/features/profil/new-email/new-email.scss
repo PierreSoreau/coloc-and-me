@@ -1,0 +1,228 @@
+/* --- Configuration de la page --- */
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px 20px 60px 20px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+/* --- Bouton "Retour au profil" --- */
+.back-profil-settings {
+    width: 100%;
+    max-width: 600px;
+    /* S'aligne parfaitement avec la carte en dessous */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-decoration: none;
+
+
+    img {
+        width: 18px;
+        height: 18px;
+        opacity: 0.7;
+    }
+
+    p {
+        font-size: 16px;
+        color: var(--text-muted);
+        margin: 0;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        text-decoration: none;
+    }
+
+    &:hover {
+        p {
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        img {
+            opacity: 1; // Optionnel : rend l'icône plus visible au survol
+        }
+    }
+}
+
+/* --- La Carte Principale --- */
+.update-email-container {
+    background-color: var(--bg-app);
+    border: 1px solid #E0E0E0;
+    border-radius: 16px;
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Espace régulier entre tous les blocs de la carte */
+
+    /* Titre de la carte avec l'icône */
+    .box-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+
+        h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin: 0;
+        }
+    }
+
+    /* Texte d'explication */
+    >p {
+        font-size: 15px;
+        color: var(--text-muted);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Encadré Beige de l'email actuel */
+    .current-email {
+        background-color: var(--surface-box);
+        /* Le beige de ta charte */
+        border-radius: 8px;
+        padding: 15px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 10px;
+
+        h3 {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin: 0;
+        }
+    }
+
+    /* Formulaire (Les inputs et le bouton) */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (Tablette & Desktop)
+========================================= */
+@media (min-width: 768px) {
+    .update-email-container {
+        padding: 40px;
+        /* On aère un peu plus la carte sur grand écran */
+    }
+
+}
+
+/* =========================================
+   VISUEL PAGE DE CONFIRMATION D'ENVOI DU MAIL
+========================================= */
+
+/* --- Configuration de la vue --- */
+:host {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+}
+
+/* --- Conteneur Principal (La Carte) --- */
+.email-sent-container {
+    background-color: var(--bg-card);
+    /* Le fond beige fidèle à ta maquette */
+    border-radius: 16px;
+    padding: 50px 30px;
+    max-width: 500px;
+    width: 100%;
+
+    /* Flexbox pour tout centrer proprement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    /* Icône Check Vert */
+    img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        margin-bottom: 25px;
+    }
+
+    /* Titre Principal */
+    h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin: 0 0 25px 0;
+    }
+
+    /* Paragraphe d'explication */
+    p {
+        font-size: 16px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin: 0 0 40px 0;
+
+        /* Mise en évidence de l'adresse e-mail */
+        span {
+            display: block;
+            /* Force l'email à passer sur sa propre ligne */
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 18px;
+            margin: 15px 0;
+            /* Aère l'email par rapport au reste du texte */
+        }
+    }
+
+    /* --- Section Footer de la carte (Spams & Réessayer) --- */
+
+    .check-spams {
+        font-size: 15px;
+        color: var(--text-muted);
+        margin: 0 0 5px 0;
+        /* Garde le texte collé au bouton en dessous */
+    }
+
+    /* Bouton d'action camouflé en lien texte */
+    .back-update-email {
+        background: transparent;
+        border: none;
+        color: var(--primary);
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 5px 10px;
+        transition: color 0.2s ease, text-decoration 0.2s ease;
+        outline: none;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,6 +1,6 @@
 import { Observable, of } from "rxjs"
 import { HttpClient, HttpHeaders } from "@angular/common/http"
-import { tap } from "rxjs/operators";
+import { last, tap } from "rxjs/operators";
 import { inject, Injectable } from "@angular/core"
 
 
@@ -9,6 +9,13 @@ export interface profilData {
     lastname: string
     email_adress: string
 }
+
+export interface dataForUpdate {
+    firstname: string
+    lastname: string
+    token: string
+}
+
 
 @Injectable({
     providedIn: 'root',
@@ -68,5 +75,24 @@ export class ProfilService {
         return this.http.post<string>("http://localhost:4000/api/auth/logout", { headers });
 
     }
+
+    updateProfil(credential: dataForUpdate): Observable<string> {
+        const headers = new HttpHeaders({ 'Authorization': `Bearer ${credential.token}` })
+        const bodyforNode = {
+            firstname: credential.firstname,
+            lastname: credential.lastname
+        }
+        return this.http.put<string>("http://localhost:4000/api/auth/updateprofildata", bodyforNode, { headers }).pipe(
+            tap(() => {
+                // Si Node.js répond que c'est un succès, on FORCE le cache à se vider.
+                // Comme ça, au prochain appel de getDataProfil, Angular ira chercher le nouveau nom tout frais !
+                console.log("Mise à jour réussie : on vide le cache Angular");
+                this.profilCache = null;
+                this.initialsCache = null;
+            })
+        );
+    }
+
+
 
 }

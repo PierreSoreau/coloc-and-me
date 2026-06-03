@@ -18,3 +18,17 @@ export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): V
 
 
 }
+
+export const emailMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+
+    const email = control.get("email")
+    const confirmEmail = control.get("confirmEmail")
+
+    if (email && confirmEmail && email.value !== confirmEmail.value) {
+        return { emailMisMatch: true }
+    }
+
+    return null
+
+
+}

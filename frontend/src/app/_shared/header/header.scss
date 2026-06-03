@@ -4,9 +4,8 @@
 
 .main-navbar {
     .brand {
-        position: fixed;
+        position: sticky;
         top: 0;
-        left: 0;
         width: 100%;
         height: 60px;
         background-color: var(--bg-app);
@@ -130,7 +129,7 @@
 
 @media (min-width: 1000px) {
     .main-navbar {
-        position: fixed;
+        position: sticky;
         top: 0;
         left: 0;
         width: 100%;

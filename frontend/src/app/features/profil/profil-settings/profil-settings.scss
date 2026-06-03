@@ -267,7 +267,54 @@ h2 {
     }
 }
 
+.snackbar-success {
+    /* Flotte par-dessus le reste de l'application */
+    position: fixed;
+    top: 60px;
+    /* Juste en dessous du header */
+    right: 20px;
+    /* À 20px du bord droit de l'écran */
+    z-index: 1000;
 
+    /* Le design */
+    background-color: var(--text-main);
+    color: var(--bg-app);
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    p {
+        margin: 0;
+        font-weight: 500;
+        font-size: 15px;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* L'animation d'apparition depuis la droite */
+    animation: slideInRight 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        /* Commence 100% en dehors de l'écran à droite */
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        /* Revient à sa position d'origine (right: 20px) */
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 
 
 

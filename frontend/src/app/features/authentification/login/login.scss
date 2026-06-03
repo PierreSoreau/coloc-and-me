@@ -1,3 +1,23 @@
+app-header-auth {
+  width: 95%;
+  max-width: 420px;
+  /* Même taille que la carte mobile */
+  margin: 20px auto 20px auto;
+
+  /* On utilise display block pour s'assurer qu'il prenne bien la largeur */
+  display: block;
+
+  @media (min-width: 768px) {
+    max-width: 500px;
+    /* Même taille que la carte tablette */
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 650px;
+    /* Même taille que la carte ordinateur */
+  }
+}
+
 .login-card {
   /* STYLES MOBILE (Par défaut) */
   background-color: var(--bg-card, #FFFFFF);
@@ -39,7 +59,7 @@
 
   /* TABLETTE (768px et plus) */
   @media (min-width: 768px) {
-    max-width: 450px;
+    max-width: 500px;
     padding: 40px 50px;
     margin-top: 20px;
 
@@ -59,7 +79,7 @@
 
   /* ORDINATEUR (1024px et plus) */
   @media (min-width: 1024px) {
-    max-width: 480px;
+    max-width: 650px;
     margin-top: 20px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   }

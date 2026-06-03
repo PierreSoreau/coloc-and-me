@@ -9,7 +9,7 @@
             <p>{{useremail}}</p>
         </div>
         <div class="change-password">
-            <a routerLink="/"><img src="assets/logo-padlock.png" alt="logo cadenas" />
+            <a routerLink="/profil/new-password"><img src="assets/logo-padlock.png" alt="logo cadenas" />
                 <p>Changer le mot de passe</p>
             </a>
             <button type="button" (click)="logOut()"><img src="/assets/logo-unplug.svg" alt="logo deconnection" />
@@ -37,11 +37,17 @@
                         <img src="assets/logo-envelope.png" alt="logo enveloppe" class="input-logo" />
                         <p>{{useremail}}</p>
                     </div>
-                    <a routerLink="" class="link-new-email"><img src="assets/logo-pencil.svg" /></a>
+                    <a routerLink="/profil/new-email" class="link-new-email"><img src="assets/logo-pencil.svg" /></a>
                 </div>
             </div>
             <app-button-record buttonText="Enregistrer les modifications"></app-button-record>
         </form>
+        @if(snackBar){
+        <div class="snackbar-success">
+            <img src="assets/green-check.png" alt="green-check" />
+            <p>Nom du profil mis à jour</p>
+        </div>
+        }
 
     </div>
 </section>

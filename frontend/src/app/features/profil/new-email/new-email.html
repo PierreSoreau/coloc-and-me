@@ -1,0 +1,47 @@
+@if(isEmitEmail){
+<a class="back-profil-settings" routerLink="/profil">
+    <img src="assets/logo-back.svg" alt="logo retour page précédente" />
+    <p>Retour au profil</p>
+</a>
+
+<section class="update-email-container">
+    <div class="box-title">
+        <img src="assets/logo-envelope.png" alt="logo enveloppe" />
+        <h2>Modifier l'adresse email</h2>
+    </div>
+    <p>Pour des raisons de sécurité, veuillez confirmer votre mot
+        de passe et entrer votre nouvelle adresse email.</p>
+    <div class="current-email">
+        <h3>Email actuel</h3>
+        <p>{{currentEmail}}</p>
+    </div>
+    <form [formGroup]="updateEmailForm" (ngSubmit)="onSubmit()">
+        <app-input labelText="Nouvelle adresse email" srcAssetInput="assets/logo-envelope.png"
+            altAssetInput="logo enveloppe" inputType="text" placeholderText="votreemail@exemple.com"
+            [errorMessage]="getErrorMessage('L\'Email','email')" controlName="email"
+            [form]="updateEmailForm"></app-input>
+        <app-input labelText="Confirmer la nouvelle adresse email" srcAssetInput="assets/logo-envelope.png"
+            altAssetInput="logo enveloppe" inputType="text" placeholderText="votreemail@exemple.com"
+            [errorMessage]="getConfirmEmailError()" controlName="confirmEmail" [form]="updateEmailForm">
+        </app-input>
+        <app-button-record buttonText="Modifier l'email"></app-button-record>
+    </form>
+</section>
+}
+
+@else{
+<section class="email-sent-container">
+    <img src="assets/green-check.png" alt="logo check validation" />
+    <h2>Email envoyé</h2>
+    <p>Un email de confirmation de votre nouvelle boîte mail a été envoyé à
+        <span>{{updateEmailForm.value.email}}</span> Veuillez vérifier
+        votre boîte de réception et cliquer sur le lien pour confirmer votre adresse mail.
+    </p>
+
+    <p class="check-spams">Vous n'avez pas reçu l'email ? Vérifiez vos spams ou</p><a routerLink="/profil/new-email"
+        class="back-update-email">
+        <p>Réessayez</p>
+    </a>
+
+</section>
+}

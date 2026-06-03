@@ -1,3 +1,23 @@
+app-header-auth {
+    width: 95%;
+    max-width: 420px;
+    /* Même taille que la carte mobile */
+    margin: 20px auto 20px auto;
+
+    /* On utilise display block pour s'assurer qu'il prenne bien la largeur */
+    display: block;
+
+    @media (min-width: 768px) {
+        max-width: 500px;
+        /* Même taille que la carte tablette */
+    }
+
+    @media (min-width: 1024px) {
+        max-width: 650px;
+        /* Même taille que la carte ordinateur */
+    }
+}
+
 .register-card {
     /* STYLES MOBILE (Par défaut) */
     background-color: var(--bg-card, #FFFFFF);
