@@ -1,7 +1,9 @@
+import { depensesRoutes } from './features/depenses/depenses.routes';
 import { Routes } from '@angular/router';
 import { authGuard } from './_core/guards/auth.guards';
 import { Mainlayout } from './mainlayout/mainlayout';
 import { Dashboard } from './features/dashboard/dashboard';
+
 
 
 export const routes: Routes = [
@@ -21,8 +23,15 @@ export const routes: Routes = [
             .then(m => m.authRoutes)
     },
 
+
     {
-        path: '', component: Mainlayout, canActivate: [authGuard], children: [
+        path: '', component: Mainlayout,
+        // canActivate protège l'entrée initiale dans le layout
+        canActivate: [authGuard],
+        // canActivateChild permet d'activer authGuard même quand tu es déjà dans le Mainlayout
+        canActivateChild: [authGuard],
+
+        children: [
             {
                 path: "dashboard", component: Dashboard
             },
@@ -30,7 +39,23 @@ export const routes: Routes = [
             {
                 path: "profil",
                 loadChildren: () => import("./features/profil/profil.routes").then(m => m.profilRoutes)
-            }
+            },
+            {
+                path: "group", loadChildren: () => import("./features/group/group.routes")
+                    .then(m => m.groupRoutes)
+            },
+            {
+                path: "depenses", loadChildren: () => import("./features/depenses/depenses.routes")
+                    .then(m => m.depensesRoutes)
+            },
+            {
+                path: "taches", loadChildren: () => import("./features/taches/taches.routes")
+                    .then(m => m.tachesRoutes)
+            },
+            {
+                path: "activites", loadChildren: () => import("./features/activites/activites.routes")
+                    .then(m => m.activitesRoutes)
+            },
 
         ]
     }

@@ -72,6 +72,7 @@ export class Register {
     //subscribe permet de lancer la requette sinon ça ne se lancerait pas et ça écoute la réponse
     this.authService.register(cleanData).subscribe({
       next: (response: RegisterResponse) => {
+
         this.isEmitEmail = true
         this.changeDetectorRef.detectChanges();
       },

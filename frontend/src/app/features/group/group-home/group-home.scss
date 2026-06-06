@@ -1,0 +1,122 @@
+/* =========================================
+   CONTENEUR PRINCIPAL DE LA SECTION
+   ========================================= */
+:host {
+    padding: 10px;
+}
+
+p {
+    color: var(--text-muted, #595959);
+    font-size: 16px;
+    margin-left: 0;
+    text-align: center;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+
+    /* =========================================
+       STYLE COMMUN AUX DEUX CARTES
+       ========================================= */
+    .join-group-link,
+    .create-group-link {
+        cursor: pointer;
+    }
+
+    .new-group,
+    .join-group {
+        background-color: var(--bg-app);
+        border: 1px solid var(--border-element);
+        border-radius: 20px;
+        padding: 35px 25px;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 75px;
+            height: 75px;
+            background-color: var(--surface-box);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+
+            img {
+                width: 35px;
+                height: 35px;
+                object-fit: contain;
+            }
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        h2 {
+            color: var(--text-main);
+            font-size: 22px;
+            font-weight: 500;
+            margin: 0 0 15px 0;
+            letter-spacing: 0.3px;
+        }
+
+        p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+            margin: 0 0 25px 0;
+        }
+
+        app-redirection {
+            width: 100%;
+            margin-top: auto;
+        }
+    }
+}
+
+/* =========================================
+   RESPONSIVE : TABLETTE ET ORDINATEUR
+   ========================================= */
+@media (min-width: 768px) {
+    p {
+        font-size: 20px;
+    }
+
+    .group {
+        flex-direction: row;
+        justify-content: center;
+        /*permet que la hauteur des deux div créer et rejoindre soit identique quelque soit le contenu*/
+        align-items: stretch;
+        max-width: 900px;
+        gap: 30px;
+        padding: 40px 20px;
+
+        .new-group,
+        .join-group {
+            flex: 1;
+            padding: 40px 30px;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<img src="assets/green-check.png" alt="green check">
+<h3>Groupe créé avec succès !</h3>
+<p>Votre groupe <span>{{groupName}}</span> est maintenant prêt</p>
+<section class="invitation">
+    <div class="invitation title">
+        <div class="image-box">
+            <img src="assets/logo-house.png" alt="logo maison">
+        </div>
+        <h2>Invitez vos colocataires</h2>
+    </div>
+    <p>Partagez ce lien avec vos colocataires pour qu'ils rejoignent le groupe</p>
+    <div class="guest-link-box">
+        <p>Lien d'invitation</p>
+        <div class="guest-link">
+
+            <div class="input">
+                <p>{{guestlink}}</p>
+            </div>
+            <button (click)="copy()">
+                <img src="assets/logo-copy.svg" alt="logo copier" />
+                <p>Copier</p>
+            </button>
+        </div>
+    </div>
+    <app-redirection routerLink="/dashboard" logoSource="assets/logo-house.png"
+        redirectionName="Accéder à l'application"></app-redirection>
+    @if(copyAlertEmit){
+    <div class="notification-copiage">
+        <img src="assets/green-check.png" alt="logo validation">
+        <p>Lien copié</p>
+    </div>
+    }
+
+
+
+</section>

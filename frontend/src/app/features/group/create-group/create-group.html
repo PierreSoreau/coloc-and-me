@@ -1,0 +1,30 @@
+<h2>Créer un groupe de colocation</h2>
+<p>Donnez un nom à votre groupe et ajoutez les participants</p>
+<section class="create-group">
+    <div create-group-title>
+        <img src="assets/logo-group.svg" />
+        <h3>Informations du groupe</h3>
+    </div>
+    <p>Vous pourrez inviter vos colocataires une fois le groupe créé</p>
+    <form [formGroup]="createGroupForm" (ngSubmit)="onSubmit()">
+        <app-input labelText="Nom du groupe" srcAssetInput="assets/logo-group.svg" altAssetInput="logo groupe"
+            inputType="text" placeholderText="Ex: Coloc de l'ambiance"
+            [errorMessage]="getErrorMessage('Le nom du groupe','group')" controlName="group"
+            [form]="createGroupForm"></app-input>
+        <p>Participants</p>
+        @for(participant of inputArray.controls; track $index){
+        <!-- [controlName]='"participants." + ${index}' veut dire va chercher dans le fichier ts
+            l'élément qui se nomme participants.1,participants.2... -->
+        <app-input-dynamique srcAssetInput="assets/logo-user.png" altAssetInput="logo profil" inputType="text"
+            placeholderText="Prenom" [errorMessage]="getErrorMessage('Le prénom','prenom')"
+            [control]="$any(participant)" [form]="createGroupForm"></app-input-dynamique>
+        }
+        <button type=button (click)="createInput()">
+            <img src="assets/logo-plus.svg" />
+            <p>Ajouter un participant</p>
+        </button>
+        <app-button-record buttonText="Créer le groupe"></app-button-record>
+    </form>
+
+
+</section>

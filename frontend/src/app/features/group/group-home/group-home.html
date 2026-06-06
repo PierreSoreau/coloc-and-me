@@ -1,0 +1,23 @@
+<p>Bienvenue ! Pour commencer, créez ou rejoignez un groupe de colocation"</p>
+<section class="group">
+    <div class="new-group">
+        <a routerLink="/group/create-group" class="create-group-link">
+            <img src="assets/logo-plus.svg" alt="logo plus" />
+        </a>
+        <h2>Créer un groupe</h2>
+        <p>Vous êtes le premier colocataire ? Créez votre groupe de colocation et invitez vos colocataires.</p>
+        <app-redirection linkRedirection="/group/create-group" logoSource="assets/logo-group.svg"
+            altAssetRedirection="logo groupe" redirectionName="Créer un groupe">
+        </app-redirection>
+    </div>
+    <div class="join-group">
+        <a routerLink="/group/join-group" class="join-group-link">
+            <img src="assets/logo-join.svg" alt="logo rejoindre" />
+        </a>
+        <h2>Rejoindre un groupe</h2>
+        <p>Vous avez reçu un lien d'invitation ? Rejoignez votre colocation existante.</p>
+        <app-redirection linkRedirection="/group/join-group" logoSource="assets/logo-join.svg"
+            altAssetRedirection="logo rejoindre" redirectionName="Rejoindre un groupe">
+        </app-redirection>
+    </div>
+</section>

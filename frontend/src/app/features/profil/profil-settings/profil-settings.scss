@@ -43,7 +43,7 @@ h2 {
 /* --- Carte 1 : En-tête du profil --- */
 .name-profil-container {
     background-color: var(--bg-app);
-    border: 1px solid #E0E0E0;
+    border: 1px solid var(--border-element);
     border-radius: 16px;
     padding: 40px 20px;
     display: flex;
@@ -149,7 +149,7 @@ h2 {
 /* --- Carte 3 : Formulaire de modification --- */
 .profil-data {
     background-color: var(--bg-app);
-    border: 1px solid #E0E0E0;
+    border: 1px solid var(--border-element);
     border-radius: 16px;
     padding: 30px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);

@@ -16,11 +16,13 @@ import { provideRouter } from '@angular/router';
 //   [main.ts] ──────────────────────────► Rend l'application active et 
 //                                         écoute les changements d'URL
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './_core/interceptors/auth.interceptors';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(routes)
   ]
 };

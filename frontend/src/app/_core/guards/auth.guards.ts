@@ -18,9 +18,29 @@ import { inject } from "@angular/core";
 export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
     const token = localStorage.getItem("token")
+    const groupName = localStorage.getItem("groupName")
 
     if (token) {
-        return true
+        if (groupName) {
+            return true
+        }
+        else {
+            //sinon s'il y a pas de groupe pour cet utilisateur mais que dans l'url il y a
+            //group dans ce cas tu peux passer
+            if (state.url.includes("/group")) {
+                return true
+            }
+
+            else if (state.url.includes("/profil")) {
+                return true
+            }
+            //sinon s'il y a pas de groupe pour cet utilisateur et que le lien est différent de group
+            //dans ce cas tu vas vers le lien groupe
+            else {
+                router.navigate(["/group/group-home"])
+                return false
+            }
+        }
     }
     else {
         router.navigate(["/auth/login"])

@@ -13,9 +13,12 @@ const router = Router();
 //c'est juste un nom de code pour enclencher la fonction de l'api
 router.post("/register", authController.register);
 router.post("/login", authController.signIn);
+router.get("/getGroup", authController.controlGroup);
+
 router.post("/logout", authController.signOut);
 
 router.put("/updateprofildata", authController.updateAccount);
 router.post("/resetpassword", authController.pageResetPassword);
 
+//cette commande est indispensable pour donner le router au serveur
 export default router;

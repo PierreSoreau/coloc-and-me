@@ -88,6 +88,21 @@ export const signIn = async (req, res) => {
 };
 
 // ============================================================================
+// CONTROLE DU GROUPE A LA CONNECTION
+// ============================================================================
+
+export const controlGroup = async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    const groupData = await authService.getGroup(token);
+
+    return res.status(200).json(groupData);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+// ============================================================================
 // DECONNECTION
 // ============================================================================
 export const signOut = async (req, res) => {

@@ -1,4 +1,5 @@
 import { supabase } from "../config/supabase.js";
+import { getUUID } from "./profil.service.js";
 
 // ============================================================================
 // INSCRIPTION
@@ -111,6 +112,56 @@ export const logIn = async (email_adress, password) => {
   };
 };
 
+// ============================================================================
+// CONTROLE DU GROUPE A LA CONNECTION
+// ============================================================================
+
+export const getGroup = async (token) => {
+  const uuid = getUUID(token);
+  const uuidgroup = await supabase
+    .from("memberships")
+    .select("group_id")
+    .eq("profil_id", uuid);
+
+  if (uuidgroup.error) {
+    throw new Error(
+      `Erreur de récupération du groupe: ${uuidgroup.error.message}`,
+    );
+  }
+
+  //Voici l'exemple d'une réponse supabase:
+  // {
+  //   "data": [
+  //     {
+  //       "group_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+  //     }
+  //   ],
+  //   "error": null,
+  //   "count": null,
+  //   "status": 200,
+  //   "statusText": "OK"
+  // }
+  //attention à ne pas oublier de mettre uuidgroup.data.length === 0
+  //parce que si la recherche supabase ne plante pas mais que l'utilisateur
+  //n'a pas de groupe supabase répond quand même mais sans contenu
+
+  if (!uuidgroup.data || uuidgroup.data.length === 0) {
+    throw new Error("Aucun groupe trouvé pour cet utilisateur");
+  }
+
+  // 3. On extrait la vraie chaîne de caractères (l'ID du groupe)
+  const groupId = uuidgroup.data[0].group_id;
+
+  const groupName = await supabase
+    .from("groups")
+    .select("name")
+    .eq("id", groupId);
+
+  return {
+    groupUUID: uuidgroup,
+    groupName: groupName.data[0].name,
+  };
+};
 // ============================================================================
 // DECONNECTION
 // ============================================================================

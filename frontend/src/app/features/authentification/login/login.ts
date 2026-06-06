@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
+import { GroupService } from '../../group/services/group.services';
 
 
 
@@ -20,6 +21,7 @@ export class Login implements OnInit {
   private authService = inject(AuthService)
   private router = inject(Router)
   private loginTitle = inject(Title)
+  private groupService = inject(GroupService)
 
 
   ngOnInit(): void {
@@ -54,9 +56,28 @@ export class Login implements OnInit {
     }
 
     this.authService.login(cleanData).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard'])
+      next: (response) => {
+        const token = response.token;
+        if (!token) {
+          return
+        }
+
+
+        this.groupService.loadUserGroup().subscribe({
+
+          next: () => {
+
+            this.router.navigate(['/dashboard']);
+          },
+
+          error: (err) => {
+            console.error("Pas de groupe pour cet utilisateur", err);
+            this.router.navigate(['/group/group-home']);
+          }
+        });
+
       },
+
       error: (err) => {
         console.error("Echec de la connection", err);
       }
