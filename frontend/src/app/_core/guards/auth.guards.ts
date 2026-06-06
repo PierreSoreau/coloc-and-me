@@ -1,8 +1,10 @@
+import { GroupService } from './../../features/group/services/group.services';
 //la class Router permet de permet d'utiliser une action de Redirection
 //à ne pas confondre avec Routes qui représente un typage de Typescript 
 //qui permet d'avoir obligatoirement un tableau avec des chemins valides  
 import { Router, CanActivateFn } from "@angular/router";
 import { inject } from "@angular/core";
+import { map, catchError, of } from "rxjs";
 
 //route permet de récupérer les informations personnalisées 
 //du profil présentes dans l'url (l'id et autre par exemple)
@@ -17,33 +19,49 @@ import { inject } from "@angular/core";
 
 export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
+    const groupService = inject(GroupService)
     const token = localStorage.getItem("token")
-    const groupName = localStorage.getItem("groupName")
 
-    if (token) {
-        if (groupName) {
-            return true
-        }
-        else {
-            //sinon s'il y a pas de groupe pour cet utilisateur mais que dans l'url il y a
-            //group dans ce cas tu peux passer
-            if (state.url.includes("/group")) {
-                return true
-            }
 
-            else if (state.url.includes("/profil")) {
-                return true
-            }
-            //sinon s'il y a pas de groupe pour cet utilisateur et que le lien est différent de group
-            //dans ce cas tu vas vers le lien groupe
-            else {
-                router.navigate(["/group/group-home"])
-                return false
-            }
-        }
-    }
-    else {
+    if (!token) {
         router.navigate(["/auth/login"])
         return false
     }
+
+    else {
+        //le if si on  navigue de page en page il y a pas de ctrl f5
+        const groupId = groupService.getCurrentGroupId()
+        if (groupId) {
+            return true
+        }
+
+        else {
+
+            //la situation dans le cas d'un ctrl + f5 dans ce cas 
+            //on refait un chargement du groupe id complet
+            //avec loaduser
+
+            return groupService.loadUserGroup().pipe(
+                map(() => {
+                    return true
+                }),
+
+                catchError(() => {
+                    if (state.url.includes("/group") || state.url.includes("/profil")) {
+                        return of(true)
+                    }
+
+
+                    else {
+                        router.navigate(["group/group-home"])
+                        return of(false)
+                    }
+                })
+
+
+
+            )
+        }
+    }
+
 }
