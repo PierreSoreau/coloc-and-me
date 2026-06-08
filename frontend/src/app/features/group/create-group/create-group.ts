@@ -6,6 +6,7 @@ import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
 import { InputDynamique } from '../../../_shared/input-dynamique/input-dynamique';
+import { ProfilService } from '../../profil/services/profil.services';
 
 export interface dataInput {
   firstname: string
@@ -25,6 +26,7 @@ export class CreateGroup {
   inputContentTable: Array<dataInput> = [];
   private groupService = inject(GroupService)
   private router = inject(Router)
+
 
 
   constructor(private fb: FormBuilder) {

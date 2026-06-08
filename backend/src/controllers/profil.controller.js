@@ -45,3 +45,15 @@ export const getDataProfil = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+export const deleteGroup = async (req, res) => {
+  try {
+    const groupId = req.query.groupId;
+
+    await profilService.deleteGroupData(groupId);
+    console.log("groupe supprimé");
+    return res.status(200).json({ message: "Groupe supprimé" });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};

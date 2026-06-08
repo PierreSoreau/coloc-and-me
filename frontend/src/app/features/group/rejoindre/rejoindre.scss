@@ -1,0 +1,106 @@
+:host {
+    display: flex;
+    align-items: center;
+
+    flex-direction: column;
+    width: 100%;
+}
+
+/* --- Les éléments hors de la carte --- */
+.success-icon {
+    width: 80px;
+    /* Un peu plus grand pour correspondre à l'image */
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.title-success {
+    color: var(--text-main);
+    /* Le titre passe en sombre comme sur l'image */
+    margin: 0 0 2rem 0;
+    font-size: 2rem;
+    /* Légèrement plus grand */
+    font-weight: 700;
+    text-align: center;
+}
+
+/* --- Conteneur Principal (La Carte Blanche) --- */
+.selection-card {
+    background-color: var(--surface-active);
+    /* Fond blanc pur */
+    border: 1px solid var(--border-element);
+    /* Bordure discrète */
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    /* Un peu plus large pour le confort de lecture */
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Ombre beaucoup plus douce et diffuse, typique de ce style moderne */
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+/* --- Les Textes dans la carte --- */
+.subtitle {
+    color: var(--text-main);
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.description {
+    color: var(--text-muted);
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+/* --- La zone de fond beige (L'encart intérieur) --- */
+.participants-list {
+    background-color: var(--bg-card);
+    /* C'est ici qu'on met le fond beige ! */
+    padding: 1.5rem;
+    /* Espace intérieur de la boîte beige */
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* --- Les Boutons de sélection (Aspect "Champ" blanc) --- */
+.participant-btn {
+    background-color: var(--surface-active);
+    /* Le bouton est blanc pour trancher sur le beige */
+    border: 1px solid var(--border-element);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    /* On aligne le texte à gauche, comme dans un vrai champ */
+    transition: all 0.2s ease-in-out;
+}
+
+.participant-btn p {
+    margin: 0;
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 1.05rem;
+    transition: color 0.2s ease-in-out;
+}
+
+/* --- Effet au survol du bouton (Le clic Coloc&Me) --- */
+.participant-btn:hover {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(204, 74, 0, 0.25);
+}
+
+.participant-btn:hover p {
+    color: var(--text-on-primary);
+}

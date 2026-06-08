@@ -42,3 +42,10 @@ export const getDataProfil = async (userId) => {
 
   return response.data[0];
 };
+
+export const deleteGroupData = async (groupId) => {
+  const deleteData = await supabase.from("groups").delete().eq("id", groupId);
+  if (deleteData.error) {
+    throw new Error(deleteData.error.message);
+  }
+};

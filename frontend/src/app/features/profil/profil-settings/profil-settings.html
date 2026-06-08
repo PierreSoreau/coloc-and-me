@@ -12,6 +12,13 @@
             <a routerLink="/profil/new-password"><img src="assets/logo-padlock.png" alt="logo cadenas" />
                 <p>Changer le mot de passe</p>
             </a>
+            @if(groupDisplay){
+            <button type="button" (click)="deleteGroup()"><img src="/assets/logo-group.svg"
+                    alt="logo suppression groupe" />
+                <p>Supprimer le groupe</p>
+            </button>
+            }
+
             <button type="button" (click)="logOut()"><img src="/assets/logo-unplug.svg" alt="logo deconnection" />
                 <p>Se déconnecter</p>
             </button>

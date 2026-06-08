@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
 import { InputComponent } from '../../../_shared/input/input';
 import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
+import { GroupService } from '../../group/services/group.services';
+import { AuthService } from '../../authentification/services/auth.services';
 
 
 
@@ -17,6 +19,8 @@ import { getFieldErrorMessage } from '../../../_shared/utils/forms-error';
 export class ProfilSettings implements OnInit {
 
   private dataProfil = inject(ProfilService)
+  private groupService = inject(GroupService)
+  private authService = inject(AuthService)
   private router = inject(Router)
   private token: string | null = null
   userInitials: string = ""
@@ -24,7 +28,9 @@ export class ProfilSettings implements OnInit {
   userlastname: string = ""
   useremail: string = ""
   snackBar: boolean = false
+  groupId: string | null = ""
   private changeDetectorRef = inject(ChangeDetectorRef)
+  groupDisplay: boolean = false
 
   updateForm: FormGroup
 
@@ -44,7 +50,23 @@ export class ProfilSettings implements OnInit {
       // parce qu'on a pas arrêté la fonction au if. Le return permet de stopper 
       //la fonction
       return
+
+
     }
+
+    this.groupService.currentGroup$.subscribe((dataGroup) => {
+      if (dataGroup) {
+        this.groupId = dataGroup.groupId
+        this.groupDisplay = true
+      }
+      else {
+        this.groupId = null
+        this.groupDisplay = false
+      }
+    })
+
+
+
     this.dataProfil.getInitials(this.token).subscribe({
       next: (response: string) => {
         console.log("initales:", response)
@@ -90,15 +112,48 @@ export class ProfilSettings implements OnInit {
     return getFieldErrorMessage(textField, control);
   }
 
+  deleteGroup() {
+    if (!this.groupId) {
+      return
+    }
+
+    this.dataProfil.deleteGroupData(this.groupId).subscribe({
+      next: () => {
+        console.log("Groupe supprimé")
+        this.groupId = null
+        this.groupDisplay = false
+        this.changeDetectorRef.detectChanges();
+        this.groupService.clearCurrentGroupId();
+        this.router.navigate(['/group/group-home']);
+
+      },
+      error: (err) => {
+        console.error("Impossible de supprimer le groupe", err)
+      }
+    })
+
+
+
+
+  }
+
 
   logOut() {
     if (!this.token) {
       return
     }
     this.dataProfil.logOut(this.token).subscribe({
-      next: (response: string) => {
+      next: async (response: string) => {
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("token");
+        //cette fonction est indispensable pour supprimer 
+        //les sessions cachées de supabase
+        //on fait la même chose pour node via la fonction logOUT
+        //parce que les sessions cachées de supabase sont dans node et angular
+        //et du coup si on fait pas ça remove le localstorage ne suffit pas parce que 
+        //dans le constructeur du authservice avec les sessions de supabase encore présente
+        //ça detecte signein et ça se récréé le localstorage du token
+        await this.authService.signOutSupabase();
         this.router.navigate(["/auth/login"])
       },
       error: (err) => {

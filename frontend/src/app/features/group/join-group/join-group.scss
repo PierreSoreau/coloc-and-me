@@ -1,0 +1,86 @@
+/* --- Conteneur Global de la page --- */
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 32px 16px;
+    /* Donne un peu d'air autour de l'écran */
+}
+
+/* --- Les Textes hors de la carte --- */
+h2 {
+    color: var(--text-main);
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    /* Marge uniquement en bas */
+    text-align: center;
+}
+
+/* On cible le paragraphe qui est directement enfant du host (hors de la carte) */
+:host>p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 32px 0;
+    /* Espace généreux avant la carte */
+    text-align: center;
+}
+
+/* --- La Carte Blanche Principale --- */
+.join-group {
+    background-color: var(--surface-active);
+    /* Fond blanc */
+    border: 1px solid var(--border-element);
+    /* Bordure discrète */
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 650px;
+    /* Légèrement plus large pour laisser la place au long lien */
+    display: flex;
+    flex-direction: column;
+
+    /* Ombre très douce pour décoller la carte du fond */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* --- L'en-tête de la carte (Icone + Titre) --- */
+div[create-group-title] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* Espace entre le logo et le texte */
+    margin-bottom: 8px;
+}
+
+div[create-group-title] img {
+    width: 24px;
+    height: 24px;
+    /* Si ton SVG est noir de base, tu peux forcer la couleur orange Coloc&Me 
+       directement dans le fichier SVG ou via un filtre CSS si besoin */
+}
+
+div[create-group-title] h3 {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* --- Le texte d'aide sous le titre de la carte --- */
+.join-group>p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0 0 32px 0;
+    /* Espace avant le formulaire */
+}
+
+/* --- Le Formulaire --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* Crée un espace propre entre ton champ input et ton bouton */
+    width: 100%;
+}

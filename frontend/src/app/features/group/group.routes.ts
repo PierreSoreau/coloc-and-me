@@ -3,6 +3,7 @@ import { CreateGroup } from "./create-group/create-group";
 import { GroupHome } from "./group-home/group-home";
 import { JoinGroup } from "./join-group/join-group";
 import { LinkToJoin } from "./link-to-join/link-to-join";
+import { Rejoindre } from "./rejoindre/rejoindre";
 
 
 export const groupRoutes: Routes = [
@@ -11,6 +12,10 @@ export const groupRoutes: Routes = [
     { path: "group-home", component: GroupHome },
     { path: "join-group", component: JoinGroup },
     { path: "link-to-join", component: LinkToJoin },
+    //là on ne peut pas anticiper la variable groupId du lien du coup
+    //on le met en paramètre qu'on récupérera dans le lien collé dans la barre
+    //de navigation par l'utilisateur
+    { path: "rejoindre/:groupId", component: Rejoindre },
 
 
 

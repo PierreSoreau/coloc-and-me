@@ -16,6 +16,14 @@ export interface dataForUpdate {
     token: string
 }
 
+export interface ResponseMembershipsDelete {
+    message: string
+}
+
+export interface ResponseGroupDelete {
+    message: string
+}
+
 
 @Injectable({
     providedIn: 'root',
@@ -92,6 +100,19 @@ export class ProfilService {
             })
         );
     }
+
+
+
+    deleteGroupData(groupId: string): Observable<ResponseMembershipsDelete> {
+        return this.http.delete<ResponseMembershipsDelete>("http://localhost:4000/api/profil/delete-group-data", {
+            params: { groupId: groupId }
+        })
+
+    }
+
+
+
+
 
 
 

@@ -100,3 +100,49 @@ export const getGroupName = async (groupId) => {
     groupName: finalGroupName,
   };
 };
+
+export const getNameMember = async (groupId) => {
+  const { data: membersName, error } = await supabase
+    .from("memberships")
+    .select("display_name")
+    .eq("group_id", groupId);
+
+  //Le tableau ressemble à ça en gros:
+  // {
+  //   "error": null,
+  //   "data": [
+  //     { "display_name": "Pierre" },
+  //     { "display_name": "Emma" },
+  //     { "display_name": "Felix" }
+  //   ],
+  //   "count": null,
+  //   "status": 200,
+  //   "statusText": "OK"
+  // }
+
+  //on recupère que les display.name qu'on transforme en tableau ["Pierre","Emma"...]
+  const dataMembers = membersName.map((member) => member.display_name);
+
+  if (error) {
+    throw new Error(
+      `Erreur lors de la récupération des membres du groupe:${error.message}`,
+    );
+  }
+
+  return dataMembers;
+};
+
+export const recordMemberId = async (groupId, nickname, token) => {
+  const uuid = await getUUID(token);
+
+  const { data, error } = await supabase
+    .from("memberships")
+    .update({ profil_id: uuid })
+    .eq("display_name", nickname)
+    .eq("group_id", groupId)
+    .select();
+
+  if (error) {
+    throw new Error("Erreur lors de la mise à jour", error.message);
+  }
+};

@@ -16,6 +16,11 @@ export interface createGroupCredential {
 
 
 }
+export interface recordMemberCredential {
+    groupId: string,
+    nickname: string
+}
+
 
 export interface createGroupResponse {
     message: string
@@ -28,6 +33,14 @@ export interface loadGroupResponse {
 
 export interface groupNameResponse {
     groupName: string
+}
+
+export interface recordMemberResponse {
+    message: string
+}
+
+export interface groupMemberResponse {
+    memberList: string[]
 }
 
 //la classe que l'on créé pourra être utilisé autant de fois 
@@ -77,11 +90,27 @@ export class GroupService {
         return group ? group.groupId : null;
     }
 
+    clearCurrentGroupId() {
+        this.currentGroup.next(null)
+    }
+
     getGroupName(groupId: string): Observable<groupNameResponse> {
         return this.http.get<groupNameResponse>(`${this.apiUrl}/my-group-name`, {
             params: { groupId: groupId }
         })
 
+    }
+
+    getNameMember(groupId: string): Observable<groupMemberResponse> {
+        return this.http.get<groupMemberResponse>(`${this.apiUrl}/members-name`, {
+            params: { groupId: groupId }
+        })
+    }
+
+    recordMemberId(credential: recordMemberCredential): Observable<recordMemberResponse> {
+        return this.http.put<recordMemberResponse>(`${this.apiUrl}/record-member-id`, { nickname: credential.nickname }, {
+            params: { groupId: credential.groupId }
+        })
     }
 }
 

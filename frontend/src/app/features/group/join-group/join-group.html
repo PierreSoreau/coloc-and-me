@@ -1,1 +1,16 @@
-<p>join-group works!</p>
+<h2>Rejoindre un groupe</h2>
+<p>Entrez le lien d'invitation partagé par votre colocataire</p>
+<section class="join-group">
+    <div create-group-title>
+        <img src="assets/logo-join.svg" />
+        <h3>Lien d'invitation</h3>
+    </div>
+    <p>Le lien ressemble à : https://colocandme.fr/invite/abc123</p>
+    <form [formGroup]="joinForm" (ngSubmit)="onSubmit()">
+        <app-input labelText="Lien d'invitation" srcAssetInput="assets/logo-join.svg" altAssetInput="logo rejoindre"
+            inputType="text" placeholderText="Ex: https://colocandme.fr/invite/abc123"
+            [errorMessage]="getErrorMessage('Le lien de connection','link')" controlName="link"
+            [form]="joinForm"></app-input>
+        <app-button-record buttonText="Rejoindre le groupe"></app-button-record>
+    </form>
+</section>

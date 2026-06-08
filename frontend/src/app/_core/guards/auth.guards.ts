@@ -47,7 +47,7 @@ export const authGuard: CanActivateFn = (route, state) => {
                 }),
 
                 catchError(() => {
-                    if (state.url.includes("/group") || state.url.includes("/profil")) {
+                    if (state.url.includes("/group") || state.url.includes("/profil") || state.url.includes("/rejoindre")) {
                         return of(true)
                     }
 

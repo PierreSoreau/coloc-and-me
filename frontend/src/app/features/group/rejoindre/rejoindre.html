@@ -1,0 +1,17 @@
+<img src="assets/green-check.png" alt="green check" class="success-icon">
+
+<h3 class="title-success">Lien validé !</h3>
+
+<div class="selection-card">
+
+    <h4 class="subtitle">Sélectionnez votre nom</h4>
+    <p class="description">Choisissez votre nom parmi les participants du groupe</p>
+
+    <div class="participants-list">
+        @for(participant of membresArray.controls; track $index){
+        <button type="submit" class="participant-btn" (click)="choisirNom(participant.value)">
+            <p>{{ participant.value }}</p>
+        </button>
+        }
+    </div>
+</div>

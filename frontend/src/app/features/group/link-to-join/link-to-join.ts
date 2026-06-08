@@ -32,7 +32,7 @@ export class LinkToJoin implements OnInit {
       }
       this.groupId = dataGroup.groupId
 
-      this.guestlink = `http://localhost:4200/rejoindre/${this.groupId}`
+      this.guestlink = `http://localhost:4200/group/rejoindre/${this.groupId}`
       this.changeDetectorRef.detectChanges();
 
       this.groupService.getGroupName(this.groupId).subscribe({

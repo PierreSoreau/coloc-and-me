@@ -61,3 +61,28 @@ export const getGroupName = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+export const getMemberName = async (req, res) => {
+  try {
+    const groupId = req.query.groupId;
+    const membersName = await groupService.getNameMember(groupId);
+    return res.status(200).json({ memberList: membersName });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+export const recordMemberId = async (req, res) => {
+  try {
+    const groupId = req.query.groupId;
+    const nickname = req.body.nickname;
+    const token = req.headers.authorization;
+
+    await groupService.recordMemberId(groupId, nickname, token);
+    return res
+      .status(200)
+      .json({ message: "table membership mise à jour avec userid" });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};

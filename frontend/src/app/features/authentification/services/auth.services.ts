@@ -141,9 +141,10 @@ export class AuthService {
         //si la réponse de Node fonctionne on enregistre en localStorage la session 
         //qui s'appelle response.token 
         if (response && response.token) {
-
-
-
+          localStorage.setItem("token", response.token);
+          if (response.refresh_token) {
+            localStorage.setItem("refresh_token", response.refresh_token);
+          }
           //permet d'enregistrer la session aussi côté supabase
           await this.supabase.auth.setSession({
             access_token: response.token,
@@ -151,6 +152,10 @@ export class AuthService {
           })
         }
       }))
+  }
+
+  async signOutSupabase() {
+    await this.supabase.auth.signOut();
   }
 
   register(credential: RegisterCredentials): Observable<RegisterResponse> {
