@@ -1,1 +1,28 @@
-<p>depenses-home works!</p>
+<div class="header-stats">
+    <p class="stat-title">TOTAL DU GROUPE</p>
+    <p class="stat-amount">{{ totalExpenseValue }}€</p>
+
+    @if (totalDebtAmount < 0) { <p class="stat-debt">Tu dois <span>{{ totalDebtAmount * -1 }}€</span></p>
+        } @else if (totalDebtAmount > 0) {
+        <p class="stat-debt">On te doit <span>{{ totalDebtAmount }}€</span></p>
+        } @else {
+        <p class="stat-debt">Tu ne dois rien à personne</p>
+        }
+</div>
+
+<div class="reimboursement-or-expense">
+    <a class="btn-choice" routerLinkActive="active" routerLink="/depenses/depenses-home">Dépenses</a>
+    <a class="btn-choice" routerLinkActive="active" routerLink="/depenses/remboursement">Remboursement</a>
+</div>
+
+@for (expense of expenseList; track $index) {
+<app-depenses-input linkRedirection="/depenses/detail-depenses" [expenseAmount]="expense.expense_amount"
+    [expenseDate]="expense.expense_date" [expenseTitle]="expense.expense_title" [firstname]="expense.firstname"
+    [userInitials]="expense.initials">
+</app-depenses-input>
+}
+
+<a routerLink="/depenses/write-depense" class="add-expense">
+    <img src="assets/logo-plus.svg" alt="logo plus" />
+    <p>Ajouter une dépense</p>
+</a>

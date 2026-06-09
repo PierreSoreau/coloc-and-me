@@ -1,0 +1,28 @@
+<a class="expense-container" [routerLink]="linkRedirection">
+    <div class="initials">
+        <span class="initials-span">{{userInitials}}</span>
+    </div>
+    <div class="box-expense-title">
+        <h3>{{expenseTitle}}</h3>
+        <p>Payé par <span>{{firstname}}</span></p>
+    </div>
+    <div class="box-expense-detail">
+        <p>{{expenseAmount}}€</p>
+
+        <!-- Voici comment Angular interprète ces variations :
+
+    M : Affiche le numéro du mois sans le zéro devant (ex: 6 pour juin).
+
+    MM : Affiche le numéro du mois avec un zéro devant (ex: 06 pour juin).
+
+    MMM : Affiche le mois en version abrégée selon la langue (ex: juin ou jun).
+
+    MMMM : Affiche le mois en entier (ex: juin). 
+    
+    d : Affiche le jour du mois sans le zéro initial (ex: 9 pour le 9 juin).
+
+    dd : Affiche le jour du mois avec un zéro initial (ex: 09 pour le 9 juin).-->
+
+        <p>{{ expenseDate | date: 'd MMMM' }}</p>
+    </div>
+</a>

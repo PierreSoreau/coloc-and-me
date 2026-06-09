@@ -5,6 +5,7 @@ import { Router } from "express";
 import authRoutes from "./auth.route.js";
 import profilRoutes from "./profil.route.js";
 import groupRoutes from "./group.route.js";
+import depensesRoutes from "./depenses.route.js";
 
 const router = Router();
 
@@ -13,5 +14,6 @@ const router = Router();
 router.use("/auth", authRoutes);
 router.use("/profil", profilRoutes);
 router.use("/group", groupRoutes);
+router.use("/depenses", depensesRoutes);
 
 export default router;

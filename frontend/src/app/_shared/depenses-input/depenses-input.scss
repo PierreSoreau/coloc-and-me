@@ -1,0 +1,81 @@
+.expense-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-element);
+    /* Utilisation stricte du root */
+    border-radius: 24px;
+    padding: 16px 24px;
+    width: 100%;
+    max-width: 500px;
+    text-decoration: none;
+
+    .initials {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background-color: var(--primary);
+        color: var(--text-on-primary);
+        border-radius: 50%;
+        text-decoration: none;
+
+        .initials-span {
+            font-size: 18px;
+            /* Passage en px (équivalent au 1.1rem) */
+            font-weight: 500;
+        }
+    }
+
+
+
+    .box-expense-title {
+        flex-grow: 1;
+        margin-left: 16px;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+            /* Passage en px */
+            font-weight: 400;
+            color: var(--text-main);
+            /* Utilisation stricte du root */
+        }
+
+        p {
+            margin: 4px 0 0 0;
+            font-size: 14px;
+            /* Passage en px (équivalent au 0.85rem) */
+            color: var(--text-muted);
+
+            span {
+                color: var(--primary);
+            }
+        }
+    }
+
+    .box-expense-detail {
+        text-align: right;
+        flex-shrink: 0;
+
+        p {
+            margin: 0;
+
+            &:first-child {
+                font-size: 18px;
+                /* Passage en px */
+                font-weight: 400;
+                color: var(--text-main);
+                /* Utilisation stricte du root */
+            }
+
+            &:last-child {
+                margin-top: 4px;
+                font-size: 14px;
+                /* Passage en px */
+                color: var(--text-muted);
+            }
+        }
+    }
+}
