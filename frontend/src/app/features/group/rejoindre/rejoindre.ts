@@ -23,29 +23,33 @@ export class Rejoindre implements OnInit {
 
 
 
+
   ngOnInit(): void {
     //on chope le groupId situé après rejoindre/ dans l'url
     this.groupId = this.route.snapshot.paramMap.get("groupId")
 
-    if (!this.groupId) {
-      return
+    if (this.groupId) {
+
+      this.rejoindreForm = this.fb.group({ membres: this.fb.array([]) })
+
+      this.groupService.getNameMember(this.groupId).subscribe({
+        next: (response) => {
+
+          console.log("Réponse reçue du serveur :", response);
+          const memberTable = response.memberList
+          this.createInput(memberTable)
+          this.changeDetectorRef.detectChanges();
+        },
+
+        error: (error) => {
+          console.error("Erreur d'affichage de la page", error)
+        }
+      })
     }
 
-    this.rejoindreForm = this.fb.group({ membres: this.fb.array([]) })
-
-    this.groupService.getNameMember(this.groupId).subscribe({
-      next: (response) => {
-
-        console.log("Réponse reçue du serveur :", response);
-        const memberTable = response.memberList
-        this.createInput(memberTable)
-        this.changeDetectorRef.detectChanges();
-      },
-
-      error: (error) => {
-        console.error("Erreur d'affichage de la page", error)
-      }
-    })
+    else {
+      console.error("Impossible de charger les dépenses : pas d'ID dans l'URL");
+    }
   }
 
   get membresArray() {
@@ -63,14 +67,13 @@ export class Rejoindre implements OnInit {
 
   choisirNom(nickname: string) {
 
-
-    const groupId = this.groupService.getCurrentGroupId()
-    if (!groupId) {
+    if (!this.groupId) {
       return
     }
-    this.groupService.recordMemberId({ groupId: groupId, nickname: nickname }).subscribe({
+    this.groupService.recordMemberId({ groupId: this.groupId, nickname: nickname }).subscribe({
       next: (response) => {
         console.log(response.message)
+        this.router.navigate(["/dashboard", this.groupId])
 
       },
 
@@ -79,6 +82,6 @@ export class Rejoindre implements OnInit {
       }
     })
 
-    this.router.navigate(["/dashboard"])
+
   }
 }

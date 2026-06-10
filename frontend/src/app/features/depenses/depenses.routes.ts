@@ -1,24 +1,25 @@
 import { Routes } from "@angular/router";
 import { DepensesHome } from "./depenses-home/depenses-home";
+import { Remboursement } from "./remboursement/remboursement";
 
 
 export const depensesRoutes: Routes = [
 
 
-    { path: "depenses-home", component: DepensesHome },
+    { path: "depenses-home/:groupId", component: DepensesHome },
+    { path: "remboursement/:groupId", component: Remboursement },
 
 
     // pathMatch permet de forcer à checker l'url exact et pas seulement le début
     // "Si un utilisateur arrive sur mon site et que l'adresse 
     //dans son navigateur est strictement et uniquement localhost:4200/depenses
     //(sans aucun mot écrit derrière le slash), alors redirige-le vers la
-    //page depenses-home." Si l'utilisateur a tapé le moindre caractère après le slash 
-    //(ex: /dashboard ou /auth), cette règle est immédiatement ignorée et Angular
-    //passe à la route suivante pour chercher une correspondance !
+    //page dashboard." 
 
-    //si jamais l'utilisateur tape http://localhost:4200/auth alors ça le ramène à auth/login
-
-    { path: '', redirectTo: "depenses-home", pathMatch: 'full' }
+    //si quelqu'un arrive sur /depenses sans rien derrière
+    { path: '', redirectTo: "/dashboard", pathMatch: 'full' },
+    //si l'utilisateur tape une mauvaise sous-route, on le redirige vers le tableau de bord global.
+    { path: '**', redirectTo: '/dashboard' }
 
 ];
 

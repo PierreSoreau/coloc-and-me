@@ -60,35 +60,31 @@ export class GroupService {
     //et ainsi éviter de faire à chaque fois cette requette pour la moindre info que tu veux
     //sur les pages. Si l'utilisateur fait ctrl f5 la requette pour avoir de nouveau 
     //l'id est relancé et enregistré de nouveau dans le behaviorsubject
-    private currentGroup = new BehaviorSubject<loadGroupResponse | null>(null)
+    private currentGroup = new BehaviorSubject<string | null>(null)
 
     //on rend accessible cette donnée à toute l'application en lecture seule
     //le dollar est une convention pour dire que c'est une donnée asynchrone 
     //qui nécessite un abonnement subsrcibe pour l'utiliser
     //asObservable() permet de rendre impossible la modification de cette variable par les autres composants
     //ils peuvent juste la lire
-    public currentGroup$: Observable<loadGroupResponse | null> = this.currentGroup.asObservable();
+    public currentGroup$: Observable<string | null> = this.currentGroup.asObservable();
+
+    notifyHeaderOfGroupChange(groupId: string) {
+        this.currentGroup.next(groupId);
+    }
 
     newGroup(credential: createGroupCredential): Observable<createGroupResponse> {
-        return this.http.post<createGroupResponse>(`${this.apiUrl}/create-group`, credential).pipe(tap((response) => {
-            this.currentGroup.next({ groupId: response.groupId })
-        })
-        )
+        return this.http.post<createGroupResponse>(`${this.apiUrl}/create-group`, credential)
     }
 
     loadUserGroup(): Observable<loadGroupResponse> {
-        return this.http.get<loadGroupResponse>(`${this.apiUrl}/my-group`).pipe(tap(groupData => {
-            //next ici permet de mettre à jour la variable et de prévenir les composants 
-            //qui l'utilisent pour qu'il la mette à jour
-            this.currentGroup.next(groupData)
-            console.log("le groupe a été chargé en mémoire", groupData)
-        }))
+        return this.http.get<loadGroupResponse>(`${this.apiUrl}/my-group`)
     }
 
-    getCurrentGroupId() {
-        const group = this.currentGroup.getValue()
-        return group ? group.groupId : null;
-    }
+    // getCurrentGroupId() {
+    //     const group = this.currentGroup.getValue()
+    //     return group ? group.groupId : null;
+    // }
 
     clearCurrentGroupId() {
         this.currentGroup.next(null)

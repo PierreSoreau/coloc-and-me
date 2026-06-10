@@ -117,7 +117,7 @@ export const logIn = async (email_adress, password) => {
 // ============================================================================
 
 export const getGroup = async (token) => {
-  const uuid = getUUID(token);
+  const uuid = await getUUID(token);
   const uuidgroup = await supabase
     .from("memberships")
     .select("group_id")

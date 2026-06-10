@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, inject, OnInit } from '@angular/core';
 import { Redirection } from '../../../_shared/button/redirection/redirection';
 import { GroupService } from '../services/group.services';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-link-to-join',
@@ -14,6 +14,7 @@ export class LinkToJoin implements OnInit {
   groupName: string = ""
   private changeDetectorRef = inject(ChangeDetectorRef)
   private groupService = inject(GroupService)
+  private route = inject(ActivatedRoute)
   groupId: string | null = ""
   private timeoutId: any;
 
@@ -22,15 +23,10 @@ export class LinkToJoin implements OnInit {
 
   ngOnInit(): void {
 
-    // au lieu de lire une seule fois le currentgroup et ne plus voir le currentgroup une 
-    // au moindre ctrl f5 on utilise le currentgroup qui est un écouteur une radio 
-    // qui permet d'actualiser le currentgroup au moindre ctrl f5 fait par app.js
-    this.groupService.currentGroup$.subscribe((dataGroup) => {
+    //on chope le groupId de l'url
+    this.groupId = this.route.snapshot.paramMap.get("groupId")
 
-      if (!dataGroup) {
-        return
-      }
-      this.groupId = dataGroup.groupId
+    if (this.groupId) {
 
       this.guestlink = `http://localhost:4200/group/rejoindre/${this.groupId}`
       this.changeDetectorRef.detectChanges();
@@ -41,22 +37,16 @@ export class LinkToJoin implements OnInit {
           this.changeDetectorRef.detectChanges();
 
           console.log("récupération du nom du groupe:", this.groupName)
-
-
-
         },
         error: (error) => {
           console.error("Erreur lors de la récupération du nom du groupe", error)
-
-
         }
       })
 
-    })
-
-
-
-
+    }
+    else {
+      console.error("Impossible de charger les dépenses : pas d'ID dans l'URL");
+    }
   }
 
   copy() {

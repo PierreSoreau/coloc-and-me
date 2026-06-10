@@ -2,6 +2,13 @@ import * as DepenseService from "../services/depenses.service.js";
 
 export const getExpensesDataController = async (req, res) => {
   const groupId = req.query.groupId;
+  console.log("---------------------------------");
+  console.log(
+    "🚨 ID du groupe reçu par Node :",
+    groupId,
+    "| Type :",
+    typeof groupId,
+  );
   const token = req.headers.authorization;
 
   try {

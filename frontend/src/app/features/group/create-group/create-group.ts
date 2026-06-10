@@ -81,7 +81,7 @@ export class CreateGroup {
         console.log(`donnée ${groupData}`)
         console.log("Groupe créé")
 
-        this.router.navigate(["/group/link-to-join"])
+        this.router.navigate(["/group/link-to-join", response.groupId])
       },
 
       error: (err) => {

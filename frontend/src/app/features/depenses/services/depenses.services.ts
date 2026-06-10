@@ -25,6 +25,18 @@ export interface ExpensesDataResponse {
     finalExpenseList: ExpenseItem[]
 }
 
+export interface DebtDataResponse {
+    totalExpenseGroup: number,
+    totalDebt: number
+}
+
+export interface UserBalanceResponse {
+    userId: string,
+    debtAmount: number,
+    firstname: string,
+    initials: string
+}
+
 
 @Injectable({
     providedIn: 'root',
@@ -40,6 +52,17 @@ export class DepensesService {
         })
     }
 
+    getDebtData(groupId: string): Observable<DebtDataResponse> {
+        return this.http.get<DebtDataResponse>(`${this.apiUrl}/debt-data`, {
+            params: { groupId: groupId }
+        })
+    }
+
+    getallUserBalance(groupId: string): Observable<UserBalanceResponse[]> {
+        return this.http.get<UserBalanceResponse[]>(`${this.apiUrl}/balance-data`, {
+            params: { groupId: groupId }
+        })
+    }
 
 
 }

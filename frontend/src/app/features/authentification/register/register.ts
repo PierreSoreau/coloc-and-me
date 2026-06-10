@@ -75,6 +75,7 @@ export class Register {
 
         this.isEmitEmail = true
         this.changeDetectorRef.detectChanges();
+
       },
       error: (err) => {
         console.error("Erreur d'inscription", err)

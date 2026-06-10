@@ -24,6 +24,7 @@ export const authRoutes: Routes = [
 
     //si jamais l'utilisateur tape http://localhost:4200/auth alors ça le ramène à auth/login
 
-    { path: '', redirectTo: "login", pathMatch: 'full' }
+    { path: '', redirectTo: "login", pathMatch: 'full' },
+    { path: '**', redirectTo: "login" }
 
 ];

@@ -24,44 +24,14 @@ export const authGuard: CanActivateFn = (route, state) => {
 
 
     if (!token) {
-        router.navigate(["/auth/login"])
+        //si l'utilisateur n'est pas connecté alors on le redirige vers auth/login
+        //et si la connection fonctionne on le redirige directement vers le lien qu'il
+        //a renseigné dans l'url de navigation (le returnUrl), le state sers à récupérer tout
+        //l'url
+        router.navigate(["/auth/login"], { queryParams: { returnUrl: state.url } })
         return false
     }
 
-    else {
-        //le if si on  navigue de page en page il y a pas de ctrl f5
-        const groupId = groupService.getCurrentGroupId()
-        if (groupId) {
-            return true
-        }
-
-        else {
-
-            //la situation dans le cas d'un ctrl + f5 dans ce cas 
-            //on refait un chargement du groupe id complet
-            //avec loaduser
-
-            return groupService.loadUserGroup().pipe(
-                map(() => {
-                    return true
-                }),
-
-                catchError(() => {
-                    if (state.url.includes("/group") || state.url.includes("/profil") || state.url.includes("/rejoindre")) {
-                        return of(true)
-                    }
-
-
-                    else {
-                        router.navigate(["group/group-home"])
-                        return of(false)
-                    }
-                })
-
-
-
-            )
-        }
-    }
+    return true
 
 }

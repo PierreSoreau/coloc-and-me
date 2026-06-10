@@ -17,6 +17,11 @@ export const profilRoutes: Routes = [
     {
 
         path: 'new-password', component: NewPassword
-    }
+    },
+
+    {
+        path: ':groupId',
+        component: ProfilSettings
+    },
 
 ];

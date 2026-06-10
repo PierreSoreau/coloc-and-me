@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DepensesInput } from '../../../_shared/depenses-input/depenses-input';
 import { DepensesService, ExpenseItem } from '../services/depenses.services';
 import { GroupService } from '../../group/services/group.services';
-import { RouterLink, RouterLinkActive, } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, } from '@angular/router';
 
 @Component({
   selector: 'app-depenses-home',
@@ -11,41 +11,42 @@ import { RouterLink, RouterLinkActive, } from '@angular/router';
   styleUrl: './depenses-home.scss',
 })
 export class DepensesHome implements OnInit {
+  private route = inject(ActivatedRoute)
   private depenseService = inject(DepensesService)
   private groupService = inject(GroupService)
   private changeDetectorRef = inject(ChangeDetectorRef)
   totalExpenseValue: number = 0;
   totalDebtAmount: number = 0;
   expenseList: ExpenseItem[] = []
+  groupId: string | null = null;
 
 
 
   ngOnInit(): void {
 
-    const groupId = this.groupService.getCurrentGroupId();
-    if (!groupId) {
-      return
-    }
-    this.depenseService.getExpensesData(groupId).subscribe({
-      next: (response) => {
-        this.totalExpenseValue = response.globalStats.totalExpenseGroup
-        this.totalDebtAmount = response.globalStats.totalDebt
-        this.expenseList = response.finalExpenseList
-        this.changeDetectorRef.detectChanges();
+    //on chope le groupId de l'url
+    this.route.paramMap.subscribe(params => {
+      this.groupId = params.get("groupId")
+      if (this.groupId) {
+        this.groupService.notifyHeaderOfGroupChange(this.groupId)
+        this.depenseService.getExpensesData(this.groupId).subscribe({
+          next: (response) => {
+            this.totalExpenseValue = response.globalStats.totalExpenseGroup
+            this.totalDebtAmount = response.globalStats.totalDebt
+            this.expenseList = response.finalExpenseList
 
+            this.changeDetectorRef.detectChanges();
 
+          },
+          error: (err) => {
+            console.error("Erreur de récupération des données de dépenses", err)
+          }
+        })
 
-        console.log("Récupération des données de dépenses faites")
-      },
-      error: (err) => {
-        console.error("Erreur de récupération des données de dépenses", err)
       }
-    })
-
+      else {
+        console.error("Impossible de charger les dépenses : pas d'ID dans l'URL");
+      }
+    });
   }
-
-
-
-
 }
-

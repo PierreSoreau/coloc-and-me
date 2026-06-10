@@ -9,6 +9,41 @@
     /* Espace autour et en bas avant le footer */
 }
 
+.back-profil-settings-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 600px;
+}
+
+.back-profil-settings {
+    display: flex;
+    align-items: center;
+    text-align: left;
+
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px 0 0 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        // Si tu veux que la flèche prenne la couleur principale au survol :
+        // transition: filter 0.2s ease;
+    }
+
+    &:hover {
+        color: var(--primary);
+
+    }
+}
+
 /* --- Titre de la page --- */
 h2 {
     font-size: 28px;
@@ -323,10 +358,15 @@ h2 {
 ========================================= */
 @media (min-width: 768px) {
 
+    .back-profil-settings-container {
+        max-width: 950px;
+        /* S'aligne sur les grands écrans */
+    }
+
     h2 {
         max-width: 950px;
         /* S'aligne avec le nouveau grand conteneur */
-        margin-top: 50px;
+
     }
 
     .profil-container {

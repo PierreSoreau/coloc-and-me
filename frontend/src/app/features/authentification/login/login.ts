@@ -65,9 +65,9 @@ export class Login implements OnInit {
 
         this.groupService.loadUserGroup().subscribe({
 
-          next: () => {
+          next: (response) => {
 
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard', response.groupId]);
           },
 
           error: (err) => {

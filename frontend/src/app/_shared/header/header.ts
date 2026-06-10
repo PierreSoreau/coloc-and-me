@@ -1,3 +1,4 @@
+import { GroupService } from './../../features/group/services/group.services';
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ProfilService } from '../../features/profil/services/profil.services';
@@ -13,10 +14,18 @@ export class Header implements OnInit {
 
   private profil = inject(ProfilService)
   private cdr = inject(ChangeDetectorRef)
+  private groupService = inject(GroupService)
   userInitials: string = ""
+  currentGroupId: string | null = null
 
   ngOnInit(): void {
     this.initials();
+    //on écoute la radio et currenGroup$ qui informe
+    //si currentGroup existe ou pas 
+    this.groupService.currentGroup$.subscribe(groupId => {
+      this.currentGroupId = groupId
+      this.cdr.detectChanges();
+    })
   }
 
 

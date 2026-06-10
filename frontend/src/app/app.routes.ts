@@ -35,6 +35,11 @@ export const routes: Routes = [
             {
                 path: "dashboard", component: Dashboard
             },
+            {
+                path: "dashboard/:groupId", component: Dashboard
+            },
+
+
 
             {
                 path: "profil",

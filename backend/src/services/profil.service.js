@@ -43,6 +43,8 @@ export const getDataProfil = async (userId) => {
   return response.data[0];
 };
 
+//attention pour pouvoir faire ça il faut mettre le mode cascade
+//pour les colonnes relatives aux clés secondaires
 export const deleteGroupData = async (groupId) => {
   const deleteData = await supabase.from("groups").delete().eq("id", groupId);
   if (deleteData.error) {

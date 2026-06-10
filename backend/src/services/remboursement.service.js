@@ -41,7 +41,7 @@ export const calculateUserBalance = async (userId) => {
 };
 
 export const getUserIdByGroupName = async (groupId) => {
-  const { data: userId, error: idError } = await supabase
+  const { data: memberships, error: idError } = await supabase
     .from("memberships")
     .select("profil_id")
     .eq("group_id", groupId);
@@ -50,8 +50,9 @@ export const getUserIdByGroupName = async (groupId) => {
     throw new Error(`Erreur récupération des ids: ${idError.message}`);
   }
 
-  //permet de transformer le tableau [{profil_id:1234},{profil_id:45478}] en tableau sans objet: [1234,45478]
-  const userIdTable = userId.map((user) => user.profil_id);
+  const userIdTable = memberships
+    .filter((user) => user.profil_id != null) // 1. On vire tous les objets où profil_id est null
+    .map((user) => user.profil_id); // 2. On transforme le tableau propre en [1234, 45478]
 
   return userIdTable;
 };
@@ -59,6 +60,7 @@ export const getUserIdByGroupName = async (groupId) => {
 export const allUserBalance = async (groupId) => {
   let userBalanceTable = [];
   const userIdTable = await getUserIdByGroupName(groupId);
+
   for (const userId of userIdTable) {
     const userbalance = await calculateUserBalance(userId);
     userBalanceTable.push(userbalance);

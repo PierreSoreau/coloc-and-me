@@ -1,0 +1,74 @@
+<div class="header-stats">
+    <p class="stat-title">TOTAL DU GROUPE</p>
+    <p class="stat-amount">{{ totalExpenseValue }}€</p>
+
+    @if (totalDebtAmount < 0) { <p class="stat-debt">Tu dois <span>{{ totalDebtAmount * -1 }}€</span></p>
+        } @else if (totalDebtAmount > 0) {
+        <p class="stat-debt">On te doit <span>{{ totalDebtAmount }}€</span></p>
+        } @else {
+        <p class="stat-debt">Tu ne dois rien à personne</p>
+        }
+</div>
+<div class="reimboursement-or-expense">
+    <a class="btn-choice" routerLinkActive="active" [routerLink]="['/depenses/depenses-home', groupId]">Dépenses</a>
+    <a class="btn-choice" routerLinkActive="active"
+        [routerLink]="['/depenses/remboursement', groupId]">Remboursement</a>
+</div>
+<section class="remboursement-container">
+    <div class="debt">
+        @for(balance of balanceData ; track $index){
+        <div class="debt-container">
+            <div class="initials">
+                <span class="initials-span">{{balance.initials}}</span>
+            </div>
+            <h3>{{balance.firstname}}</h3>
+
+            <div class="box-debt-detail">
+                <p class="debt-amount" [class.text-red]="balance.debtAmount < 0"
+                    [class.text-green]="balance.debtAmount > 0">
+                    {{balance.debtAmount}}€
+                </p>
+
+                @if(balance.debtAmount < 0) { <p class="debt-status">à payer</p>
+                    } @else if(balance.debtAmount > 0) {
+                    <p class="debt-status">à recevoir</p>
+                    } @else {
+                    <p class="debt-status">à l'équilibre</p>
+                    }
+            </div>
+
+
+        </div>
+        }
+    </div>
+    <!-- <h3>MES REMBOURSEMENTS</h3>
+        <div class="remboursement">
+            @for(){
+            <div class="remboursement-container">
+                <div class="initials">
+                    <span class="initials-span">{{userInitials}}</span>
+                </div>
+                <div>
+                    <h3>{{creditordebtName}}</h3>
+                    @if(debtAmount < 0){ <p>à payer</p>
+                        }
+                        @else if(debtAmount > 0){
+                        <p>à recevoir</p>
+                        }
+
+                        @else{
+                        <p>à l'équilibre</p>
+                        }
+
+                        }
+
+                </div>
+
+                <div class="box-debt-detail">
+                    <p>{{debtAmount}}€</p>
+                    
+                        }
+
+                </div>
+            </div> -->
+</section>

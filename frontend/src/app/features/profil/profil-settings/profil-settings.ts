@@ -1,4 +1,4 @@
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { profilData, ProfilService } from '../services/profil.services';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +22,7 @@ export class ProfilSettings implements OnInit {
   private groupService = inject(GroupService)
   private authService = inject(AuthService)
   private router = inject(Router)
+  private route = inject(ActivatedRoute)
   private token: string | null = null
   userInitials: string = ""
   userfirstname: string = ""
@@ -54,18 +55,11 @@ export class ProfilSettings implements OnInit {
 
     }
 
-    this.groupService.currentGroup$.subscribe((dataGroup) => {
-      if (dataGroup) {
-        this.groupId = dataGroup.groupId
-        this.groupDisplay = true
-      }
-      else {
-        this.groupId = null
-        this.groupDisplay = false
-      }
-    })
+    this.groupId = this.route.snapshot.paramMap.get("groupId")
 
-
+    if (this.groupId) {
+      this.groupDisplay = true
+    }
 
     this.dataProfil.getInitials(this.token).subscribe({
       next: (response: string) => {
