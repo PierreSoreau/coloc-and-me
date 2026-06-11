@@ -31,10 +31,16 @@ export interface DebtDataResponse {
 }
 
 export interface UserBalanceResponse {
-    userId: string,
     debtAmount: number,
     firstname: string,
     initials: string
+}
+
+export interface ReimboursementResponse {
+    firstname: string,
+    initials: string,
+    debtAmount: number,
+    type_de_dette: string,
 }
 
 
@@ -60,6 +66,12 @@ export class DepensesService {
 
     getallUserBalance(groupId: string): Observable<UserBalanceResponse[]> {
         return this.http.get<UserBalanceResponse[]>(`${this.apiUrl}/balance-data`, {
+            params: { groupId: groupId }
+        })
+    }
+
+    getRemboursementForUser(groupId: string): Observable<ReimboursementResponse[]> {
+        return this.http.get<ReimboursementResponse[]>(`${this.apiUrl}/reimboursement-data`, {
             params: { groupId: groupId }
         })
     }

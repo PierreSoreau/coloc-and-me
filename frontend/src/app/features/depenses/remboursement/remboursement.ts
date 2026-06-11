@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DepensesInput } from '../../../_shared/depenses-input/depenses-input';
-import { DepensesService, UserBalanceResponse } from '../services/depenses.services';
+import { DepensesService, UserBalanceResponse, ReimboursementResponse } from '../services/depenses.services';
 import { GroupService } from '../../group/services/group.services';
 import { ActivatedRoute, RouterLink, RouterLinkActive, } from '@angular/router';
 
@@ -19,6 +19,7 @@ export class Remboursement implements OnInit {
   totalDebtAmount: number = 0;
   balanceData: UserBalanceResponse[] = []
   groupId: string | null = null;
+  reimboursementData: ReimboursementResponse[] = []
 
   ngOnInit(): void {
     //on chope le groupId de l'url
@@ -50,12 +51,29 @@ export class Remboursement implements OnInit {
 
             this.changeDetectorRef.detectChanges();
 
-            console.log("Récupération des données d'équilibre de dette faites")
+            console.log("Récupération des données des données de dette faites")
 
           },
 
           error: (error) => {
-            console.error("Erreur lors de la récupération des données d'équilibre de dette", error)
+            console.error("Erreur lors de la récupération des données de dette", error)
+          }
+
+
+        })
+
+        this.depenseService.getRemboursementForUser(this.groupId).subscribe({
+          next: (response) => {
+            this.reimboursementData = response
+
+            this.changeDetectorRef.detectChanges();
+
+            console.log("Récupération des données de remboursement faites")
+
+          },
+
+          error: (error) => {
+            console.error("Erreur lors de la récupération des données de remboursement", error)
           }
 
 

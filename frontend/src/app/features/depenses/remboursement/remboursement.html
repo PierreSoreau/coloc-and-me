@@ -15,6 +15,7 @@
         [routerLink]="['/depenses/remboursement', groupId]">Remboursement</a>
 </div>
 <section class="remboursement-container">
+    <h3>DETTES PAR COLOCATAIRE</h3>
     <div class="debt">
         @for(balance of balanceData ; track $index){
         <div class="debt-container">
@@ -41,34 +42,29 @@
         </div>
         }
     </div>
-    <!-- <h3>MES REMBOURSEMENTS</h3>
-        <div class="remboursement">
-            @for(){
-            <div class="remboursement-container">
-                <div class="initials">
-                    <span class="initials-span">{{userInitials}}</span>
-                </div>
-                <div>
-                    <h3>{{creditordebtName}}</h3>
-                    @if(debtAmount < 0){ <p>à payer</p>
-                        }
-                        @else if(debtAmount > 0){
-                        <p>à recevoir</p>
-                        }
+    <h3>MES REMBOURSEMENTS</h3>
+    <div class="remboursement">
+        @for(reimboursement of reimboursementData ; track $index){
+        <div class="small-remboursement-container">
+            <div class="initials">
+                <span class="initials-span">{{reimboursement.initials}}</span>
+            </div>
+            <div class="reimboursement-name">
+                <p>{{reimboursement.type_de_dette}}</p>
+                <h3>{{reimboursement.firstname}}</h3>
 
-                        @else{
-                        <p>à l'équilibre</p>
-                        }
+            </div>
 
-                        }
-
-                </div>
-
-                <div class="box-debt-detail">
-                    <p>{{debtAmount}}€</p>
-                    
-                        }
-
-                </div>
-            </div> -->
+            <div class="box-debt-detail">
+                <p [class.text-red]="reimboursement.debtAmount < 0" [class.text-green]="reimboursement.debtAmount > 0">
+                    {{reimboursement.debtAmount}}€ </p>
+            </div>
+        </div>
+        }
+    </div>
 </section>
+
+<!-- piottip:79ddfdc7-d914-4edb-9aec-8046d69f51f1
+antoine:1d21b0b6-c9ae-4778-9c63-3c1143b32266
+group:dcff45ab-080c-47fc-af86-a4233aecc00f
+victor:3350771d-212a-4f84-b5ce-8f662cc3f280 -->

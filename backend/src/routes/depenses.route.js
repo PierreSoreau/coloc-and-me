@@ -7,5 +7,9 @@ const router = Router();
 router.get("/details", depenseController.getExpensesDataController);
 router.get("/debt-data", remboursementController.getDebtData);
 router.get("/balance-data", remboursementController.getallUserBalance);
+router.get(
+  "/reimboursement-data",
+  remboursementController.getAllReimboursementData,
+);
 
 export default router;

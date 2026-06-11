@@ -50,11 +50,11 @@ export const getUserIdByGroupName = async (groupId) => {
     throw new Error(`Erreur récupération des ids: ${idError.message}`);
   }
 
-  const userIdTable = memberships
-    .filter((user) => user.profil_id != null) // 1. On vire tous les objets où profil_id est null
-    .map((user) => user.profil_id); // 2. On transforme le tableau propre en [1234, 45478]
+  const finalUserId = memberships
+    .filter((membership) => membership.profil_id != null)
+    .map((membership) => membership.profil_id);
 
-  return userIdTable;
+  return finalUserId;
 };
 
 export const allUserBalance = async (groupId) => {
@@ -84,6 +84,9 @@ export const getDebtUserTable = async (groupId) => {
   return { debtors: debtUserTable, creditors: creditUserTable };
 };
 
+//fonction qui permet de trier le tableau des créditeurs et endetteurs de manière
+//à avoir la dette la plus élevée en premier du tableau endetté (le moins le plus élevé)
+//et le credit le plus élevé en premier du tableau crediteur
 export const sortDebtAndCreditTable = async (groupId) => {
   const DebtUserObject = await getDebtUserTable(groupId);
 
@@ -100,8 +103,8 @@ export const sortDebtAndCreditTable = async (groupId) => {
   return { creditors: creditUserTable, debtors: debtUserTable };
 };
 
-const debt_amount = 0;
-
+//fonction qui permet d'évaluer le montant à rembourser pour chaque utilisateur
+//vis-a-vis d'un autre utilisateur
 export const insertDebtValue = async (groupId) => {
   //attention surtout à ne pas oublier cette ligne qui permet de supprimer
   //toutes les lignes de la zone remboursement avant de recalculer le remboursement
@@ -151,12 +154,69 @@ export const debtLineInSupabase = async (
   credit,
   debt_amount,
 ) => {
-  await supabase.from("remboursement").insert([
-    {
-      profil_indebted_id: debt.userId,
-      group_id: groupId,
-      debt_amount: debt_amount,
-      profil_creditor_id: credit.userId,
-    },
-  ]);
+  const { data: insertLine, error: errorLine } = await supabase
+    .from("remboursement")
+    .insert([
+      {
+        profil_indebted_id: debt.userId,
+        group_id: groupId,
+        debt_amount: debt_amount,
+        profil_creditor_id: credit.userId,
+      },
+    ]);
+
+  if (errorLine) {
+    throw new Error(
+      `Erreur de l'insertion de la ligne de remboursement: ${errorLine.message}`,
+    );
+  }
+};
+
+export const getLineRemboursement = async (userId) => {
+  const { data: dataRemboursement, error: errorRemboursement } = await supabase
+    .from("remboursement")
+    .select(
+      `profil_indebted_id,      
+       profil_creditor_id,
+       debt_amount,
+       endette:profils!profil_indebted_id(firstname,lastname),
+       crediteur:profils!profil_creditor_id(firstname,lastname)`,
+    )
+    .or(`profil_creditor_id.eq.${userId},profil_indebted_id.eq.${userId}`);
+
+  if (errorRemboursement) {
+    throw new Error(
+      `Erreur de récupération des lignes de remboursement: ${errorRemboursement.message}`,
+    );
+  }
+
+  const finalData = dataRemboursement.map((remboursement) => {
+    let firstname = "";
+    let initials = "";
+    let type_de_dette = "";
+    let debtAmount = 0;
+
+    if (remboursement.profil_indebted_id != userId) {
+      firstname = remboursement.endette.firstname;
+      const lastname = remboursement.endette.lastname;
+      initials = `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
+      type_de_dette = "à recevoir de";
+      debtAmount = remboursement.debt_amount;
+    } else if (remboursement.profil_creditor_id != userId) {
+      firstname = remboursement.crediteur.firstname;
+      const lastname = remboursement.crediteur.lastname;
+      initials = `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
+      type_de_dette = "à payer à";
+      debtAmount = remboursement.debt_amount * -1;
+    }
+
+    return {
+      firstname: firstname,
+      initials: initials,
+      debtAmount: debtAmount,
+      type_de_dette: type_de_dette,
+    };
+  });
+
+  return finalData;
 };
