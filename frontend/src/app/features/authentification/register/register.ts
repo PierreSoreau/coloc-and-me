@@ -54,7 +54,7 @@ export class Register {
     return getConfirmPasswordError(this.registerForm);
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.invalid) {
       console.log("🚨 Le formulaire est INVALIDE !");
       return
@@ -69,20 +69,25 @@ export class Register {
       password: rawData.password
     }
 
-    //subscribe permet de lancer la requette sinon ça ne se lancerait pas et ça écoute la réponse
-    this.authService.register(cleanData).subscribe({
-      next: (response: RegisterResponse) => {
+    try {
 
-        this.isEmitEmail = true
-        this.changeDetectorRef.detectChanges();
 
-      },
-      error: (err) => {
-        console.error("Erreur d'inscription", err)
-      }
-    })
+      await this.authService.register(cleanData)
 
+
+
+      this.isEmitEmail = true
+      this.changeDetectorRef.detectChanges();
+
+    }
+
+    catch (error) {
+      console.error("Erreur d'inscription", error)
+    }
   }
+
+
+
 
   toggle(): void {
     this.isEmitEmail = false

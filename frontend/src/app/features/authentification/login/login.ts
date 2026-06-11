@@ -43,7 +43,7 @@ export class Login implements OnInit {
   }
 
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.invalid) {
       return
     }
@@ -55,43 +55,40 @@ export class Login implements OnInit {
       password: rawData.password
     }
 
-    this.authService.login(cleanData).subscribe({
-      next: (response) => {
-        const token = response.token;
-        if (!token) {
-          return
+    try {
+
+      await this.authService.login(cleanData);
+
+
+      this.groupService.loadUserGroup().subscribe({
+
+        next: (response) => {
+
+          this.router.navigate(['/dashboard', response.groupId]);
+        },
+
+        error: (err) => {
+          console.error("Pas de groupe pour cet utilisateur", err);
+          this.router.navigate(['/group/group-home']);
         }
+      });
 
+    }
 
-        this.groupService.loadUserGroup().subscribe({
-
-          next: (response) => {
-
-            this.router.navigate(['/dashboard', response.groupId]);
-          },
-
-          error: (err) => {
-            console.error("Pas de groupe pour cet utilisateur", err);
-            this.router.navigate(['/group/group-home']);
-          }
-        });
-
-      },
-
-      error: (err) => {
-        console.error("Echec de la connection", err);
-      }
-    })
-
+    catch (error) {
+      console.error("Echec de la connection", error);
+    }
   }
 
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+

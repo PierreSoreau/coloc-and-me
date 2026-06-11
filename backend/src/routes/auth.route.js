@@ -11,11 +11,8 @@ const router = Router();
 //delete c'est plutot pour des informations précises avec id
 // tous les /register, /login... ne sont pas visibles dans la barre de navigation
 //c'est juste un nom de code pour enclencher la fonction de l'api
-router.post("/register", authController.register);
-router.post("/login", authController.signIn);
+router.post("/create-profil", authController.register);
 router.get("/getGroup", authController.controlGroup);
-
-router.post("/logout", authController.signOut);
 
 router.put("/updateprofildata", authController.updateAccount);
 router.post("/resetpassword", authController.pageResetPassword);

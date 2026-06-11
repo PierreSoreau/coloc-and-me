@@ -10,6 +10,7 @@ import { createClient, SupabaseClient, UserResponse } from "@supabase/supabase-j
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { GroupService } from '../../group/services/group.services';
+import { firstValueFrom } from 'rxjs';
 
 //on définit le type des variables que l'on va 
 // retrouver en paramètre de la fonction login
@@ -133,33 +134,74 @@ export class AuthService {
     });
   }
 
+
+  //la fonction signInWithPassword hache le password
+  //check le password haché avec la base des mdp hachés pour voir si correspondance
+  //il envoie une info comme quoi c'est bon à angular si correspondance et du coup l'utilisateur est connecté
   //credential c'est le contenu à envoyer dans la requête
   //Observable représente la réponse de Node à retourner au composant 
-  login(credential: LoginCredentials): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credential)
-      .pipe(tap(async response => {
-        //si la réponse de Node fonctionne on enregistre en localStorage la session 
-        //qui s'appelle response.token 
-        if (response && response.token) {
-          localStorage.setItem("token", response.token);
-          if (response.refresh_token) {
-            localStorage.setItem("refresh_token", response.refresh_token);
-          }
-          //permet d'enregistrer la session aussi côté supabase
-          await this.supabase.auth.setSession({
-            access_token: response.token,
-            refresh_token: response.refresh_token
-          })
-        }
-      }))
+  async login(credential: LoginCredentials): Promise<void> {
+    const { data, error } = await this.supabase.auth.signInWithPassword({
+      email: credential.email_adress,
+      password: credential.password
+    });
+
+    if (error) {
+      const supabaseMessage = error.message;
+
+      if (supabaseMessage === "Invalid login credentials") {
+        throw new Error("Email ou mot de passe incorrect.");
+      } else if (supabaseMessage === "Email not confirmed") {
+        throw new Error("Veuillez valider votre adresse email pour continuer.");
+      } else if (supabaseMessage === "Too many requests") {
+        throw new Error("Trop de tentatives, merci de réessayer plus tard.");
+      }
+
+      // Si c'est une erreur qu'on n'a pas prévue, on renvoie le message de base
+      throw new Error(supabaseMessage);
+    }
+
+    // Supabase Angular gère déjà le token tout seul, mais si tu veux le forcer dans le localStorage :
+    if (data.session) {
+      localStorage.setItem("token", data.session.access_token);
+      localStorage.setItem("refresh_token", data.session.refresh_token);
+    }
   }
 
   async signOutSupabase() {
     await this.supabase.auth.signOut();
   }
 
-  register(credential: RegisterCredentials): Observable<RegisterResponse> {
-    return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, credential);
+
+  async register(credential: RegisterCredentials): Promise<void> {
+    // 1. Angular crée le compte sur Supabase Auth
+    //l'utilisateur renseigne sur le formulaire angular ses informations d'inscription
+    // (password, firstname, lastname...),
+    // l'email et le password sont ensuite enregistrés dans l'onglet authentification de supabase
+    // c'est dans cet onglet qu'il y a une table User ou email et password sont renseignés en hachés
+    // par supabase en automatique
+    //La fonction SIGNUP de supabase hache le mot de passe enregistré, créé une uuid unique, vérifie si l'email existe déjà
+    const { data, error } = await this.supabase.auth.signUp({
+      email: credential.email_adress,
+      password: credential.password
+    });
+
+    //si l'email existe déjà dans la base
+    // ou que le format est mauvais ça renvoit un message d'erreur
+    if (error) throw new Error(error.message);
+
+    // 2. Si ça a marché, on demande à Node.js de créer la ligne dans la table 'profils'
+    // On lui envoie juste les infos non sensibles et l'ID généré
+    const userId = data.user?.id;
+    const requeteNode$ = this.http.post(`${this.apiUrl}/create-profil`, {
+      id: userId,
+      firstname: credential.firstname,
+      lastname: credential.lastname,
+      email_adress: credential.email_adress
+    })
+    //firstValue permet d'au lieu d'avoir besoin d'un Observable pour une requette 
+    //de pouvoir utiliser une promesse
+    await firstValueFrom(requeteNode$);
   }
 
   forgotPassword(credential: ForgotPasswordCredentials): Observable<ForgotPasswordResponse> {

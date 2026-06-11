@@ -7,6 +7,7 @@ import { getFieldErrorMessage, getConfirmPasswordError } from '../../../_shared/
 import { ProfilService, profilData } from '../services/profil.services';
 import { AuthService } from '../../authentification/services/auth.services';
 import { Router, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-new-password',
@@ -21,6 +22,7 @@ export class NewPassword {
   private authService = inject(AuthService)
   private profilService = inject(ProfilService)
   private token: string | null = null
+  private location = inject(Location);
   isEmitEmail: boolean = true;
   private changeDetectorRef = inject(ChangeDetectorRef)
 
@@ -47,6 +49,11 @@ export class NewPassword {
     this.isEmitEmail = false
     this.changeDetectorRef.detectChanges();
 
+  }
+
+  goBack() {
+    //Fait exactement comme la flèche retour du navigateur !
+    this.location.back();
   }
 
   async onSubmit() {

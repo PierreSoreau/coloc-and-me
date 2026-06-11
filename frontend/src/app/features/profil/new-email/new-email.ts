@@ -7,6 +7,9 @@ import { getFieldErrorMessage, getConfirmEmailError } from '../../../_shared/uti
 import { ProfilService, profilData } from '../services/profil.services';
 import { AuthService } from '../../authentification/services/auth.services';
 import { Router, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-new-email',
@@ -21,6 +24,7 @@ export class NewEmail implements OnInit {
   private authService = inject(AuthService)
   private profilService = inject(ProfilService)
   private token: string | null = null
+  private location = inject(Location)
   currentEmail: string = ""
   isEmitEmail: boolean = true;
   private changeDetectorRef = inject(ChangeDetectorRef)
@@ -71,6 +75,11 @@ export class NewEmail implements OnInit {
       }
     })
 
+  }
+
+  goBack() {
+    //Fait exactement comme la flèche retour du navigateur !
+    this.location.back();
   }
 
   toggle(): void {

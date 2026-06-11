@@ -55,11 +55,19 @@ export class ProfilSettings implements OnInit {
 
     }
 
-    this.groupId = this.route.snapshot.paramMap.get("groupId")
-
-    if (this.groupId) {
-      this.groupDisplay = true
-    }
+    this.groupService.loadUserGroup().subscribe({
+      next: (response) => {
+        // Le composant redémarre, demande à Node.js, trouve le groupe, et affiche le bouton !
+        this.groupId = response.groupId;
+        this.groupDisplay = true;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (err) => {
+        this.groupId = null;
+        this.groupDisplay = false;
+        this.changeDetectorRef.detectChanges();
+      }
+    });
 
     this.dataProfil.getInitials(this.token).subscribe({
       next: (response: string) => {
@@ -132,31 +140,25 @@ export class ProfilSettings implements OnInit {
   }
 
 
-  logOut() {
-    if (!this.token) {
-      return
-    }
-    this.dataProfil.logOut(this.token).subscribe({
-      next: async (response: string) => {
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("token");
-        //cette fonction est indispensable pour supprimer 
-        //les sessions cachées de supabase
-        //on fait la même chose pour node via la fonction logOUT
-        //parce que les sessions cachées de supabase sont dans node et angular
-        //et du coup si on fait pas ça remove le localstorage ne suffit pas parce que 
-        //dans le constructeur du authservice avec les sessions de supabase encore présente
-        //ça detecte signein et ça se récréé le localstorage du token
-        await this.authService.signOutSupabase();
-        this.router.navigate(["/auth/login"])
-      },
-      error: (err) => {
-        console.log("Erreur au moment de la deconnection", err)
-      }
+  async logOut() {
 
-    })
+    try {
+      await this.authService.signOutSupabase();
+      //cette fonction est indispensable pour supprimer 
+      //les sessions cachées de supabase
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("token");
+
+
+      this.router.navigate(["/auth/login"])
+    }
+    catch (error) {
+      console.log("Erreur au moment de la deconnection", error)
+    }
 
   }
+
+
 
   onSubmit() {
     if (this.updateForm.invalid) {
