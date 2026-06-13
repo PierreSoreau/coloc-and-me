@@ -86,3 +86,15 @@ export const recordMemberId = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+export const getNameInitials = async (req, res) => {
+  try {
+    const groupId = req.query.groupId;
+
+    const names = await groupService.getNamesAndInitials(groupId);
+
+    return res.status(200).json(names);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};

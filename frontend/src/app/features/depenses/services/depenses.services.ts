@@ -7,12 +7,27 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 
+export interface newDebtCredential {
+    profilIdTable: string[]
+    debt_amount: number
+    expenses_id: number
+}
+
+export interface newExpenseCredential {
+    article: string
+    expense_amount: number
+    date: string
+    profil_id: string
+    groupId: string
+}
+
 export interface ExpenseItem {
     expense_amount: number
     expense_date: string
     expense_title: string
     firstname: string
     initials: string
+    expense_id: number
 }
 
 export interface ExpenseStats {
@@ -42,6 +57,38 @@ export interface ReimboursementResponse {
     debtAmount: number,
     type_de_dette: string,
 }
+
+export interface NewExpenseResponse {
+    expense_id: number
+    debtAmount: number
+}
+
+export interface DetailExpense {
+    article: string
+    date: string
+    expense_amount: number
+    initials: string
+    firstnamePayer: string
+}
+
+export interface NameUserDebt {
+    initials: string
+    firstnameUserDebt: string
+}
+
+export interface DetailDebt {
+    debt_amount: number
+    debtData: NameUserDebt[]
+}
+
+export interface ExpenseAndDebtDetail {
+    expenseData: DetailExpense
+    debtData: DetailDebt
+
+}
+
+
+
 
 
 @Injectable({
@@ -76,5 +123,21 @@ export class DepensesService {
         })
     }
 
+    newExpense(credential: newExpenseCredential): Observable<NewExpenseResponse> {
+        return this.http.post<NewExpenseResponse>(`${this.apiUrl}/new-expense`, credential, {
+            params: { groupId: credential.groupId }
+        })
+    }
 
+    newDebtData(credential: newDebtCredential): Observable<string> {
+        return this.http.post<string>(`${this.apiUrl}/new-debt`, credential)
+    }
+
+    getDetailExpenseAndDebt(expenseId: number): Observable<ExpenseAndDebtDetail> {
+        return this.http.get<ExpenseAndDebtDetail>(`${this.apiUrl}/detail-expense`, {
+            params: { expenseId: expenseId }
+        })
+    }
 }
+
+

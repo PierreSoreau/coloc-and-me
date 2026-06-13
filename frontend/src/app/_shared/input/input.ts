@@ -17,6 +17,7 @@ export class InputComponent {
   @Input() errorMessage: string = '';
   @Input() controlName: string = "";
   @Input() form!: FormGroup;
+  @Input() showLogo: boolean = true;
 
 
 

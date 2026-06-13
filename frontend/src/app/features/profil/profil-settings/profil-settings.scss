@@ -136,6 +136,7 @@ h2 {
         padding: 15px 20px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 15px;
         text-decoration: none;
         cursor: pointer;
@@ -167,8 +168,8 @@ h2 {
     }
 
     button {
-        border: 1px solid #E53935;
-        color: #E53935;
+        border: 1px solid var(--text-alert);
+        color: var(--text-alert);
 
         img {
             filter: invert(34%) sepia(85%) saturate(7460%) hue-rotate(349deg) brightness(95%) contrast(85%);

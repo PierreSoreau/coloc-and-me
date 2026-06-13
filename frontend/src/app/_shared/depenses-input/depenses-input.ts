@@ -9,7 +9,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './depenses-input.scss',
 })
 export class DepensesInput {
-  @Input() linkRedirection: string = ""
+  @Input() linkRedirection: (string | number | null)[] = [];
   @Input() expenseAmount: number = 0
   @Input() expenseDate: string = ""
   @Input() expenseTitle: string = ""

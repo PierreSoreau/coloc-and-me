@@ -1,0 +1,125 @@
+section {
+    width: 100%;
+    max-width: 600px; // Évite que la page soit trop étirée sur un écran d'ordinateur
+    margin: 0 auto;
+    padding: 24px;
+    background-color: var(--bg-app);
+
+    .back {
+
+        display: flex;
+        text-align: left;
+        width: 100%;
+
+    }
+
+    h2 {
+        font-size: 24px;
+        color: var(--text-main);
+        margin-top: 0;
+        margin-bottom: 24px;
+        font-weight: 500;
+    }
+
+    h3 {
+        font-size: 16px;
+        color: var(--text-muted);
+        margin-top: 24px;
+        margin-bottom: 12px;
+        font-weight: 400;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr; // Crée 2 colonnes égales
+        gap: 16px; // L'espace entre tous les champs
+
+        // --- Placement des Inputs ---
+
+        // Le sélecteur d'attribut cible l'input précis sans avoir besoin de classe
+        app-input[controlName="description"] {
+            grid-column: 1 / -1; // Dit au champ de prendre toute la largeur (de la ligne 1 à la fin)
+        }
+
+        app-input[controlName="montant"] {
+            grid-column: 1 / 2; // Se place uniquement dans la colonne de gauche
+        }
+
+        app-input[controlName="date"] {
+            grid-column: 2 / -1; // Se place uniquement dans la colonne de droite
+        }
+
+        // Fait en sorte que les titres prennent toute la largeur
+        h3 {
+            grid-column: 1 / -1;
+        }
+
+        // --- Conteneurs des cartes (Payé par / Partagé avec) ---
+
+        // On cible tes attributs personnalisés
+        div[payer-box],
+        div[debt-box] {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-wrap: wrap; // Permet de passer à la ligne s'il y a trop de personnes
+            gap: 12px;
+        }
+
+        // --- Le design des cartes ---
+
+        .payer-card {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            width: 84px;
+            height: 84px;
+            border: 1px solid var(--border-element);
+            border-radius: 12px;
+            background-color: var(--bg-app);
+            transition: all 0.2s ease-in-out;
+
+            // État inactif (quand on survole)
+            &:hover {
+                background-color: var(--surface-element);
+            }
+
+            // État actif (La magie du [class.selected])
+            &.selected {
+                border: 2px solid var(--primary);
+                background-color: var(--bg-logo);
+            }
+
+            .avatar {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--text-on-primary);
+                font-size: 14px;
+                font-weight: 500;
+                margin-bottom: 6px;
+
+                // Couleur par défaut. Pour faire comme sur ton image (une couleur par personne), 
+                // il faudra gérer ça dynamiquement dans ton HTML via [style.background-color]="name.color"
+                background-color: var(--primary);
+            }
+
+            span {
+                font-size: 13px;
+                color: var(--text-main);
+            }
+        }
+
+        // --- Bouton d'ajout ---
+
+        app-button-record {
+            grid-column: 1 / -1;
+            margin-top: 32px; // Décolle bien le bouton du reste du formulaire
+        }
+    }
+}

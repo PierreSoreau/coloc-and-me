@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-
+import { Component, Output, EventEmitter, inject } from '@angular/core';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-button-back',
   imports: [],
@@ -7,10 +7,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrl: './button-back.scss',
 })
 export class ButtonBack {
-  @Output() clickBack = new EventEmitter<void>();
 
-  clickOutputBack(): void {
-    this.clickBack.emit();
+  private location = inject(Location)
+  goBack() {
+    //Fait exactement comme la flèche retour du navigateur !
+    this.location.back();
   }
 
 }

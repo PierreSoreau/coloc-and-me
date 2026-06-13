@@ -1,1 +1,45 @@
-<p>write-depense works!</p>
+<section>
+    <div class="back">
+        <app-button-back></app-button-back>
+    </div>
+    <h2>Nouvelle dépense</h2>
+    <form [formGroup]="detailExpenseForm" (ngSubmit)="onSubmit()">
+        <app-input [showLogo]="false" labelText="Description" placeholderText="Ex: Courses Monoprix" inputType="text"
+            [errorMessage]="getErrorMessage('La description','description')" controlName="description"
+            [form]="detailExpenseForm"></app-input>
+        <app-input [showLogo]="false" labelText="Montant (€)" placeholderText="0,00" inputType="text"
+            [errorMessage]="getErrorMessage('montant','montant')" controlName="montant"
+            [form]="detailExpenseForm"></app-input>
+        <app-input [showLogo]="false" labelText="Date" placeholderText="jj/mm/aaaa" inputType="date" controlName="date"
+            [form]="detailExpenseForm" [errorMessage]="getErrorMessage('la date','date')"></app-input>
+        <h3>Payé par</h3>
+        <div payer-box>
+            @for(name of names; track $index){
+            <!-- au clic du input payerId va être égale à user.id et du coup le css class.selected va se lancer
+                et ça va entourer en orange la case et userid va être renseigné dans le formulaire -->
+            <label class="payer-card" [class.selected]="detailExpenseForm.get('payerId')?.value === name.id">
+
+                <input type="radio" formControlName="payerId" [value]="name.id" name="payerId" hidden>
+
+                <div class="avatar">{{ name.initials }}</div>
+                <span>{{ name.firstname }}</span>
+            </label>
+            }
+        </div>
+        <h3>Partagé avec</h3>
+        <div debt-box>
+            @for(name of names; track $index){
+            <label class="payer-card" [class.selected]="isDebtUserSelected(name.id)">
+
+                <input type="checkbox" [value]="name.id" (click)="boxChecked($event)" hidden>
+
+                <div class="avatar">{{ name.initials }}</div>
+                <span>{{ name.firstname }}</span>
+            </label>
+            }
+        </div>
+        <app-button-record buttonText="Ajouter"></app-button-record>
+        <p>{{wrongForm}}</p>
+
+    </form>
+</section>

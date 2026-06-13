@@ -1,1 +1,38 @@
-<p>detail-depenses works!</p>
+<section class="expense-detail">
+    <div class="back">
+        <app-button-back></app-button-back>
+    </div>
+    <div class="title">
+        <h3>{{description}}</h3>
+        <p>{{date | date: 'd MMMM' }}</p>
+    </div>
+    <p>Payé par</p>
+    <div class="expense-data">
+        <div class="profil">
+            <div class="avatar">{{ initialsPayer }}</div>
+            <span>{{ firstnamePayer }}</span>
+        </div>
+        <p>{{expenseAmount}}€</p>
+    </div>
+    <p>Participants</p>
+    @for(debt of debtData; track $index){
+    <div class="expense-data">
+        <div class="profil">
+            <div class="avatar">{{ debt.initials }}</div>
+            <span>{{ debt.firstnameUserDebt }}</span>
+        </div>
+        <p>{{debtAmount}}€</p>
+    </div>
+    }
+
+    <div class="action-buttons">
+        <button type="button" class="btn-edit">
+            <img src="/assets/logo-pencil.svg" alt="logo modifier" />
+            <p>Modifier</p>
+        </button>
+        <button type="button" class="btn-delete">
+            <img src="/assets/logo-bin.svg" alt="logo supprimer" />
+            <p>Supprimer</p>
+        </button>
+    </div>
+</section>

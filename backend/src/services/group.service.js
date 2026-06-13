@@ -146,3 +146,33 @@ export const recordMemberId = async (groupId, nickname, token) => {
     throw new Error("Erreur lors de la mise à jour", error.message);
   }
 };
+
+export const getNamesAndInitials = async (groupId) => {
+  const { data: names, error: errorNames } = await supabase
+    .from("memberships")
+    .select("profils!profil_id(firstname,lastname),profil_id")
+    .eq("group_id", groupId);
+
+  if (errorNames) {
+    throw new Error(
+      `Erreur de récupération du nom des users:${errorNames.message}`,
+    );
+  }
+
+  let firstname = "";
+  let initials = "";
+
+  const finalNames = names.map((name) => {
+    firstname = name.profils.firstname;
+    initials =
+      `${firstname.charAt(0)}${name.profils.lastname.charAt(0)}`.toUpperCase();
+
+    return {
+      firstname: firstname,
+      initials: initials,
+      id: name.profil_id,
+    };
+  });
+
+  return finalNames;
+};

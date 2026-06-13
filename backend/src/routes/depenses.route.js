@@ -11,5 +11,8 @@ router.get(
   "/reimboursement-data",
   remboursementController.getAllReimboursementData,
 );
+router.get("/detail-expense", depenseController.getInformationExpense);
+router.post("/new-expense", depenseController.addNewExpense);
+router.post("/new-debt", depenseController.addNewDebt);
 
 export default router;

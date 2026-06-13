@@ -1,6 +1,8 @@
 import { Routes } from "@angular/router";
 import { DepensesHome } from "./depenses-home/depenses-home";
 import { Remboursement } from "./remboursement/remboursement";
+import { WriteDepense } from "./write-depense/write-depense";
+import { DetailDepenses } from "./detail-depenses/detail-depenses";
 
 
 export const depensesRoutes: Routes = [
@@ -8,6 +10,9 @@ export const depensesRoutes: Routes = [
 
     { path: "depenses-home/:groupId", component: DepensesHome },
     { path: "remboursement/:groupId", component: Remboursement },
+    { path: "write-depense/:groupId", component: WriteDepense },
+    { path: "detail-depenses/:groupId/:expenseId", component: DetailDepenses },
+
 
 
     // pathMatch permet de forcer à checker l'url exact et pas seulement le début

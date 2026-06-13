@@ -3,10 +3,11 @@ import { DepensesInput } from '../../../_shared/depenses-input/depenses-input';
 import { DepensesService, ExpenseItem } from '../services/depenses.services';
 import { GroupService } from '../../group/services/group.services';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, } from '@angular/router';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 @Component({
   selector: 'app-depenses-home',
-  imports: [DepensesInput, RouterLinkActive, RouterLink],
+  imports: [DepensesInput, RouterLinkActive, RouterLink, ButtonBack],
   templateUrl: './depenses-home.html',
   styleUrl: './depenses-home.scss',
 })

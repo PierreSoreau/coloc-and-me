@@ -43,6 +43,12 @@ export interface groupMemberResponse {
     memberList: string[]
 }
 
+export interface groupInitialAndNameResponse {
+    firstname: string
+    initials: string
+    id: string
+}
+
 //la classe que l'on créé pourra être utilisé autant de fois 
 //que l'on veux dans l'app
 @Injectable({
@@ -108,5 +114,12 @@ export class GroupService {
             params: { groupId: credential.groupId }
         })
     }
+
+    getNamePlusInitials(groupId: string): Observable<groupInitialAndNameResponse[]> {
+        return this.http.get<groupInitialAndNameResponse[]>(`${this.apiUrl}/members-name-initials`, {
+            params: { groupId: groupId }
+        })
+    }
+
 }
 

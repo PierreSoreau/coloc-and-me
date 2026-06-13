@@ -84,3 +84,7 @@ export const deleteGroupData = async (groupId) => {
     throw new Error(deleteData.error.message);
   }
 };
+
+export const getInitials = async (firstname, lastname) => {
+  return `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
+};

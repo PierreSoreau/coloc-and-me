@@ -2,8 +2,10 @@
     <label class="input-label">{{labelText}}</label>
     <!-- class.has-error permet de cibler la classe has-error et de l'activer s'il y a un message d'erreur si on
     mettait que .has-error au lieu de class.has-error seulement ça aurait supprimé la classe input-box -->
-    <div class="input-box" [class.has-error]="errorMessage !==''">
+    <div class="input-box" [class.no-logo]="!showLogo" [class.has-error]="errorMessage !==''">
+        @if(showLogo){
         <img [src]="srcAssetInput" [alt]="altAssetInput" class="input-logo" />
+        }
         <input [type]="inputType" [placeholder]="placeholderText" [formControlName]="controlName" />
     </div>
     @if (errorMessage!=='') {

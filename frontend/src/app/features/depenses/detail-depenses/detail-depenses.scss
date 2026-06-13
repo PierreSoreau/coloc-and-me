@@ -1,0 +1,163 @@
+.expense-detail {
+    font-family: var(--font-principale);
+    padding: 24px;
+    background-color: var(--bg-app);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    // border: 1px solid var(--border-element);
+    border-radius: 12px;
+
+    .back {
+
+        display: flex;
+        text-align: left;
+        width: 100%;
+
+    }
+
+    /* --- 1. En-tête (Titre et Date) --- */
+    .title {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-element);
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+
+        h3 {
+            margin: 0 0 6px 0;
+            font-size: 21px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+    }
+
+    /* --- 2. Titres de sections (PAYÉ PAR, PARTICIPANTS) --- */
+    &>p {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 0.5px;
+        margin: 24px 0 12px 0;
+    }
+
+    /* --- 3. Lignes de données (Avatar, Nom, Montant) --- */
+    .expense-data {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .profil {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: var(--primary);
+                color: var(--text-on-primary);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 500;
+                font-size: 18px;
+            }
+
+            span {
+                font-size: 16px;
+                color: var(--text-main);
+            }
+        }
+
+        &>p {
+            margin: 0;
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--text-main);
+        }
+    }
+
+    /* --- 4. Conteneur des boutons d'action --- */
+    .action-buttons {
+        display: flex;
+        gap: 16px;
+        /* Remplace les margin-right, crée un espace parfait entre les enfants */
+        margin-top: 32px;
+
+        button {
+            flex: 1;
+            /* Force les deux boutons à prendre exactement 50% de l'espace restant */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: var(--font-principale);
+            transition: all 0.2s ease-in-out;
+            background-color: var(--bg-app);
+            font-family: inherit;
+
+            p {
+                margin: 0;
+                font-weight: 500;
+            }
+
+            img {
+                width: 20px;
+                height: 20px;
+                object-fit: contain;
+
+            }
+        }
+
+        .btn-edit {
+            border: 1px solid var(--border-element);
+            color: var(--text-main);
+
+            &:hover {
+                background-color: var(--surface-element);
+                transform: scale(1.1);
+            }
+        }
+
+        .btn-delete {
+            border: 1px solid var(--text-alert);
+            color: var(--text-alert);
+
+
+            img {
+                filter: invert(34%) sepia(85%) saturate(7460%) hue-rotate(349deg) brightness(95%) contrast(85%);
+            }
+
+            &:hover {
+                opacity: 1;
+                background-color: rgba(211, 47, 47, 0.05);
+                /* Fond rouge très léger au survol */
+                transform: scale(1.1);
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+
+    .expense-detail {
+        border: 1px solid var(--border-element);
+    }
+}
