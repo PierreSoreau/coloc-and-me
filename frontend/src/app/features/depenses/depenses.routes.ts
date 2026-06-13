@@ -10,7 +10,7 @@ export const depensesRoutes: Routes = [
 
     { path: "depenses-home/:groupId", component: DepensesHome },
     { path: "remboursement/:groupId", component: Remboursement },
-    { path: "write-depense/:groupId", component: WriteDepense },
+    { path: "write-depense/:groupId/:expenseId", component: WriteDepense },
     { path: "detail-depenses/:groupId/:expenseId", component: DetailDepenses },
 
 

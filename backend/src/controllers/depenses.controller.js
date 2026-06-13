@@ -27,14 +27,13 @@ export const addNewExpense = async (req, res) => {
   const article = req.body.article;
   const expenseAmount = req.body.expense_amount;
   const date = req.body.date;
-  const token = req.headers.authorization;
-  const profilId = await getUUID(token);
+  const payerId = req.body.profil_id;
 
   try {
     const expenseData = await DepenseService.newExpense(
       expenseAmount,
       date,
-      profilId,
+      payerId,
       groupId,
       article,
     );

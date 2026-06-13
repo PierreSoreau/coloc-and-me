@@ -4,13 +4,13 @@
     </div>
     <h2>Nouvelle dépense</h2>
     <form [formGroup]="detailExpenseForm" (ngSubmit)="onSubmit()">
-        <app-input [showLogo]="false" labelText="Description" placeholderText="Ex: Courses Monoprix" inputType="text"
+        <app-input [showLogo]="false" labelText="Description" [placeholderText]="title" inputType="text"
             [errorMessage]="getErrorMessage('La description','description')" controlName="description"
             [form]="detailExpenseForm"></app-input>
-        <app-input [showLogo]="false" labelText="Montant (€)" placeholderText="0,00" inputType="text"
+        <app-input [showLogo]="false" labelText="Montant (€)" inputType="text"
             [errorMessage]="getErrorMessage('montant','montant')" controlName="montant"
             [form]="detailExpenseForm"></app-input>
-        <app-input [showLogo]="false" labelText="Date" placeholderText="jj/mm/aaaa" inputType="date" controlName="date"
+        <app-input [showLogo]="false" labelText="Date" [placeholderText]="date" inputType="date" controlName="date"
             [form]="detailExpenseForm" [errorMessage]="getErrorMessage('la date','date')"></app-input>
         <h3>Payé par</h3>
         <div payer-box>
@@ -30,15 +30,19 @@
         <div debt-box>
             @for(name of names; track $index){
             <label class="payer-card" [class.selected]="isDebtUserSelected(name.id)">
-
-                <input type="checkbox" [value]="name.id" (click)="boxChecked($event)" hidden>
+                <!-- ce input est de type checkbox mais caché donc la case ne peut pas se voir 
+                via le hidden, tout comme sa valeur (qui est l'id du participant indiqué via value).
+                la case est enregistré coché ou pas via l'attribut checked si checked est true alors c'est coché
+                sinon c'est pas coché  -->
+                <input type="checkbox" [value]="name.id" [checked]="isDebtUserSelected(name.id)"
+                    (click)="boxChecked($event)" hidden>
 
                 <div class="avatar">{{ name.initials }}</div>
                 <span>{{ name.firstname }}</span>
             </label>
             }
         </div>
-        <app-button-record buttonText="Ajouter"></app-button-record>
+        <app-button-record [buttonText]="buttonValue"></app-button-record>
         <p>{{wrongForm}}</p>
 
     </form>

@@ -69,11 +69,13 @@ export interface DetailExpense {
     expense_amount: number
     initials: string
     firstnamePayer: string
+    payerId: string
 }
 
 export interface NameUserDebt {
     initials: string
     firstnameUserDebt: string
+    debtUserId: string
 }
 
 export interface DetailDebt {

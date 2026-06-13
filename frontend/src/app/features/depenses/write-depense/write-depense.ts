@@ -23,11 +23,19 @@ export class WriteDepense implements OnInit {
   private router = inject(Router)
   detailExpenseForm: FormGroup
   groupId: string | null = null
+  expenseIdUrl: number | null = null
   expenseId: number = 0
   debtAmount: number = 0
   debtPieceAmount: number = 0
   wrongForm: string = ""
+  title: string = "Ex: Courses Monoprix"
+  date: string = "jj/mm/aaaa"
+  buttonValue: string = "Ajouter la dépense"
   names: groupInitialAndNameResponse[] = []
+  descriptionText: string = ""
+  montantValue: number = 0.00
+  dateValue: string = ""
+  payerIdValue: string = ""
 
 
   constructor(private fb: FormBuilder) {
@@ -43,6 +51,9 @@ export class WriteDepense implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((param) => {
       this.groupId = param.get("groupId")
+      const expenseParam = param.get("expenseId")
+
+      this.expenseIdUrl = expenseParam !== null ? Number(expenseParam) : null
       if (this.groupId) {
         this.groupService.notifyHeaderOfGroupChange(this.groupId)
         this.groupService.getNamePlusInitials(this.groupId).subscribe({
@@ -59,6 +70,35 @@ export class WriteDepense implements OnInit {
             console.error("Erreur lors de la récupération des données des nom des profils")
           }
         })
+
+      }
+
+      if (this.expenseIdUrl) {
+        this.depenseService.getDetailExpenseAndDebt(this.expenseIdUrl).subscribe({
+          next: (response) => {
+
+            this.detailExpenseForm.patchValue({
+              description: response.expenseData.article,
+              montant: response.expenseData.expense_amount,
+              date: response.expenseData.date,
+              payerId: response.expenseData.payerId
+            });
+            const debtUsers: FormArray = this.detailExpenseForm.get("debtUsers") as FormArray
+
+            for (const debt of response.debtData.debtData) {
+              debtUsers.push(new FormControl(debt.debtUserId))
+            }
+            this.buttonValue = "Modifier la dépense"
+            this.title = ""
+            this.date = ""
+            this.changeDetectorRef.detectChanges();
+          },
+          error: (err) => {
+            console.error("Erreur lors de la récupération des données des dépenses")
+          }
+        }
+        )
+
 
       }
     })
@@ -101,6 +141,14 @@ export class WriteDepense implements OnInit {
     return userSelected.includes(userId)
   }
 
+  setPayer(userId: string) {
+    this.detailExpenseForm.get('payerId')?.setValue(userId);
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+
+
   onSubmit() {
 
     if (this.detailExpenseForm.invalid) {
@@ -110,61 +158,80 @@ export class WriteDepense implements OnInit {
 
     const dataExpense = this.detailExpenseForm.value
 
-    if (this.groupId) {
-      const newExpense = {
-        article: dataExpense.description,
-        expense_amount: dataExpense.montant,
-        date: dataExpense.date,
-        profil_id: dataExpense.payerId,
-        groupId: this.groupId
-      }
+    if (!this.groupId) {
+      return
+    }
 
+    if (this.expenseIdUrl) {
+      this.depenseService.deleteExpense(this.groupId, this.expenseIdUrl).subscribe({
+        next: () => {
 
-      this.depenseService.newExpense(newExpense).subscribe({
-        next: (response) => {
-          this.expenseId = response.expense_id
-          this.debtAmount = response.debtAmount
-          console.log("Enregistrement des données de la nouvelle dépense")
-
-          const debtTable = this.detailExpenseForm.get("debtUsers") as FormArray
-          this.debtPieceAmount = this.debtAmount / (debtTable?.length)
-          const debtTablevalue = this.detailExpenseForm.get("debtUsers")?.value
-          const debtCredential = {
-            profilIdTable: debtTablevalue,
-            debt_amount: this.debtPieceAmount,
-            expenses_id: this.expenseId
-          }
-
-          this.depenseService.newDebtData(debtCredential).subscribe({
-            next: (response) => {
-
-
-              console.log("Enregistrement des dettes effectuée", response)
-              this.router.navigate(["/depenses/depenses-home", this.groupId])
-
-            },
-
-            error: (error) => {
-              console.error("Erreur lors de l'enregistrement des dettes", error)
-            }
-
-
-          })
-
-
+          console.log("dépense ultérieure supprimée")
         },
-
-        error: (error) => {
-          console.error("Erreur lors de l'enregistrement des données de la nouvelle dépense", error)
+        error: (err) => {
+          console.error("Erreur lors de la suppression de la dépense ultérieure", err)
         }
-
-
-      })
-
-
+      }
+      )
 
 
     }
+
+
+    const newExpense = {
+      article: dataExpense.description,
+      expense_amount: dataExpense.montant,
+      date: dataExpense.date,
+      profil_id: dataExpense.payerId,
+      groupId: this.groupId
+    }
+
+
+    this.depenseService.newExpense(newExpense).subscribe({
+      next: (response) => {
+        this.expenseId = response.expense_id
+        this.debtAmount = response.debtAmount
+        console.log("Enregistrement des données de la nouvelle dépense")
+
+        const debtTable = this.detailExpenseForm.get("debtUsers") as FormArray
+        // Arrondit à 2 décimales et le garde en format nombre
+        this.debtPieceAmount = Number((this.debtAmount / debtTable?.length).toFixed(2));
+        const debtTablevalue = this.detailExpenseForm.get("debtUsers")?.value
+        const debtCredential = {
+          profilIdTable: debtTablevalue,
+          debt_amount: this.debtPieceAmount,
+          expenses_id: this.expenseId
+        }
+
+        this.depenseService.newDebtData(debtCredential).subscribe({
+          next: (response) => {
+
+
+            console.log("Enregistrement des dettes effectuée", response)
+            this.router.navigate(["/depenses/depenses-home", this.groupId])
+
+          },
+
+          error: (error) => {
+            console.error("Erreur lors de l'enregistrement des dettes", error)
+          }
+
+
+        })
+
+
+      },
+
+      error: (error) => {
+        console.error("Erreur lors de l'enregistrement des données de la nouvelle dépense", error)
+      }
+
+
+    })
+
+
+
+
   }
 }
 

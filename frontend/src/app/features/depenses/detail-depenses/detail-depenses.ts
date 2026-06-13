@@ -82,4 +82,8 @@ export class DetailDepenses implements OnInit {
     )
 
   }
+
+  updateExpense() {
+    this.router.navigate(["/depenses/write-depense", this.groupId, this.expenseId])
+  }
 }

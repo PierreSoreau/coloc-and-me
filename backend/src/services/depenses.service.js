@@ -122,7 +122,9 @@ export const newDebt = async (profilIdTable, debtAmount, expenseId) => {
 export const getDetailExpense = async (expenseId) => {
   const { data: expenseData, error: errorExpense } = await supabase
     .from("expenses")
-    .select("article,date,expense_amount,profils!profil_id(firstname,lastname)")
+    .select(
+      "article,date,expense_amount,profils!profil_id(firstname,lastname),profil_id",
+    )
     .eq("id", expenseId)
     .single();
   //select permet de transformer expenseData en objet directement au lieu d'un tableau
@@ -168,13 +170,14 @@ export const getDetailExpense = async (expenseId) => {
     expense_amount: expenseData.expense_amount,
     initials: initials,
     firstnamePayer: expenseData.profils.firstname,
+    payerId: expenseData.profil_id,
   };
 };
 
 export const getdetailDebt = async (expenseId) => {
   const { data: debtData, error: errorDebt } = await supabase
     .from("expenses_profil")
-    .select("debt_amount,profils!profil_id(firstname,lastname)")
+    .select("debt_amount,profils!profil_id(firstname,lastname),profil_id")
     .eq("expenses_id", expenseId);
 
   if (errorDebt) {
@@ -192,6 +195,7 @@ export const getdetailDebt = async (expenseId) => {
     debtProfil.push({
       initials: initials,
       firstnameUserDebt: debt.profils.firstname,
+      debtUserId: debt.profil_id,
     });
   }
 
