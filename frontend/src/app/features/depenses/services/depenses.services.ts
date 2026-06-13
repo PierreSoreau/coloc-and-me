@@ -138,6 +138,12 @@ export class DepensesService {
             params: { expenseId: expenseId }
         })
     }
+
+    deleteExpense(groupId: string, expenseId: number): Observable<string> {
+        return this.http.delete<string>(`${this.apiUrl}/delete-expense`, {
+            params: { expenseId: expenseId, groupId: groupId }
+        })
+    }
 }
 
 

@@ -197,3 +197,16 @@ export const getdetailDebt = async (expenseId) => {
 
   return { debt_amount: debtData[0].debt_amount, debtData: debtProfil };
 };
+
+export const deleteExpense = async (expenseId) => {
+  const { data: expenseDelete, error: deleteError } = await supabase
+    .from("expenses")
+    .delete()
+    .eq("id", expenseId);
+
+  if (deleteError) {
+    throw new Error(
+      `Erreur lors de la suppression de la dépense, ${deleteError.message}`,
+    );
+  }
+};

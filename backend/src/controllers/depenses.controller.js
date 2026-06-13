@@ -1,4 +1,5 @@
 import * as DepenseService from "../services/depenses.service.js";
+import * as RemboursementService from "../services/remboursement.service.js";
 import { getUUID } from "../services/profil.service.js";
 
 export const getExpensesDataController = async (req, res) => {
@@ -72,6 +73,19 @@ export const getInformationExpense = async (req, res) => {
     return res
       .status(200)
       .json({ expenseData: expenseData, debtData: debtData });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+
+export const deleteDataExpense = async (req, res) => {
+  const expenseId = req.query.expenseId;
+  const groupId = req.query.groupId;
+  try {
+    await DepenseService.deleteExpense(expenseId);
+    await RemboursementService.insertDebtValue(groupId);
+
+    return res.status(200).json({ message: "dépense supprimée avec succès" });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

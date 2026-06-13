@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DepensesService, NameUserDebt } from '../services/depenses.services';
 import { DatePipe } from '@angular/common';
 import { ButtonBack } from '../../../_shared/button/button-back/button-back';
@@ -14,9 +14,11 @@ import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 export class DetailDepenses implements OnInit {
 
   private route = inject(ActivatedRoute)
+  private router = inject(Router)
   private depenseService = inject(DepensesService)
   private changeDetectorRef = inject(ChangeDetectorRef)
   expenseId: number | null = null
+  groupId: string | null = null
   description: string = ""
   date: string = ""
   initialsPayer: string = ""
@@ -31,6 +33,7 @@ export class DetailDepenses implements OnInit {
     //on chope le groupId de l'url
     this.route.paramMap.subscribe(params => {
       const expenseParam = params.get("expenseId")
+      this.groupId = params.get("groupId")
       //on convertit le paramètre expenseId qui est dans l'url en type number parce 
       //que de base le paramètre est en string
       this.expenseId = expenseParam !== null ? Number(expenseParam) : null
@@ -57,5 +60,26 @@ export class DetailDepenses implements OnInit {
         })
       }
     })
+  }
+
+  deleteExpense() {
+    if (!this.groupId || !this.expenseId) {
+      return
+    }
+
+    this.depenseService.deleteExpense(this.groupId, this.expenseId).subscribe({
+      next: () => {
+
+
+        this.router.navigate(["/depenses/depenses-home", this.groupId])
+
+        console.log("dépense supprimée")
+      },
+      error: (err) => {
+        console.error("Erreur lors de la suppression de la dépense", err)
+      }
+    }
+    )
+
   }
 }

@@ -14,5 +14,6 @@ router.get(
 router.get("/detail-expense", depenseController.getInformationExpense);
 router.post("/new-expense", depenseController.addNewExpense);
 router.post("/new-debt", depenseController.addNewDebt);
+router.delete("/delete-expense", depenseController.deleteDataExpense);
 
 export default router;
