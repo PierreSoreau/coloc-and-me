@@ -1,0 +1,49 @@
+<section class="new-task">
+    <div class="task-header">
+        <div class="back">
+            <app-button-back></app-button-back>
+        </div>
+        <h2>Nouvelle tâche</h2>
+    </div>
+    <form [formGroup]="newTaskForm" (ngSubmit)="onSubmit()">
+        <app-input [showLogo]="false" labelText="Nom de la tâche" [placeholderText]="nom" inputType="text"
+            [errorMessage]="getErrorMessage('nom de la tâche','nom')" controlName="nom"
+            [form]="newTaskForm"></app-input>
+        <!-- de base un input est prévu pour une seule ligne si on veut afficher un input plus grand il faut un textarea   
+         qui fonctionne de la même manière qu'un select avec les for et id et rows ça défini l'espace dispo initial -->
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Instructions supplémentaires" name="comments" formControlName="comments"
+            rows="4"></textarea>
+        <!-- le for permet au lecteur de lire recurrence
+            le name permet d'associer le nom de la colonne frequency aux options value -->
+        <label for="frequence">Récurrence</label>
+        <select id="frequence" name="frequency" formControlName="frequency">
+            <option value="">Aucune</option>
+            <option value="quotidienne">Quotidienne</option>
+            <option value="hebdomadaire">Hebdomadaire</option>
+            <option value="bimensuelle">Bimensuelle</option>
+            <option value="mensuelle">Mensuelle</option>
+        </select>
+        @if(!isFrequency){
+        <app-input [showLogo]="false" labelText="Date" [placeholderText]="date" inputType="date" controlName="date"
+            [form]="newTaskForm" [errorMessage]="getErrorMessage('date','date')"></app-input>
+        <h3>Assignation</h3>
+        <div class="taskUser-box">
+            @for(name of names; track $index){
+            <!-- au clic du input payerId va être égale à user.id et du coup le css class.selected va se lancer
+                et ça va entourer en orange la case et userid va être renseigné dans le formulaire -->
+            <label class="task-card" [class.selected]="newTaskForm.get('taskUserId')?.value === name.id">
+
+                <input type="radio" formControlName="taskUserId" [value]="name.id" name="taskUserId" hidden>
+
+                <div class="avatar">{{ name.initials }}</div>
+                <span>{{ name.firstname }}</span>
+            </label>
+            }
+        </div>
+        }
+
+        <app-button-record [buttonText]="buttonValue"></app-button-record>
+    </form>
+    <p class="error-msg">{{wrongForm}}</p>
+</section>

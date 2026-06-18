@@ -75,6 +75,11 @@ export class GroupService {
     //ils peuvent juste la lire
     public currentGroup$: Observable<string | null> = this.currentGroup.asObservable();
 
+
+    //même chose pour les noms des utilisateurs du groupe
+    private NamesUsersGroupSubject = new BehaviorSubject<groupInitialAndNameResponse[]>([])
+    public namesUsers$ = this.NamesUsersGroupSubject.asObservable()
+
     notifyHeaderOfGroupChange(groupId: string) {
         this.currentGroup.next(groupId);
     }
@@ -120,6 +125,21 @@ export class GroupService {
             params: { groupId: groupId }
         })
     }
+
+    loadNameAndInitials(groupId: string): void {
+        this.getNamePlusInitials(groupId).subscribe({
+            next: (names) => {
+                // On met à jour le cerveau des dates
+                this.NamesUsersGroupSubject.next(names);
+            },
+            error: (error) => console.error("Erreur lors du chargement des noms des utilisateurs du groupe :", error)
+        })
+    }
+
+    getCurrentNames(): groupInitialAndNameResponse[] {
+        return this.NamesUsersGroupSubject.getValue()
+    }
+
 
 }
 

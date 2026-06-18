@@ -10,6 +10,7 @@
 
     }
 
+
 }
 
 /*On ne met pas plus de 3 niveau de hiérarchie dans un scss 
@@ -75,7 +76,7 @@ mais comme input-box est une div et pas un .input-box
 il faut mettre within pour dire de prendre en compte
 au focus de tous les éléments de input-box*/
     &:focus-within {
-        box-shadow: 0 0 0 4px rgb(#CC4A00, 0.5);
+        box-shadow: 0 0 0 4px rgba(#CC4A00, 0.5);
     }
 
 
@@ -98,7 +99,7 @@ au focus de tous les éléments de input-box*/
         /* les 3 zeros signifient que le halo n'est pas décalé et pas flou
         le 4px c'est l'épaisseur du halo
         le rgb c'est la couleur du halo mais avec 15% d'opacité */
-        box-shadow: 0 0 0 4px rgb(211, 47, 47, 0.15);
+        box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
     }
 }
 

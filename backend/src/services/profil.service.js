@@ -88,3 +88,40 @@ export const deleteGroupData = async (groupId) => {
 export const getInitials = async (firstname, lastname) => {
   return `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
 };
+
+export const getProfilNamesByGroup = async (groupId) => {
+  const { data: profilsName, error: errorProfils } = await supabase
+    .from("memberships")
+    .select("profil_id")
+    .eq("group_id", groupId);
+
+  if (errorProfils) {
+    throw new Error(
+      `Erreur de récupération des id des users du groupe:${errorProfils.message}`,
+    );
+  }
+
+  return profilsName;
+};
+
+//fonction qui permet de générer un tableau aléatoire de nom
+export const randomProfilNamesTable = async (profilNameTable) => {
+  const newProfilNameTable = [...profilNameTable]; //creation d'une copie du tableau
+  for (let i = newProfilNameTable.length - 1; i > 0; i--) {
+    //Math.floor arrondi à l'entier inférieur
+    //Math.random sort un nombre décimal entre 0 et 1
+    //donc j donne un chiffre entre 0 et 3 inclus
+
+    let j = Math.floor(Math.random() * (i + 1));
+    [newProfilNameTable[i], newProfilNameTable[j]] = [
+      newProfilNameTable[j],
+      newProfilNameTable[i],
+    ];
+  }
+
+  const finalProfilNameTable = newProfilNameTable.map(
+    (profil) => profil.profil_id,
+  );
+
+  return finalProfilNameTable;
+};

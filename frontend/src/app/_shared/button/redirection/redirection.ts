@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './redirection.scss',
 })
 export class Redirection {
-  @Input() linkRedirection: string = ""
+  @Input() linkRedirection!: string | any[]
   @Input() logoSource: string = ""
   @Input() altAssetRedirection: string = ""
   @Input() redirectionName: string = ""

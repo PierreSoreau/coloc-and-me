@@ -1,0 +1,179 @@
+.new-task {
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    background-color: var(--bg-app);
+    position: relative;
+    margin: 0 auto;
+    /* Indispensable pour la croix en haut à droite */
+
+    .task-header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+
+    /* --- EN-TÊTE SANS DIV --- */
+    .back {
+        cursor: pointer;
+    }
+
+    h2 {
+        margin: 0 0 24px 0;
+        padding-bottom: 16px;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-main);
+        border-bottom: 1px solid var(--surface-element);
+        /* La ligne grise de la maquette */
+        width: 100%;
+    }
+
+    /* --- FORMULAIRE --- */
+    form {
+        display: flex;
+        flex-direction: column;
+
+        /* Espace sous chaque composant app-input */
+        app-input {
+            margin-bottom: 20px;
+        }
+
+        /* Labels et Titres calqués sur ton .input-label */
+        >label,
+        h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: var(--text-main);
+            font-weight: 400;
+        }
+
+        /* Textarea et Select calqués sur ton .input-box & input */
+        textarea,
+        select {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 16px;
+            /* Équivalent au padding-left du .no-logo */
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            background-color: var(--surface-element);
+            color: var(--text-main);
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+
+            /* Le placeholder calqué sur ton code */
+            &::placeholder {
+                color: var(--text-muted);
+                opacity: 0.8;
+            }
+
+            /* L'effet de focus avec le halo calqué sur ton focus-within */
+            &:focus {
+                box-shadow: 0 0 0 4px rgba(#CC4A00, 0.5);
+            }
+        }
+
+        /* Ajustements spécifiques à la hauteur */
+        textarea {
+            resize: vertical;
+            min-height: 55px;
+            /* Hauteur minimale basée sur ton input-box */
+        }
+
+        select {
+            cursor: pointer;
+            height: 55px;
+            /* Même hauteur exacte que ton input-box */
+        }
+
+        /* --- BOÎTE DES UTILISATEURS (ASSIGNATION) --- */
+        .taskUser-box {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0;
+            margin-bottom: 20px;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .task-card {
+                min-width: 90px;
+                height: 110px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid var(--surface-element);
+                border-radius: 16px;
+                background-color: var(--bg-app);
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+
+                .avatar {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    background-color: var(--border-element);
+                    color: var(--bg-app);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin-bottom: 12px;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                span {
+                    font-size: 14px;
+                    color: var(--text-main);
+                }
+
+                /* --- ÉTAT SÉLECTIONNÉ --- */
+                &.selected {
+                    border: 1.5px solid var(--primary);
+
+                    .avatar {
+                        background-color: var(--primary);
+                        color: var(--text-on-primary);
+                    }
+                }
+            }
+        }
+
+        app-button-record {
+            margin-top: 16px;
+        }
+    }
+
+    /* --- MESSAGES D'ERREUR --- */
+    .error-msg {
+        color: var(--text-alert);
+        font-size: 13px;
+        /* Aligné sur ton .error-text */
+        font-weight: 700;
+        text-align: center;
+        margin-top: 16px;
+        animation: fadeIn 0.3s ease;
+    }
+}
+
+/* On garde la même animation que pour tes inputs */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
