@@ -1,0 +1,237 @@
+.activites {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    display: block;
+
+    @media (max-width: 600px) {
+        padding: 16px 12px;
+        /* On réduit le padding global pour gagner de la place */
+    }
+
+    /* --- 1. En-tête --- */
+    .head-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        gap: 12px;
+        /* Empêche le bouton de coller au texte */
+
+        @media (max-width: 600px) {
+            margin-bottom: 16px;
+            align-items: flex-start;
+            /* Aligne en haut si le titre passe à la ligne */
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.2;
+
+            @media (max-width: 600px) {
+                font-size: 22px;
+            }
+        }
+
+        /* --- Le Bouton "Nouvelle Tâche" --- */
+        .btn-nouvelle-activite {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: var(--text-on-primary);
+            padding: 10px 20px;
+            border-radius: 24px;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+            /* CRUCIAL : Empêche le bouton de s'écraser */
+
+            @media (max-width: 600px) {
+                padding: 8px 12px;
+                gap: 6px;
+            }
+
+            &:hover {
+                background-color: var(--primary-hover);
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(1px);
+            }
+
+            img {
+                width: 14px;
+                height: 14px;
+                filter: brightness(0) invert(1);
+
+                @media (max-width: 600px) {
+                    width: 12px;
+                    height: 12px;
+                }
+            }
+
+            p {
+                margin: 0;
+                font-family: var(--font-principale);
+                font-size: 15px;
+                font-weight: 500;
+
+                @media (max-width: 600px) {
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+
+/* --- TITRE DE SÉPARATION --- */
+.is-coming {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    margin-top: 16px;
+}
+
+/* --- LA CARTE ACTIVITÉ --- */
+.act-detail {
+    background-color: var(--bg-app);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    /* Ombre très douce pour décoller la carte du fond */
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    position: relative; // Pratique si tu veux rajouter le badge "Participe" plus tard
+    border: 1px solid var(--border-element);
+    max-width: 300px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    /* Les boîtes d'icônes (Maison / Navigation) */
+    .img-box-orange,
+    .img-box-bleue {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+        }
+    }
+
+    .img-box-orange {
+        background-color: var(--primary);
+    }
+
+    .img-box-bleue {
+        background-color: #2F72FF;
+        /* Bleu non présent dans ton :root */
+    }
+
+    /* Titre de l'événement */
+    h3 {
+        font-size: 22px;
+        color: var(--text-main);
+        margin: 16px 0;
+        font-weight: 500;
+    }
+
+    /* Lignes d'informations (Date, Lieu, Invités) */
+    .date-box,
+    .location-box,
+    .guest-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+
+        img {
+            width: 18px;
+            height: 18px;
+            opacity: 0.6;
+            /* Grise légèrement l'icône pour coller à la maquette */
+        }
+
+        p {
+            margin: 0;
+            font-size: 15px;
+            color: var(--text-muted);
+
+            /* Couleurs spécifiques pour les compteurs */
+            .yes {
+                color: var(--text-success);
+                font-weight: 500;
+            }
+
+            .maybe {
+                color: var(--primary);
+                font-weight: 500;
+            }
+
+            .no {
+                color: var(--text-alert);
+                font-weight: 500;
+            }
+
+
+            .no-answer {
+                color: var(--text-muted);
+            }
+        }
+    }
+
+    /* --- PIED DE CARTE (Créateur) --- */
+    .creator-name-event {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #EAEAEA;
+
+        p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+
+
+            .creator-name {
+                color: var(--primary);
+            }
+        }
+    }
+}
+
+
+/* --- RESPONSIVE (Tablette et Desktop) --- */
+@media (min-width: 768px) {
+    .activites {
+        padding: 32px;
+
+        .act-detail {
+            padding: 24px;
+
+            h3 {
+                font-size: 24px;
+            }
+        }
+    }
+}

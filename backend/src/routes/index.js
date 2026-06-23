@@ -7,6 +7,7 @@ import profilRoutes from "./profil.route.js";
 import groupRoutes from "./group.route.js";
 import depensesRoutes from "./depenses.route.js";
 import tachesRoutes from "./taches.route.js";
+import actsRoutes from "./acts.route.js";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/profil", profilRoutes);
 router.use("/group", groupRoutes);
 router.use("/depenses", depensesRoutes);
 router.use("/taches", tachesRoutes);
+router.use("/activites", actsRoutes);
 
 export default router;

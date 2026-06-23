@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './button-record.scss',
 })
 export class ButtonRecord {
-  @Input() buttonText:string=""
+  @Input() buttonText: string = ""
 }

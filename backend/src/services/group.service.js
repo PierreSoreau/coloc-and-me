@@ -176,3 +176,18 @@ export const getNamesAndInitials = async (groupId) => {
 
   return finalNames;
 };
+
+export const getProfilIdByGroup = async (groupId) => {
+  const { data: profilsId, error: errorProfilsId } = await supabase
+    .from("memberships")
+    .select("profil_id,profils!profil_id(firstname)")
+    .eq("group_id", groupId);
+
+  if (errorProfilsId) {
+    throw new Error(
+      `Erreur de récupération du ids des users:${errorProfilsId.message}`,
+    );
+  }
+
+  return profilsId;
+};

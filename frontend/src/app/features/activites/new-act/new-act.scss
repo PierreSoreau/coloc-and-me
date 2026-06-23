@@ -1,0 +1,171 @@
+.new-activites {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .task-header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+
+    /* --- EN-TÊTE SANS DIV --- */
+    .back {
+        cursor: pointer;
+    }
+
+    h2 {
+        margin: 0 0 24px 0;
+        padding-bottom: 16px;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--text-main);
+        border-bottom: 1px solid var(--surface-element);
+        /* La ligne grise de la maquette */
+        width: 100%;
+    }
+
+    /* --- FORMULAIRE --- */
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2 colonnes par défaut */
+        gap: 20px;
+
+        /* La classe magique qui gère le layout proprement */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* --- LABELS DES SECTIONS --- */
+        .section-label {
+            font-size: 16px;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+        }
+
+        /* --- BOUTONS RADIO CUSTOM --- */
+        .location-box {
+            display: flex;
+            gap: 16px;
+
+            .location-card {
+                flex: 1;
+                border: 2px solid var(--border-element);
+                border-radius: 12px;
+                padding: 20px 12px;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                background-color: var(--bg-app);
+
+                /* Le conteneur interne renommé pour éviter les conflits */
+                .card-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 12px;
+
+                    p {
+                        margin: 0;
+                        font-size: 15px;
+                        color: var(--text-muted);
+                        font-weight: 500;
+                    }
+
+                    img {
+                        width: 28px;
+                        height: 28px;
+                        opacity: 0.6;
+                        transition: all 0.2s;
+                    }
+                }
+
+                /* ÉTAT SÉLECTIONNÉ */
+                &.selected {
+                    border-color: var(--primary);
+                    background-color: var(--bg-logo);
+
+                    .card-content {
+                        p {
+                            color: var(--primary);
+                        }
+
+                        img {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        /* --- TEXTAREA --- */
+        .description-box {
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                width: 100%;
+                background-color: var(--surface-element);
+                border: 1px solid var(--primary);
+                border-radius: 8px;
+                padding: 16px;
+                font-family: inherit;
+                font-size: 16px;
+                color: var(--text-main);
+                resize: vertical;
+                min-height: 100px;
+                outline: none;
+                transition: border-color 0.2s, box-shadow 0.2s;
+
+                &::placeholder {
+                    color: var(--text-muted);
+                    opacity: 0.8;
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 4px rgba(#CC4A00, 0.5);
+                }
+
+                &.has-error {
+                    border-color: #D32F2F;
+
+                    &:focus {
+                        box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.15);
+                    }
+                }
+            }
+        }
+
+        /* Message d'erreur */
+        .error-msg {
+            text-align: center;
+            color: var(--text-alert);
+            font-size: 13px;
+            margin-left: 5px;
+            font-family: var(--font-principale);
+            font-weight: 700;
+        }
+    }
+}
+
+/* --- RESPONSIVE --- */
+@media (min-width: 768px) {
+    .new-activites {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        padding: 32px;
+
+        form {
+            gap: 24px;
+        }
+    }
+}

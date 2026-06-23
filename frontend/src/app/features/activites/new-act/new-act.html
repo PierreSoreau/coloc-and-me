@@ -1,0 +1,54 @@
+<section class="new-activites">
+    <div class="task-header">
+        <div class="back">
+            <app-button-back></app-button-back>
+        </div>
+        <h2>Nouvelle activité</h2>
+    </div>
+    <form [formGroup]="newActiviteForm" (ngSubmit)="onSubmit()">
+
+        <div class="location-container full-width">
+            <p class="section-label">Où se passe l'évènement ?</p>
+            <div class="location-box">
+                <label class="location-card" [class.selected]="newActiviteForm.get('location')?.value === 'exterieur'">
+                    <input type="radio" formControlName="location" value="exterieur" name="location" hidden>
+                    <div class="card-content">
+                        <img src="assets/logo-navigation.svg" alt="logo pour navigation" />
+                        <p>A l'extérieur</p>
+                    </div>
+                </label>
+                <label class="location-card" [class.selected]="newActiviteForm.get('location')?.value === 'coloc'">
+                    <input type="radio" formControlName="location" value="coloc" name="location" hidden>
+                    <div class="card-content">
+                        <img src="assets/logo-house.svg" alt="logo maison" />
+                        <p>Dans la coloc</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <app-input class="full-width" [showLogo]="false" labelText="Titre"
+            placeholderText="Ex:Soirée Pizza, Randonnée..." inputType="text"
+            [errorMessage]="getErrorMessage('titre','titre')" controlName="titre" [form]="newActiviteForm"></app-input>
+
+        <app-input [showLogo]="false" labelText="Date" inputType="date" [errorMessage]="getErrorMessage('date','date')"
+            controlName="date" [form]="newActiviteForm"></app-input>
+
+        <app-input [showLogo]="false" labelText="Heure" inputType="time" controlName="heure" [form]="newActiviteForm"
+            [errorMessage]="getErrorMessage('heure','heure')"></app-input>
+
+        <app-input class="full-width" [showLogo]="false" labelText="Lieu" inputType="texte" controlName="lieu"
+            [form]="newActiviteForm" [errorMessage]="getErrorMessage('lieu','lieu')"
+            placeholderText="Ex:salon,cuisine,rue sainte catherine"></app-input>
+
+        <div class="description-box full-width">
+            <p class="section-label">Description</p>
+            <textarea id="description" placeholder="Infos utiles, ce qu'il faut amener" name="description"
+                formControlName="description" rows="4"></textarea>
+        </div>
+
+        <app-button-record class="full-width" [buttonText]="buttonValue"></app-button-record>
+
+        <p class="error-msg full-width">{{wrongForm}}</p>
+    </form>
+</section>

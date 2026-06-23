@@ -1,1 +1,56 @@
-<p>act-home works!</p>
+<section class="activites">
+    <div class="head-section">
+        <h2>Activités</h2>
+        <a [routerLink]="['/activites/new-act', groupId, null]" class="btn-nouvelle-activite">
+            <img src="assets/logo-plus.svg" alt="logo plus redirection" />
+            <p>Nouvelle activité</p>
+        </a>
+    </div>
+
+    <p class="is-coming">À VENIR</p>
+
+    @for(act of actDatas; track act.actId){
+    <div class="act-detail">
+
+        @if(act.typeLocation === "coloc"){
+        <div class="img-box-orange">
+            <img src="assets/logo-house.png" alt="logo application coloc&me" />
+        </div>
+        } @else {
+        <div class="img-box-bleue">
+            <img src="assets/logo-navigation.svg" alt="logo navigation" />
+        </div>
+        }
+
+        <h3>{{ act.title }}</h3>
+
+        <div class="date-box">
+            <img src="assets/logo-clock.svg" alt="logo horloge" />
+            <p>{{ act.date | date:'dd/MM/yyyy à HH:mm' }}</p>
+        </div>
+
+        <div class="location-box">
+            <img src="assets/logo-location.svg" alt="logo pointage localisation" />
+            <p>{{ act.location }}</p>
+        </div>
+
+        <div class="guest-box">
+            <img src="assets/logo-group.svg" alt="logo groupe" />
+            <p>
+                <span class="yes">{{ act.numberYes }} oui . </span>
+                <span class="maybe">{{ act.numberMaybe }} peut-être . </span>
+                <span class="no">{{ act.numberNo }} non . </span>
+                <span class="no-answer">{{ act.numberWaiting }} en attente</span>
+            </p>
+        </div>
+
+        <div class="creator-name-event">
+            @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
+            @if(actdetail.profilStatus === "organisateur"){
+            <p>Par <span class="creator-name">{{ actdetail.firstname }}</span></p>
+            }
+            }
+        </div>
+    </div>
+    }
+</section>

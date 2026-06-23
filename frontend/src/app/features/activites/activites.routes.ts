@@ -1,10 +1,14 @@
 import { Routes } from "@angular/router";
+import { NewAct } from "./new-act/new-act";
+import { ActHome } from "./act-home/act-home";
+
 
 
 export const activitesRoutes: Routes = [
 
 
-
+    { path: "new-act/:groupId/:actId", component: NewAct },
+    { path: "act-home/:groupId", component: ActHome },
 
 
     // pathMatch permet de forcer à checker l'url exact et pas seulement le début
@@ -17,6 +21,7 @@ export const activitesRoutes: Routes = [
 
     //si jamais l'utilisateur tape http://localhost:4200/auth alors ça le ramène à auth/login
 
-    { path: '', redirectTo: "act-home", pathMatch: 'full' }
+    { path: '', redirectTo: "/activites/act-home/:groupId", pathMatch: 'full' },
+    { path: '**', redirectTo: '/dashboard' }
 
 ];
