@@ -105,8 +105,8 @@ export class TasksService {
     }
 
 
-    newTask(credential: newTaskCredential): Observable<TaskResponse> {
-        return this.http.post<TaskResponse>(`${this.apiUrl}/new-task`, credential, {
+    newTask(credential: newTaskCredential): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/new-task`, credential, {
             params: { groupId: credential.groupId }
         }).pipe(
             // Le "tap" permet d'exécuter du code au passage de la réponse 
@@ -117,7 +117,12 @@ export class TasksService {
 
                 const currentTasks = this.tasksSubject.getValue()
 
-                const newTaskBehaviorSubject = [response, ...currentTasks]
+                //permet de construire un tableau même si c'est un ibjet en retour
+                const nouvellesTaches = Array.isArray(response) ? response : [response];
+
+                //on insère les deux tableaux dans un autre tableau mais les ... font que 
+                //les crochets des tableaux sont flingués
+                const newTaskBehaviorSubject = [...nouvellesTaches, ...currentTasks]
                 this.tasksSubject.next(newTaskBehaviorSubject)
 
 
@@ -254,8 +259,173 @@ export class TasksService {
     }
 
     updateTaskStatus(date: string, taskId: number, status: boolean): Observable<TaskResponse> {
-        return this.http.put<TaskResponse>(`${this.apiUrl}/update-task-status`, { date, taskId, status })
+        return this.http.put<TaskResponse>(`${this.apiUrl}/update-task-status`, { date, taskId, status }).pipe(
+            // Le "tap" permet d'exécuter du code au passage de la réponse 
+
+            // SANS modifier la réponse pour le composant qui a cliqué
+
+            tap((response) => {
+
+                const currentTasks = this.tasksSubject.getValue()
+
+                const newcurrentTasks = currentTasks.map((task) => {
+
+                    if (task.modelTaskId === response.modelTaskId) {
+                        return response
+                    }
+
+                    else {
+                        return task
+                    }
+                })
+
+                this.tasksSubject.next(newcurrentTasks)
+
+
+
+            }))
     }
 
+    deleteExpense(groupId: string, expenseId: number): Observable<string> {
+        return this.http.delete<string>(`${this.apiUrl}/delete-expense`, {
+            params: { expenseId: expenseId, groupId: groupId }
+        })
+    }
 
+    deleteTask(taskId: number, frequency: string | null): Observable<TaskResponse> {
+
+
+        const parametres: any = { taskId: taskId };
+
+        // 2. On ajoute la fréquence uniquement si elle n'est pas nulle
+        if (frequency) {
+            parametres.frequence = frequency;
+        }
+
+        return this.http.delete<TaskResponse>(`${this.apiUrl}/delete-task`, {
+            params: parametres
+        }).pipe(tap((response) => {
+
+            const currentTasks = this.tasksSubject.getValue()
+
+            const newcurrentTasks = currentTasks.filter((task) => {
+
+                return task.modelTaskId !== response.modelTaskId
+            })
+
+            this.tasksSubject.next(newcurrentTasks)
+
+
+
+        }))
+    }
+
+    deleteallTask(taskId: number): Observable<TaskResponse[]> {
+        return this.http.delete<TaskResponse[]>(`${this.apiUrl}/delete-all-task`, {
+            params: { taskId: taskId }
+        }).pipe(tap((response) => {
+
+            const currentTasks = this.tasksSubject.getValue()
+
+            const newCurrentTasks = currentTasks.filter((task) => {
+                return task.taskId !== taskId;
+            });
+
+            this.tasksSubject.next(newCurrentTasks)
+
+
+
+        }))
+    }
+
+    getTaskById(taskId: number): Observable<TaskResponse> {
+        return this.http.get<TaskResponse>(`${this.apiUrl}/get-task`, {
+            params: { taskId: taskId }
+        })
+
+    }
+
+    updateTaskDetail(taskId: number, comments: string, title: string, date: string | null, profilId: string | null, frequence: string | null): Observable<TaskResponse | TaskResponse[]> {
+        return this.http.put<TaskResponse | TaskResponse[]>(`${this.apiUrl}/update-task`, { comments, title, date, profilId, frequence }, {
+            params: { taskId: taskId }
+        }).pipe(tap((response) => {
+
+            const currentTasks = this.tasksSubject.getValue()
+            const newTaskArray = Array.isArray(response) ? response : [response]
+
+            const newcurrentTasks = currentTasks.map((task) => {
+
+                const match = newTaskArray.find((item) => item.modelTaskId === task.modelTaskId)
+
+                return match ? match : task
+
+            })
+
+            this.tasksSubject.next(newcurrentTasks)
+
+        }))
+
+    }
+
+    //----------------------------------------------------------------------
+    //fonction qui permet de mettre à jour la fréquence d'un modèle de tache
+    //d'abord suppression des occurrences de tâche situées après la date d'aujourd'hui
+    //ensuite ajout des nouvelles taches à la fréquence définie 
+    //----------------------------------------------------------------------
+
+    deleteTasksAfterCurrentDay(modelTaskId: number): Observable<{ message: string }> {
+        return this.http.delete<{ message: string }>(`${this.apiUrl}/delete-tasks-after-current-day`, {
+            params: { taskId: modelTaskId }
+        }).pipe(tap((response) => {
+
+
+            const currentTasks = this.tasksSubject.getValue()
+
+            const newCurrentTasks = currentTasks.filter((task) => {
+
+                if (task.taskId !== modelTaskId) {
+                    return true
+                }
+
+                //on met la date d'aujourd'hui à minuit et la date comparée
+                //du tableau à minuit aussi pour être sur de comparer à heure comparable
+                //sinon une date du tableau à 16h50 sera plus tard que minuit date du controle
+                const currentDate = new Date()
+                currentDate.setHours(0, 0, 0, 0)
+
+                const taskDate = new Date(task.date)
+
+                taskDate.setHours(0, 0, 0, 0)
+
+                return taskDate <= currentDate
+
+
+            });
+
+            this.tasksSubject.next(newCurrentTasks)
+
+        }))
+    }
+
+    newTasksForModelAfterToday(modelTaskId: number): Observable<TaskResponse[]> {
+        return this.http.post<TaskResponse[]>(`${this.apiUrl}/create-tasks-after-current-day`, { taskId: modelTaskId })
+            .pipe(tap((response) => {
+
+                const currentTasks = this.tasksSubject.getValue()
+
+                const newCurrentTasks = [...currentTasks, ...response]
+
+
+                this.tasksSubject.next(newCurrentTasks)
+
+
+            }))
+    }
+
+    //----------------------------------------------------------------------
+
+    //----------------------------------------------------------------------
 }
+
+
+

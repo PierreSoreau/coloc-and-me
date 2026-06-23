@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject, ChangeDetectorRef, } from '@angul
 import { Redirection } from '../../../_shared/button/redirection/redirection';
 import { TaskResponse, TasksService } from '../services/tasks.services';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { endOfWeek, startOfWeek, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { GroupService, groupInitialAndNameResponse } from '../../group/services/group.services';
@@ -244,12 +244,6 @@ export class TachesHome implements OnInit, OnDestroy {
 
 
   }
-
-  displayTaskModel(taskId: number) {
-
-  }
-
-
 
 
   // c'est ici qu'on détruit les branchements dans le cas où on quitte 

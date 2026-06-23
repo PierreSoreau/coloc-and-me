@@ -199,6 +199,11 @@
         margin-top: 16px;
     }
 
+    .task-box-link {
+        display: block;
+        text-decoration: none;
+    }
+
     /* --- 5. Cartes des tâches --- */
     .task-box {
         display: flex;

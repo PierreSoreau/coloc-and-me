@@ -8,7 +8,7 @@ export const tachesRoutes: Routes = [
 
 
 
-    { path: 'nouvelle-tache/:groupId', component: NewTask },
+    { path: 'nouvelle-tache/:groupId/:tacheId', component: NewTask },
     { path: 'detail-tache/:groupId/:tacheId', component: DetailTask },
 
     { path: ':groupId', component: TachesHome },

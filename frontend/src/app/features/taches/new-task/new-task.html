@@ -3,10 +3,16 @@
         <div class="back">
             <app-button-back></app-button-back>
         </div>
+        @if(!taskId){
         <h2>Nouvelle tâche</h2>
+        }
+        @else{
+        <h2>Modifier une tâche</h2>
+        }
+
     </div>
     <form [formGroup]="newTaskForm" (ngSubmit)="onSubmit()">
-        <app-input [showLogo]="false" labelText="Nom de la tâche" [placeholderText]="nom" inputType="text"
+        <app-input [showLogo]="false" labelText="Nom de la tâche" [placeholderText]="nomPlaceholder" inputType="text"
             [errorMessage]="getErrorMessage('nom de la tâche','nom')" controlName="nom"
             [form]="newTaskForm"></app-input>
         <!-- de base un input est prévu pour une seule ligne si on veut afficher un input plus grand il faut un textarea   
@@ -18,15 +24,15 @@
             le name permet d'associer le nom de la colonne frequency aux options value -->
         <label for="frequence">Récurrence</label>
         <select id="frequence" name="frequency" formControlName="frequency">
-            <option value="">Aucune</option>
+            <option value="" [disabled]="isEditingRecurringTask">Aucune</option>
             <option value="quotidienne">Quotidienne</option>
             <option value="hebdomadaire">Hebdomadaire</option>
             <option value="bimensuelle">Bimensuelle</option>
             <option value="mensuelle">Mensuelle</option>
         </select>
         @if(!isFrequency){
-        <app-input [showLogo]="false" labelText="Date" [placeholderText]="date" inputType="date" controlName="date"
-            [form]="newTaskForm" [errorMessage]="getErrorMessage('date','date')"></app-input>
+        <app-input [showLogo]="false" labelText="Date" [placeholderText]="datePlaceholder" inputType="date"
+            controlName="date" [form]="newTaskForm" [errorMessage]="getErrorMessage('date','date')"></app-input>
         <h3>Assignation</h3>
         <div class="taskUser-box">
             @for(name of names; track $index){

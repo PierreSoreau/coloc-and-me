@@ -1,1 +1,43 @@
-<p>detail-task works!</p>
+<section class="task-detail">
+    <div class="task-header">
+        <div class="back">
+            <app-button-back></app-button-back>
+        </div>
+        <h2>Détail de la tâche</h2>
+    </div>
+    <div class="title">
+        <button (click)="changeStatus(taskId!,status)" type="submit">
+            <img src="assets/logo-circle.svg" alt="valider tâche" />
+        </button>
+        <h3>{{title}}</h3>
+    </div>
+    @if(description){
+    <div class="detail-task-line">
+        <p>Description</p>
+        <p class="content-detail">{{ description}}</p>
+    </div>
+    }
+    <div class="detail-task-line">
+        <p>Assignée à</p>
+        <p class="content-detail">{{ firstname }}</p>
+    </div>
+    <div class="detail-task-line">
+        <p>Date limite</p>
+        <p class="content-detail">{{ date | date:'dd-MM-yyyy' }}</p>
+    </div>
+    @if(frequency){
+    <div class="detail-task-line">
+        <p>Récurrence</p>
+        <p class="content-detail">{{ frequency }}</p>
+    </div>
+    }
+    <div class="update-btn">
+        <app-button-update (clickUpdate)="updateTask()"></app-button-update>
+        <app-button-delete (clickDelete)="deleteTask()" deleteText="Supprimer la tâche"></app-button-delete>
+        @if(frequency){
+        <app-button-delete (clickDelete)="deleteAllTask()" deleteText="Supprimer toutes les tâches"></app-button-delete>
+        }
+
+
+    </div>
+</section>

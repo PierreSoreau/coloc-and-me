@@ -1,0 +1,46 @@
+:host {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.btn-edit {
+    border: 1px solid var(--border-element);
+    color: var(--text-main);
+
+    &:hover {
+        background-color: var(--surface-element);
+        transform: scale(1.1);
+    }
+}
+
+button {
+    flex: 1;
+    /* Force les deux boutons à prendre exactement 50% de l'espace restant */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-principale);
+    transition: all 0.2s ease-in-out;
+    background-color: var(--bg-app);
+    font-family: inherit;
+    max-width: 300px;
+
+    p {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+
+    }
+}

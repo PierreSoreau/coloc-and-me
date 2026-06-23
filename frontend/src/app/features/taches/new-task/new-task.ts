@@ -1,3 +1,4 @@
+import { Title } from '@angular/platform-browser';
 import { DepensesService } from './../../depenses/services/depenses.services';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -10,6 +11,7 @@ import { AuthService } from '../../authentification/services/auth.services';
 import { TasksService } from '../services/tasks.services';
 import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 import { format } from 'date-fns';
+import { concatMap } from 'rxjs/operators';
 
 export interface TaskFormType {
   nom: FormControl<string | null>;
@@ -41,8 +43,11 @@ export class NewTask {
   taskId: number | null = null
   buttonValue: string = "Créer une tâche"
   wrongForm: string = ""
-  nom: string = "Ex:nettoyer la cuisine"
-  date: string = ""
+  nomPlaceholder: string = "Ex:nettoyer la cuisine"
+  datePlaceholder: string = ""
+  isEditingRecurringTask: boolean = false
+  idDuModele: number | null = null;
+
 
 
 
@@ -63,9 +68,9 @@ export class NewTask {
   ngOnInit(): void {
     this.route.paramMap.subscribe((param) => {
       this.groupId = param.get("groupId")
-      // const taskParam = param.get("taskId")
+      const taskParam = param.get("tacheId")
 
-      // this.taskId = taskParam !== null ? Number(taskParam) : null
+      this.taskId = taskParam !== null ? Number(taskParam) : null
 
       if (this.groupId) {
         this.groupService.notifyHeaderOfGroupChange(this.groupId)
@@ -110,7 +115,52 @@ export class NewTask {
 
         })
 
+        if (this.taskId) {
+          this.tasksService.getTaskById(this.taskId).subscribe({
+            next: (response) => {
+
+              this.idDuModele = response.taskId;
+
+              this.newTaskForm.patchValue({
+                nom: response.title,
+                comments: response.description ? response.description : '',
+                frequency: response.frequence ? response.frequence : '',
+                date: response.date,
+                taskUserId: response.frequence ? '' : response.userTaskId
+              })
+              // Si la tâche a une fréquence, on empêche de changer le select
+              if (response.frequence) {
+                this.isEditingRecurringTask = true
+              }
+              // Si c'est une tâche unique, tu peux aussi désactiver 
+              // pour empêcher de la rendre récurrente
+              else {
+                this.newTaskForm.get('frequency')?.disable();
+
+              }
+
+
+              this.buttonValue = "Modifier la tâche"
+
+
+              this.changeDetectorRef.detectChanges();
+
+              console.log("Récupération des données de la tâche faite")
+
+            },
+
+            error: (err) => {
+              console.error("Erreur lors de la récupération des données de la tâche")
+            }
+
+
+          });
+
+        }
+
       }
+
+
     })
 
   }
@@ -129,6 +179,8 @@ export class NewTask {
   }
 
 
+
+
   onSubmit() {
 
     if (this.newTaskForm.invalid) {
@@ -136,8 +188,61 @@ export class NewTask {
       return
     }
 
-    const taskData = this.newTaskForm.value
+    //le getRawValue est indispensable ici parce que sinon ça ne prend pas
+    //les valeurs disabled
+    const taskData = this.newTaskForm.getRawValue()
 
+    if (this.taskId) {
+      if (taskData.frequency === "") {
+        this.tasksService.updateTaskDetail(this.taskId, taskData.comments!,
+          taskData.nom!, taskData.date!,
+          taskData.taskUserId!,
+          null).subscribe({
+            next: (response) => {
+              console.log(response)
+              this.router.navigate(["/taches", this.groupId])
+            },
+            error: (err) => {
+              console.error("Erreur lors de la mise à jour de la tâche", err)
+            }
+          });
+        return;
+      }
+
+      else {
+        this.tasksService.updateTaskDetail(
+          this.taskId,
+          taskData.comments!,
+          taskData.nom!,
+          taskData.date!,
+          taskData.taskUserId!,
+          taskData.frequency!
+        ).pipe(
+          //concatMap permet d'éviter de faire des susbscribe imbriqués qu'Angular gère mal
+          // 1. Dès que l'update est terminé, on lance la suppression
+          concatMap(() => this.tasksService.deleteTasksAfterCurrentDay(this.idDuModele!)),
+
+          // 2. Dès que la suppression est terminée, on lance la création
+          concatMap(() => this.tasksService.newTasksForModelAfterToday(this.idDuModele!))
+        )
+          .subscribe({
+            next: (response) => {
+              // Ce next() ne s'exécute QUE si les 3 requêtes ont réussi à la suite !
+              console.log("Séquence de mise à jour terminée avec succès", response);
+              this.router.navigate(["/taches", this.groupId]);
+            },
+            error: (err) => {
+              // Une seule gestion d'erreur centralisée !
+              // Si l'une des 3 requêtes plante, le code saute directement ici.
+              console.error("Erreur dans la séquence de mise à jour des occurences :", err);
+            }
+          });
+
+        return;
+
+
+      }
+    }
 
     const taskArguments = {
       taskName: taskData.nom!,
@@ -164,6 +269,7 @@ export class NewTask {
 
   }
 }
+
 
 
 

@@ -1,7 +1,7 @@
 <section class="taches-menageres">
     <div class="head-section">
         <h2>Tâches ménagères</h2>
-        <a [routerLink]="['/taches/nouvelle-tache', groupId]" class="btn-nouvelle-tache">
+        <a [routerLink]="['/taches/nouvelle-tache', groupId,null]" class="btn-nouvelle-tache">
             <img src="assets/logo-plus.svg" alt="logo plus redirection" />
             <p>Nouvelle tâche</p>
         </a>
@@ -21,22 +21,29 @@
     }
     <p>EN COURS</p>
     @for( task of taskFiltreesByName ; track $index){
-    <div class="task-box" (click)="display(task.modelTaskId)">
+    <a [routerLink]="['/taches/detail-tache',groupId,task.modelTaskId]" class="task-box-link">
+        <div class="task-box">
 
-        <div class="input-check">
-            <button (click)="changeStatus(task.modelTaskId,task.status)" type="submit"><img src="assets/logo-circle.svg"
-                    alt="valider tâche" /></button>
-        </div>
-
-        <div class="task-description">
-            <h3 class="task-description">{{ task.title }}</h3>
-            <div>
-                <img src="assets/logo-user.png" />
-                <p>{{ task.firstname }}</p>
+            <div class="input-check">
+                <!-- eventpreventDefault permet de bloquer le comportement naturel du a qui est le parent au dessus
+                sinon en cliquant sur le button ça ouvrirait ça redirigerait aussi vers le detail de la tache
+                event stoppropagation c'est pour éviter de propoger l'onde de choc de l'évènement du clic du bouton 
+                jusqu'au a qui se fait naturellement normalement si on bloque pas  -->
+                <button
+                    (click)="$event.preventDefault(); $event.stopPropagation();changeStatus(task.modelTaskId,task.status)"
+                    type="submit"><img src="assets/logo-circle.svg" alt="valider tâche" /></button>
             </div>
+
+            <div class="task-description">
+                <h3 class="task-description">{{ task.title }}</h3>
+                <div>
+                    <img src="assets/logo-user.png" />
+                    <p>{{ task.firstname }}</p>
+                </div>
+            </div>
+            <p>A faire avant le {{task.date | date:'dd-MM-yyyy'}}</p>
         </div>
-        <p>A faire avant le {{task.date | date:'dd-MM-yyyy'}}</p>
-    </div>}
+    </a>}
     @empty{
     <div class="no-task">
         <p>Aucune tâche de prévue pour <span>{{filterChange}}</span> cette semaine</p>

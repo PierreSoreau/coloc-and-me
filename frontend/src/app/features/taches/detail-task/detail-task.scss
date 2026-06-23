@@ -1,0 +1,119 @@
+.task-detail {
+    font-family: var(--font-principale);
+    padding: 24px;
+    background-color: var(--bg-app);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 12px;
+
+    /* --- 1. En-tête (Bouton retour et Titre page) --- */
+    .task-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 24px;
+
+        .back {
+            margin-right: 16px;
+            display: flex;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 500;
+            color: var(--text-main);
+            text-align: center;
+        }
+    }
+
+    /* --- 2. Titre de la tâche & Checkbox --- */
+    /* Contrairement aux dépenses, ici on aligne à gauche à cause de la checkbox */
+    .title {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        border-bottom: 1px solid var(--border-element);
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+
+        button {
+            /* On enlève les styles par défaut du bouton pour ne garder que l'image */
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin-top: 2px;
+            cursor: pointer;
+
+            img {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+    }
+
+    /* --- 3. Lignes de données (Assigné à, Date, etc.) --- */
+    /* Inspiré de ton .expense-data */
+    .detail-task-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        p {
+            margin: 0;
+            font-size: 16px;
+
+            /* Le texte de gauche (ex: "Assignée à") prend la couleur grisée */
+            &:first-child {
+                color: var(--text-muted);
+            }
+        }
+
+        .content-detail {
+            color: var(--text-main);
+            font-weight: 400;
+            text-align: right;
+        }
+    }
+
+    /* --- 4. Conteneur des boutons d'action --- */
+    /* On cible la dernière div qui contient tes deux composants boutons */
+
+    .update-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        /* On force tes composants Angular à prendre 50% de l'espace chacun */
+        app-button-update,
+        app-button-delete {
+            flex: 1;
+
+        }
+
+    }
+}
+
+
+/* --- 5. RESPONSIVE : Version Tablette/PC --- */
+@media (min-width: 768px) {
+    .task-detail {
+        /* Apparition de la bordure sur grand écran, comme pour les dépenses */
+        border: 1px solid var(--border-element);
+        margin-top: 40px;
+    }
+}
