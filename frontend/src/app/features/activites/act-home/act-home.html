@@ -10,7 +10,7 @@
     <p class="is-coming">À VENIR</p>
 
     @for(act of actDatas; track act.actId){
-    <div class="act-detail">
+    <div class="act-detail" (click)="detail(act.actId)">
 
         @if(act.typeLocation === "coloc"){
         <div class="img-box-orange">
@@ -47,7 +47,7 @@
         <div class="creator-name-event">
             @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
             @if(actdetail.profilStatus === "organisateur"){
-            <p>Par <span class="creator-name">{{ actdetail.firstname }}</span></p>
+            <p>Organisé par <span class="creator-name">{{ actdetail.firstname }}</span></p>
             }
             }
         </div>

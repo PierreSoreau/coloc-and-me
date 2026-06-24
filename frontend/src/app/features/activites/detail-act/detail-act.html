@@ -1,0 +1,219 @@
+<section class="act-detail">
+    @if(targetActData){
+    <div class="task-header">
+        <div class="back">
+            <app-button-back></app-button-back>
+        </div>
+        <div class="title-box">
+            @if(targetActData.typeLocation === "coloc"){
+            <div class="img-box-orange">
+                <img src="assets/logo-house.png" alt="logo application coloc&me" />
+            </div>
+            } @else {
+            <div class="img-box-bleue">
+                <img src="assets/logo-navigation.svg" alt="logo navigation" />
+            </div>
+            }
+            <h2>{{targetActData.title}}</h2>
+        </div>
+    </div>
+    <div class="date-box">
+        <img src="assets/logo-clock.svg" alt="logo horloge" />
+        <p>{{ targetActData.date| date:'dd/MM/yyyy à HH:mm' }}</p>
+    </div>
+    <div class="location-box">
+        <img src="assets/logo-location.svg" alt="logo pointage localisation" />
+        <p>{{ targetActData.location }}</p>
+    </div>
+    <div class="description-box">
+        <p>{{ targetActData.description }}</p>
+    </div>
+    <div class="creator-name-event">
+        @for(actdetail of targetActData.authorisationAndParticipationStatus; track actdetail.profilId){
+        @if(actdetail.profilStatus === "organisateur"){
+        <p>Organisé par <span class="creator-name">{{ actdetail.firstname }}</span></p>
+        }
+        }
+    </div>
+    <div class="separator"></div>
+
+
+    @if(!isUserTheOrganizer(userId)){
+    <form [formGroup]="checkActiviteForm" (ngSubmit)="onSubmit()">
+        <div class="answer-event">
+            <p>Confirmation de l'évènement</p>
+            <label class="green-card" [class.selected]="checkActiviteForm.get('authorisation')?.value === 'accepte'">
+                <input type="radio" formControlName="authorisation" value="accepte" name="authorisation" hidden>
+                <div class="information-card">
+                    <img src="assets/logo-check.svg" alt="logo validation" />
+                    <p>J'accepte</p>
+                </div>
+            </label>
+            <label class="yellow-card"
+                [class.selected]="checkActiviteForm.get('authorisation')?.value === 'à discuter'">
+
+                <input type="radio" formControlName="authorisation" value="à discuter" name="authorisation" hidden>
+
+                <div class="information-card">
+                    <img src="assets/logo-message.svg" alt="logo à discuter" />
+                    <p>À discuter</p>
+                </div>
+            </label>
+            <label class="red-card" [class.selected]="checkActiviteForm.get('authorisation')?.value === 'refus'">
+                <input type="radio" formControlName="authorisation" value="refus" name="authorisation" hidden>
+                <div class="information-card">
+                    <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                    <p>Je refuse</p>
+                </div>
+            </label>
+        </div>
+        <div class="answer-event">
+            <p>Ma participation</p>
+            <label class="green-card" [class.selected]="checkActiviteForm.get('participation')?.value === 'participe'">
+                <input type="radio" formControlName="participation" value="participe" name="participation" hidden>
+                <div class="information-card">
+                    <img src="assets/logo-check.svg" alt="logo validation" />
+                    <p>Je participe</p>
+                </div>
+            </label>
+            <label class="yellow-card" [class.selected]="checkActiviteForm.get('participation')?.value === 'peut-être'">
+
+                <input type="radio" formControlName="participation" value="peut-être" name="participation" hidden>
+
+                <div class="information-card">
+                    <img src="assets/logo-question.svg" alt="logo point d'interrogation" />
+                    <p>Peut-être</p>
+                </div>
+            </label>
+            <label class="red-card" [class.selected]="checkActiviteForm.get('participation')?.value === 'ne peux pas'">
+                <input type="radio" formControlName="participation" value="ne peux pas" name="participation" hidden>
+                <div class="information-card">
+                    <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                    <p>Je ne peux pas</p>
+                </div>
+            </label>
+        </div>
+        <app-button-record buttonText="Valider mes choix"></app-button-record>
+    </form>
+
+    <div class="separator"></div>
+    }
+    <div class="participants-detail">
+        <p>PARTICIPANTS . <span class="yes">{{ targetActData.numberYes }} OUI . </span>
+            <span class="maybe">{{ targetActData.numberMaybe }} PEUT-ÊTRE . </span>
+            <span class="no">{{ targetActData.numberNo }} NON . </span>
+            <span class="no-answer">{{ targetActData.numberWaiting }} EN ATTENTE</span>
+        </p>
+    </div>
+
+    <div class="detail-name-container">
+        @for(actdetail of targetActData.authorisationAndParticipationStatus; track actdetail.profilId){
+        <div class="separator"></div>
+        <div class="detail-name">
+            <div class="avatar">
+                <p>{{actdetail.initial}}</p>
+            </div>
+            <p>{{actdetail.firstname}}</p>
+            <!-- Pour éviter qu'Angular ne s'emmêle les pinceaux, on va lui dire : 
+             "Prends la valeur du formulaire en priorité. S'il n'y a rien dans le formulaire (par exemple au chargement)
+             , prends la valeur de la base de données." -->
+            @if(actdetail.profilId === userId) {
+
+            @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) === 'accepte') {
+            <div class="green-flag">
+                <img src="assets/logo-check.svg" alt="logo validation" />
+                <p>Accepte</p>
+            </div>
+            }
+            @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) === 'à discuter') {
+            <div class="yellow-flag">
+                <img src="assets/logo-message.svg" alt="logo discussion" />
+                <p>À discuter</p>
+            </div>
+            }
+            @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) === 'refus') {
+            <div class="red-flag">
+                <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                <p>Refuse</p>
+            </div>
+            }
+
+            @if((checkActiviteForm.get('participation')?.value || actdetail.participationStatus) === 'participe') {
+            <div class="green-flag">
+                <img src="assets/logo-check.svg" alt="logo validation" />
+                <p>Participe</p>
+            </div>
+            }
+            @if((checkActiviteForm.get('participation')?.value || actdetail.participationStatus) === 'peut-être') {
+            <div class="yellow-flag">
+                <img src="assets/logo-message.svg" alt="logo question" />
+                <p>Peut-être</p>
+            </div>
+            }
+            @if((checkActiviteForm.get('participation')?.value || actdetail.participationStatus) === 'ne peux pas') {
+            <div class="red-flag">
+                <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                <p>Ne peut pas</p>
+            </div>
+            }
+
+            @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) === 'en attente' ||
+            (checkActiviteForm.get('participation')?.value || actdetail.participationStatus) === 'en attente') {
+            <div class="grey-flag">
+                <p>En attente</p>
+            </div>
+            }
+
+            }
+
+            @else{
+            @if(actdetail.authorisationStatus==="accepte"){
+            <div class="green-flag">
+                <img src="assets/logo-check.svg" alt="logo validation" />
+                <p>Accepte</p>
+            </div>
+            }
+            @if(actdetail.authorisationStatus==="à discuter"){
+            <div class="yellow-flag">
+                <img src="assets/logo-message.svg" alt="logo discussion" />
+                <p>À discuter</p>
+            </div>
+            }
+            @if(actdetail.authorisationStatus==="refus"){
+            <div class="red-flag">
+                <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                <p>Refuse</p>
+            </div>
+            }
+
+            @if(actdetail.participationStatus==="participe"){
+            <div class="green-flag">
+                <img src="assets/logo-check.svg" alt="logo validation" />
+                <p>Participe</p>
+            </div>
+            }
+            @if(actdetail.participationStatus==="peut-être"){
+            <div class="yellow-flag">
+                <img src="assets/logo-message.svg" alt="logo question" />
+                <p>Peut-être</p>
+            </div>
+            }
+            @if(actdetail.participationStatus==="ne peux pas"){
+            <div class="red-flag">
+                <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
+                <p>Ne peut pas</p>
+            </div>
+            }
+            @if(actdetail.authorisationStatus==="en attente" || actdetail.participationStatus==="en attente"){
+            <div class="grey-flag">
+                <p>En attente</p>
+            </div>
+            }
+            }
+        </div>
+        }
+
+    </div>
+    }
+
+</section>

@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { NewAct } from "./new-act/new-act";
 import { ActHome } from "./act-home/act-home";
+import { DetailAct } from "./detail-act/detail-act";
 
 
 
@@ -9,6 +10,7 @@ export const activitesRoutes: Routes = [
 
     { path: "new-act/:groupId/:actId", component: NewAct },
     { path: "act-home/:groupId", component: ActHome },
+    { path: "detail-act/:groupId/:actId", component: DetailAct },
 
 
     // pathMatch permet de forcer à checker l'url exact et pas seulement le début

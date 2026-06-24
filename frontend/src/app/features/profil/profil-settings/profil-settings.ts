@@ -148,6 +148,7 @@ export class ProfilSettings implements OnInit {
       //les sessions cachées de supabase
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
 
 
       this.router.navigate(["/auth/login"])

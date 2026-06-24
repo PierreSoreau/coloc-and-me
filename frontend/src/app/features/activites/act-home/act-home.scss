@@ -145,8 +145,7 @@
     }
 
     .img-box-bleue {
-        background-color: #2F72FF;
-        /* Bleu non présent dans ton :root */
+        background-color: var(--bg-navigation);
     }
 
     /* Titre de l'événement */
@@ -205,7 +204,6 @@
     .creator-name-event {
         margin-top: 16px;
         padding-top: 16px;
-        border-top: 1px solid #EAEAEA;
 
         p {
             margin: 0;

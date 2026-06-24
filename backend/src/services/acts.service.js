@@ -134,6 +134,7 @@ export const allActs = async (groupId) => {
 
       return {
         profilId: status.profil_id,
+        initial: null,
         firstname: status.profils.firstname,
         participationStatus: status.participation_status,
         authorisationStatus: status.authorisation_status,
@@ -156,4 +157,41 @@ export const allActs = async (groupId) => {
     };
   });
   return finalAllTasks;
+};
+
+export const updatStatusOfUser = async (
+  token,
+  participationStatus,
+  authorisationStatus,
+) => {
+  const userId = await getUUID(token);
+
+  if (!userId) {
+    throw new Error(`Erreur lors de la récupération du userId`);
+  }
+
+  const { data: updateStatus, error: errorUpdateStatus } = await supabase
+    .from("activites_profil")
+    .update({
+      authorisation_status: authorisationStatus,
+      participation_status: participationStatus,
+    })
+    .eq("profil_id", userId)
+    .select("*")
+    .single();
+
+  if (errorUpdateStatus) {
+    throw new Error(
+      `Erreur lors de la de la mise à jour des statuts du coloc pour l'activité: ${errorUpdateStatus.message}`,
+    );
+  }
+
+  const finalStatus = {
+    userId: userId,
+    participationStatus: updateStatus.participation_status,
+    authorisationStatus: updateStatus.authorisation_status,
+    actId: updateStatus.activites_id,
+  };
+
+  return finalStatus;
 };

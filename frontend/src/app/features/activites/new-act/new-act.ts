@@ -105,7 +105,7 @@ export class NewAct implements OnInit {
     }
 
 
-    const TaskData = {
+    const ActData = {
       title: newAct.titre,
       description: newAct.description,
       typeLocation: newAct.location,
@@ -116,7 +116,7 @@ export class NewAct implements OnInit {
 
 
 
-    this.actService.newTask(TaskData, this.token).subscribe({
+    this.actService.newAct(ActData, this.token).subscribe({
       next: (response) => {
         console.log("création de la nouvelle activité faite:", response)
         this.router.navigate(["/activites/act-home", this.groupId])

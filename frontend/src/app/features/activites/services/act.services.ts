@@ -21,6 +21,7 @@ export interface newActCredential {
 
 export interface ActStatus {
     profilId: string
+    initial: string | null
     firstname: string
     participationStatus: string
     authorisationStatus: string
@@ -40,6 +41,13 @@ export interface ActResponse {
     numberMaybe: number,
     numberNo: number
     numberWaiting: number
+}
+
+export interface StatusResponse {
+    userId: string,
+    participationStatus: string,
+    authorisationStatus: string
+    actId: number
 }
 
 
@@ -88,7 +96,7 @@ export class ActService {
 
 
 
-    newTask(credential: newActCredential, token: string): Observable<ActResponse> {
+    newAct(credential: newActCredential, token: string): Observable<ActResponse> {
         const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` })
         return this.http.post<ActResponse>(`${this.apiUrl}/new-act`, credential, {
             headers: headers,
@@ -100,21 +108,94 @@ export class ActService {
 
             tap((response) => {
 
-                const currentTasks = this.actsSubject.getValue()
+                const currentActs = this.actsSubject.getValue()
 
                 //permet de construire un tableau même si c'est un ibjet en retour
-                const nouvellesTaches = Array.isArray(response) ? response : [response];
+                const nouvellesActs = Array.isArray(response) ? response : [response];
 
                 //on insère les deux tableaux dans un autre tableau mais les ... font que 
                 //les crochets des tableaux sont flingués
-                const newTaskBehaviorSubject = [...nouvellesTaches, ...currentTasks]
+                const newTaskBehaviorSubject = [...nouvellesActs, ...currentActs]
                 this.actsSubject.next(newTaskBehaviorSubject)
 
             }))
     }
 
+    updateStatus(token: string, participationStatus: string, authorisationStatus: string): Observable<StatusResponse> {
+        const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        return this.http.put<StatusResponse>(`${this.apiUrl}/update-status`, { participationStatus, authorisationStatus }, {
+            headers: headers
+        }).pipe(
+            // Le "tap" permet d'exécuter du code au passage de la réponse 
+
+            // SANS modifier la réponse pour le composant qui a cliqué
+
+            tap((response) => {
+
+                const currentActs = this.actsSubject.getValue()
+
+                const newCurrentActs = currentActs.map((act) => {
+                    if (act.actId === response.actId) {
+
+                        //on récupère l'ancien statut pour savoir si faut retirer ou pas dans le compteur initial
+                        //exemple avant la statut c'était participe et puis après il décide de changer à peut-être
+                        //dans ce cas faut retirer 1 à participe et rajouter 1 à peut-être
+                        const oldUserStatus = act.authorisationAndParticipationStatus.find(s => s.profilId === response.userId);
+                        const oldParticipation = oldUserStatus ? oldUserStatus.participationStatus : null;
+
+                        const updatedStatuses = act.authorisationAndParticipationStatus.map((status) => {
+                            if (status.profilId === response.userId) {
+                                return {
+                                    ...status, // Conserve profilId, initial, firstname, profilStatus
+                                    participationStatus: response.participationStatus,
+                                    authorisationStatus: response.authorisationStatus,
+
+                                }
+                            }
+                            return status;
+                        })
+                        let newYes = act.numberYes;
+                        let newMaybe = act.numberMaybe;
+                        let newNo = act.numberNo;
+                        let newWaiting = act.numberWaiting;
+
+                        // 4. Si le statut a vraiment changé, on met à jour la balance
+                        if (oldParticipation !== response.participationStatus) {
+
+                            // On retire 1 à l'ancienne catégorie
+                            if (oldParticipation === "participe") newYes--;
+                            if (oldParticipation === "peut-être") newMaybe--;
+                            if (oldParticipation === "ne peux pas") newNo--;
+                            if (oldParticipation === "en attente") newWaiting--;
+
+                            // On ajoute 1 à la nouvelle catégorie
+                            if (response.participationStatus === "participe") newYes++;
+                            if (response.participationStatus === "peut-être") newMaybe++;
+                            if (response.participationStatus === "ne peux pas") newNo++;
+                            if (response.participationStatus === "en attente") newWaiting++;
+                        }
+
+                        // 5. On retourne le NOUVEL objet act complètement propre
+                        return {
+                            ...act,
+                            numberYes: newYes,
+                            numberMaybe: newMaybe,
+                            numberNo: newNo,
+                            numberWaiting: newWaiting,
+                            authorisationAndParticipationStatus: updatedStatuses
+                        };
 
 
+                    }
+                    return act
+                })
+
+                this.actsSubject.next(newCurrentActs);
+
+
+
+            }))
+    }
 }
 
 

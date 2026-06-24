@@ -162,9 +162,10 @@ export class AuthService {
     }
 
     // Supabase Angular gère déjà le token tout seul, mais si tu veux le forcer dans le localStorage :
-    if (data.session) {
+    if (data.session && data.user) {
       localStorage.setItem("token", data.session.access_token);
       localStorage.setItem("refresh_token", data.session.refresh_token);
+      localStorage.setItem("userId", data.user.id);
     }
   }
 

@@ -35,3 +35,20 @@ export const getAllActs = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+export const updateStatus = async (req, res) => {
+  const token = req.headers["authorization"];
+  const ParticipationStatus = req.body.participationStatus;
+  const AuthorisationStatus = req.body.authorisationStatus;
+
+  try {
+    const updateData = await actsService.updatStatusOfUser(
+      token,
+      ParticipationStatus,
+      AuthorisationStatus,
+    );
+    return res.status(200).json(updateData);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};

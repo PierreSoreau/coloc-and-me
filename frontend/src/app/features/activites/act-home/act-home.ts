@@ -51,6 +51,10 @@ export class ActHome implements OnInit, OnDestroy {
     })
   }
 
+  detail(actId: number) {
+    this.router.navigate(["/activites/detail-act", this.groupId, actId])
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
