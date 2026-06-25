@@ -43,6 +43,10 @@ export const insertNewAct = async (
     location: newAct.location,
     date: newAct.date,
     authorisationAndParticipationStatus: newStatus,
+    numberYes: 1,
+    numberMaybe: 0,
+    numberNo: 0,
+    numberWaiting: newStatus.length - 1,
   };
 
   return finalNewAct;
@@ -194,4 +198,68 @@ export const updatStatusOfUser = async (
   };
 
   return finalStatus;
+};
+
+export const deleteActColoc = async (actId) => {
+  //ne jamais utiliser single sur un delete ça fait planter supabase
+  //qui s'attend à avoir un id dans la database alors qu'elle a été supprimée
+  const { data: deleteAct, error: errordeleteAct } = await supabase
+    .from("activites")
+    .delete()
+    .eq("id", actId)
+    .select("id");
+
+  if (errordeleteAct) {
+    throw new Error(
+      `Erreur lors de la suppression de l'activité: ${errordeleteAct.message}`,
+    );
+  }
+
+  return deleteAct[0];
+};
+
+export const updateActColoc = async (
+  actId,
+  title,
+  description,
+  location,
+  typeLocation,
+  date,
+) => {
+  const { data: updateData, error: errorUpdateData } = await supabase
+    .from("activites")
+    .update({
+      title: title,
+      description: description,
+      location: location,
+      type_location: typeLocation,
+      date: date,
+    })
+    .eq("id", actId)
+    .select("id,title,description,location,type_location,date")
+    .single();
+
+  if (errorUpdateData) {
+    throw new Error(
+      `Erreur lors de la mise à jour de l'activité: ${errorUpdateData.message}`,
+    );
+  }
+
+  return updateData;
+};
+
+export const getOneActColoc = async (actId) => {
+  const { data: oneAct, error: errorOneAct } = await supabase
+    .from("activites")
+    .select("title,location,type_location,date,description")
+    .eq("id", actId)
+    .single();
+
+  if (errorOneAct) {
+    throw new Error(
+      `Erreur lors de la récupération de l'activité: ${errorOneAct.message}`,
+    );
+  }
+
+  return oneAct;
 };

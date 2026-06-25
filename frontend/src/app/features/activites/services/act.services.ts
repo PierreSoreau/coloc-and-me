@@ -196,7 +196,79 @@ export class ActService {
 
             }))
     }
-}
 
+    deleteAct(actId: number): Observable<{ id: number }> {
+        return this.http.delete<{ id: number }>(`${this.apiUrl}/delete-act`, {
+            params:
+                { actId: actId }
+        }).pipe(
+            // Le "tap" permet d'exécuter du code au passage de la réponse 
+
+            // SANS modifier la réponse pour le composant qui a cliqué
+
+            tap((response) => {
+
+                const currentActs = this.actsSubject.getValue()
+
+                const newCurrentActs = currentActs.filter((act) =>
+                    act.actId !== response.id)
+
+
+                this.actsSubject.next(newCurrentActs);
+
+
+
+            }))
+    }
+
+    updateAct(actId: number, credential: newActCredential): Observable<{ id: number, title: string, description: string, type_location: string, location: string, date: string }> {
+        return this.http.put<{ id: number, title: string, description: string, type_location: string, location: string, date: string }>(`${this.apiUrl}/update-act`, credential, {
+            params:
+                { actId: actId }
+        }).pipe(// Le "tap" permet d'exécuter du code au passage de la réponse 
+
+            // SANS modifier la réponse pour le composant qui a cliqué
+
+            tap((response) => {
+
+                const currentActs = this.actsSubject.getValue()
+
+                const newCurrentActs = currentActs.map((act) => {
+
+                    if (act.actId === response.id) {
+                        return {
+                            ...act,
+                            title: response.title,
+                            description: response.description,
+                            typeLocation: response.type_location,
+                            location: response.location,
+                            date: response.date
+                        }
+
+                    }
+                    return act
+                })
+
+                this.actsSubject.next(newCurrentActs);
+            }))
+    }
+
+    getOneAct(actId: number): Observable<
+        {
+            title: string
+            description: string
+            type_location: string
+            location: string
+            date: string
+        }> {
+        return this.http.get<{
+            title: string
+            description: string
+            type_location: string
+            location: string
+            date: string
+        }>(`${this.apiUrl}/get-one-act`, { params: { actId: actId } })
+    }
+}
 
 

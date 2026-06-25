@@ -12,15 +12,44 @@
     @for(act of actDatas; track act.actId){
     <div class="act-detail" (click)="detail(act.actId)">
 
-        @if(act.typeLocation === "coloc"){
-        <div class="img-box-orange">
-            <img src="assets/logo-house.png" alt="logo application coloc&me" />
+        <div class="header-logo">
+
+            @if(act.typeLocation === "coloc"){
+            <div class="img-box-orange">
+                <img src="assets/logo-house.png" alt="logo application coloc&me" />
+            </div>
+            } @else {
+            <div class="img-box-bleue">
+                <img src="assets/logo-navigation.svg" alt="logo navigation" />
+            </div>
+            }
+
+            @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
+            @if(actdetail.profilId === userId){
+            <div class="parametres" (click)="toggle(act.actId,$event)">
+                <img src="assets/logo-three-points.svg" alt="logo paramètres" />
+                @if(menuOuvert===act.actId){
+                <div class="menu-parametres">
+                    <button (click)="update(act.actId,$event)">
+                        <img src="assets/logo-pencil.svg" alt="logo modifier" />
+                        <p>Modifier</p>
+                    </button>
+                    <button (click)="suppress(act.actId,$event)">
+                        <img src="assets/logo-bin.svg" alt="logo supprimer" />
+                        <p>Supprimer</p>
+                    </button>
+
+                </div>
+                }
+            </div>
+            }}
+
+
+
         </div>
-        } @else {
-        <div class="img-box-bleue">
-            <img src="assets/logo-navigation.svg" alt="logo navigation" />
-        </div>
-        }
+
+
+
 
         <h3>{{ act.title }}</h3>
 
@@ -51,6 +80,12 @@
             }
             }
         </div>
+    </div>
+    }
+    @empty{
+    <div class="no-act">
+        <img src="assets/logo-calendar.svg" alt="logo calendrier">
+        <p>Aucune activité de prévue pour le moment</p>
     </div>
     }
 </section>

@@ -20,6 +20,8 @@ export class ActHome implements OnInit, OnDestroy {
   actId: number | null = null
   groupId: string | null = null
   actDatas: ActResponse[] = []
+  menuOuvert: number | null = null
+  userId: string | null = localStorage.getItem("userId")
 
 
 
@@ -53,6 +55,35 @@ export class ActHome implements OnInit, OnDestroy {
 
   detail(actId: number) {
     this.router.navigate(["/activites/detail-act", this.groupId, actId])
+  }
+
+  //fonction qui permet de fermer ou ouvrir le menu déroulant du
+  //trois petits points
+  toggle(actId: number, event: Event) {
+
+    event.stopPropagation();
+    this.menuOuvert = this.menuOuvert === actId ? null : actId
+  }
+
+  suppress(actId: number, event: Event) {
+    event.stopPropagation();
+    this.menuOuvert = null
+    this.actService.deleteAct(actId).subscribe({
+      next: (response) => {
+        console.log("Suppression de l'activité effectuée:", response)
+      },
+
+      error: (err) => {
+        console.error("impossible de supprimer l'activité", err)
+      }
+    })
+
+  }
+
+  update(actId: number, event: Event) {
+    event.stopPropagation();
+    this.menuOuvert = null
+    this.router.navigate(["/activites/new-act", this.groupId, actId])
   }
 
   ngOnDestroy(): void {

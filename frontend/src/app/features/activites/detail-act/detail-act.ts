@@ -7,10 +7,12 @@ import { DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl, FormArray } from '@angular/forms';
 import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
+import { ButtonUpdate } from '../../../_shared/button/button-update/button-update';
+import { ButtonDelete } from '../../../_shared/button/button-delete/button-delete';
 
 @Component({
   selector: 'app-detail-act',
-  imports: [DatePipe, ReactiveFormsModule, ButtonBack, ButtonRecord],
+  imports: [DatePipe, ReactiveFormsModule, ButtonBack, ButtonRecord, ButtonUpdate, ButtonDelete],
   templateUrl: './detail-act.html',
   styleUrl: './detail-act.scss',
 })
@@ -126,6 +128,38 @@ export class DetailAct implements OnInit, OnDestroy {
 
 
 
+  }
+
+
+  delete(actId: number | null) {
+
+
+    if (!actId) {
+      return
+    }
+
+    this.actService.deleteAct(actId).subscribe({
+      next: (response) => {
+        console.log("Suppression de l'activité effectuée:", response)
+        this.router.navigate(["/activites/act-home", this.groupId])
+      },
+
+      error: (err) => {
+        console.error("impossible de supprimer l'activité", err)
+      }
+    })
+
+
+
+  }
+
+  update(actId: number | null) {
+
+
+    if (!actId) {
+      return
+    }
+    this.router.navigate(["/activites/new-act", this.groupId, actId])
   }
 
   onSubmit() {

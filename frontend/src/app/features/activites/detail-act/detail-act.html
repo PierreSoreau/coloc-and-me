@@ -214,6 +214,16 @@
         }
 
     </div>
+
+    @for(actdetail of targetActData.authorisationAndParticipationStatus; track actdetail.profilId){
+    @if(actdetail.profilId === userId){
+    <div class="update-btn">
+        <app-button-update (clickUpdate)="update(actId)"></app-button-update>
+        <app-button-delete (clickDelete)="delete(actId)" deleteText="Supprimer"></app-button-delete>
+    </div>
+    }
+
+    }
     }
 
 </section>

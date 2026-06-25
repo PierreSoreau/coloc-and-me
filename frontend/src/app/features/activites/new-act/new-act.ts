@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import { concatMap } from 'rxjs/operators';
 import { ActService } from '../services/act.services';
 
+
 export interface ActiviteFormType {
   location: FormControl<string | null>;
   titre: FormControl<string | null>;
@@ -68,16 +69,65 @@ export class NewAct implements OnInit {
       if (this.groupId) {
         this.groupService.notifyHeaderOfGroupChange(this.groupId)
 
+        if (this.actId) {
+          this.actService.getOneAct(this.actId).subscribe({
+            next: (response) => {
 
+              //l'heure initiale ressemble à ça : "2026-06-25 18:00:00"
+              const wholeDate = response.date
+
+              //permet de spliter les deux éléments à l'espace
+              const [date, heure] = wholeDate.split('T')
+
+              //permet de récupérer que les 5 premiers caractères
+              //de l'heure donc on obtient l'heure finale voulue
+              //"18:00"
+              const finalHour = heure.substring(0, 5)
+
+
+
+              this.newActiviteForm.patchValue({
+                location: response.type_location,
+                titre: response.title,
+                date: date,
+                heure: finalHour,
+                lieu: response.location,
+                description: response.description
+              })
+
+
+
+              this.buttonValue = "Modifier l'activité"
+
+
+              this.changeDetectorRef.detectChanges();
+
+              console.log("Récupération des données de l'activité faite")
+
+            },
+
+            error: (err) => {
+              console.error("Erreur lors de la récupération de l'activité")
+            }
+
+
+          });
+
+        }
 
       }
-
 
 
     })
 
 
+
+
   }
+
+
+
+
 
   getErrorMessage(textField: string, nameField: string): string {
     const control = this.newActiviteForm.get(nameField);
@@ -114,21 +164,43 @@ export class NewAct implements OnInit {
       groupId: this.groupId
     }
 
+    if (this.actId) {
+
+      this.actService.updateAct(this.actId, ActData).subscribe({
+        next: (response) => {
+          console.log("mise à jour de la nouvelle activité faite:", response)
+          this.router.navigate(["/activites/act-home", this.groupId])
+
+        },
+
+        error: (err) => {
+          console.error("impossible de mettre à jour l'activité", err)
+        }
 
 
-    this.actService.newAct(ActData, this.token).subscribe({
-      next: (response) => {
-        console.log("création de la nouvelle activité faite:", response)
-        this.router.navigate(["/activites/act-home", this.groupId])
-
-      },
-
-      error: (err) => {
-        console.error("impossible de charger la donnée", err)
-      }
+      })
 
 
-    })
+    }
+
+    else {
+
+
+      this.actService.newAct(ActData, this.token).subscribe({
+        next: (response) => {
+          console.log("création de la nouvelle activité faite:", response)
+          this.router.navigate(["/activites/act-home", this.groupId])
+
+        },
+
+        error: (err) => {
+          console.error("impossible de charger la donnée", err)
+        }
+
+
+      })
+
+    }
 
 
 

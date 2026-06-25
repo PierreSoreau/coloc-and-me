@@ -416,3 +416,17 @@ form {
     margin: auto;
 
 }
+
+.update-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    app-button-update,
+    app-button-delete {
+        flex: 1;
+    }
+
+
+}

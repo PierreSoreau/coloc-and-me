@@ -132,8 +132,7 @@ export class NewTask {
               if (response.frequence) {
                 this.isEditingRecurringTask = true
               }
-              // Si c'est une tâche unique, tu peux aussi désactiver 
-              // pour empêcher de la rendre récurrente
+              // Si c'est une tâche unique, on désactive la fréquence
               else {
                 this.newTaskForm.get('frequency')?.disable();
 

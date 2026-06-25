@@ -315,16 +315,18 @@
 
     .no-task {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 24px;
         background-color: var(--surface-element);
         /* Un fond gris très léger */
-        border: 1px dashed rgba(0, 0, 0, 0.15);
+        border: 1px dashed var(--border-element);
         /* Bordure en pointillés pour l'effet "vide" */
         border-radius: 16px;
         margin-bottom: 12px;
         text-align: center;
+        gap: 10px;
 
         @media (max-width: 600px) {
             padding: 16px;
