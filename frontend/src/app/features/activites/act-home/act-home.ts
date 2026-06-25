@@ -20,6 +20,7 @@ export class ActHome implements OnInit, OnDestroy {
   actId: number | null = null
   groupId: string | null = null
   actDatas: ActResponse[] = []
+  pastActDatas: ActResponse[] = []
   menuOuvert: number | null = null
   userId: string | null = localStorage.getItem("userId")
 
@@ -41,13 +42,15 @@ export class ActHome implements OnInit, OnDestroy {
         }
 
         //on se branche au behavior pour les activités
-        const subTasks = this.actService.acts$.subscribe((tasks) => {
-          this.actDatas = tasks
+        const subActs = this.actService.acts$.subscribe((acts) => {
+
+          this.updateActPosition(acts)
+
           this.changeDetectorRef.detectChanges()
         })
 
 
-        this.subscriptions.add(subTasks)
+        this.subscriptions.add(subActs)
 
       }
     })
@@ -78,6 +81,11 @@ export class ActHome implements OnInit, OnDestroy {
       }
     })
 
+  }
+
+  updateActPosition(acts: ActResponse[]) {
+    this.actDatas = acts.filter((act) => new Date(act.date) >= new Date())
+    this.pastActDatas = acts.filter((act) => new Date(act.date) <= new Date())
   }
 
   update(actId: number, event: Event) {

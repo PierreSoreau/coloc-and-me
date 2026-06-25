@@ -2,7 +2,7 @@ import { depensesRoutes } from './features/depenses/depenses.routes';
 import { Routes } from '@angular/router';
 import { authGuard } from './_core/guards/auth.guards';
 import { Mainlayout } from './mainlayout/mainlayout';
-import { Dashboard } from './features/dashboard/dashboard';
+import { Dashboard } from './features/dashboard/dashboard-home/dashboard';
 
 
 

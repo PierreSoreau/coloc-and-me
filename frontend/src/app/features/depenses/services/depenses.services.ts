@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 //Observable représente le flux de réponse donné par l'api de Node
 //tap permet d'agir sur la réponse sans la modifier la stocker par exemple
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 
 
@@ -48,7 +49,8 @@ export interface DebtDataResponse {
 export interface UserBalanceResponse {
     debtAmount: number,
     firstname: string,
-    initials: string
+    initials: string,
+    userId: string
 }
 
 export interface ReimboursementResponse {

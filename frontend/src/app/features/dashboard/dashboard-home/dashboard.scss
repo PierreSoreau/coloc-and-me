@@ -1,0 +1,300 @@
+/* --- CONTENEUR PRINCIPAL --- */
+.dashboard {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+
+    /* MOBILE FIRST : Flexbox en colonne */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* --- TITRE DE LA PAGE --- */
+    &-title {
+        margin-bottom: 8px;
+
+        h2 {
+            margin: 0 0 4px 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+    }
+
+    /* --- LES CARTES (Solde, Tâches, Activité) --- */
+    &-detail {
+        background-color: var(--bg-app);
+        border: 1px solid var(--border-element);
+        border-radius: 16px;
+        padding: 20px;
+        position: relative;
+        /* Permet de placer le solde en haut à droite */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+
+        /* L'en-tête de la carte (Icône + Titre) */
+        .text-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+
+            img {
+                width: 20px;
+                height: 20px;
+                /* Filtre magique : Transforme le SVG noir en Orange var(--primary) : #CC4A00 */
+                filter: invert(39%) sepia(74%) saturate(3015%) hue-rotate(8deg) brightness(93%) contrast(101%);
+            }
+
+            h3 {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--text-main);
+            }
+        }
+
+        /* --- LE SOLDE (Positionné en absolu) --- */
+        .positive-sold,
+        .negative-sold,
+        .zero-sold {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .positive-sold {
+            color: var(--text-success);
+        }
+
+        .negative-sold {
+            color: var(--text-alert);
+        }
+
+        .zero-sold {
+            color: var(--text-muted);
+        }
+
+        /* --- LES TÂCHES --- */
+        /* --- LES TÂCHES --- */
+        .task-list {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .task-detail-box {
+                display: flex;
+                align-items: center;
+                /* 1. LE SECRET N°1 : Centre verticalement l'image et le texte */
+                justify-content: flex-start;
+                /* ('left' n'est pas valide en flexbox, on utilise flex-start) */
+                gap: 12px;
+                /* L'espace parfait entre l'astérisque et le texte */
+                padding: 0px 0;
+                /* Un peu d'espace pour que la ligne respire */
+
+
+
+
+                /* Enlève la ligne de séparation sous la TOUTE DERNIÈRE tâche */
+                &:last-of-type {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                }
+
+                img {
+                    width: 16px;
+                    /* Légèrement réduit pour bien coller à la taille du texte */
+                    height: 16px;
+                    opacity: 0.8;
+                    flex-shrink: 0;
+                    /* Empêche le logo de s'écraser si le texte est long */
+                }
+
+                .task-detail {
+                    margin: 0;
+                    /* 2. LE SECRET N°2 : Supprime les marges par défaut du <p> ! */
+                    font-size: 14px;
+                    color: var(--text-main);
+                }
+            }
+        }
+
+        /* --- L'ACTIVITÉ --- */
+        .act-detail-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .header-logo {
+                flex-shrink: 0;
+
+                .img-box-orange,
+                .img-box-bleue {
+                    width: 52px;
+                    height: 52px;
+                    border-radius: 14px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        width: 24px;
+                        height: 24px;
+                        /* Ici on annule le filtre du dessus pour rendre le logo 100% blanc */
+                        filter: brightness(0) invert(1);
+                    }
+                }
+
+                .img-box-orange {
+                    background-color: var(--primary);
+                }
+
+                .img-box-bleue {
+                    background-color: var(--bg-navigation);
+                }
+            }
+
+            .act-detail {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                h4 {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: var(--text-main);
+                }
+
+                h5 {
+                    margin: 0;
+                    font-size: 14px;
+                    font-weight: 400;
+                    color: var(--text-muted);
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 14px;
+                    color: var(--text-muted);
+                }
+            }
+        }
+    }
+}
+
+/* --- RESPONSIVE (Tablette & Bureau) --- */
+@media (min-width: 768px) {
+    .dashboard {
+        padding: 32px;
+        gap: 24px;
+        max-width: 600px;
+        /* Un peu plus large pour laisser respirer la grille */
+
+        /* PASSAGE EN GRID ! */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2 colonnes de même taille */
+        align-items: stretch;
+        /* Les cartes côte à côte feront la même hauteur */
+
+        &-title {
+            margin-bottom: 8px;
+            grid-column: 1 / -1;
+            /* Le titre prend toute la largeur */
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+        }
+
+        &-detail {
+            padding: 24px;
+
+            /* La première carte (Solde) prend toute la largeur en haut */
+            &:nth-of-type(1) {
+                grid-column: 1 / -1;
+            }
+
+            .text-box h3 {
+                font-size: 18px;
+            }
+
+            .positive-sold,
+            .negative-sold,
+            .zero-sold {
+                font-size: 20px;
+            }
+
+            .act-detail-box {
+                .header-logo {
+
+                    .img-box-orange,
+                    .img-box-bleue {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 16px;
+
+                        img {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+                }
+
+                .act-detail h4 {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+.no-act,
+.no-task {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    background-color: var(--surface-element);
+    /* Un fond gris très léger */
+    border: 1px dashed var(--border-element);
+    /* Bordure en pointillés pour l'effet "vide" */
+    border-radius: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+    gap: 10px;
+
+    @media (max-width: 600px) {
+        padding: 16px;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-muted);
+
+        @media (max-width: 600px) {
+            font-size: 13px;
+        }
+
+
+    }
+}

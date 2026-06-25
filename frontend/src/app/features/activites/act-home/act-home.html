@@ -88,4 +88,26 @@
         <p>Aucune activité de prévue pour le moment</p>
     </div>
     }
+
+    <p class="past">PASSÉES</p>
+    @for(act of pastActDatas; track act.actId){
+
+    <div class="past-act">
+        <div class="date">
+            <p> {{act.date | date:'dd/MM/yyyy'}}</p>
+        </div>
+        <div class="past-act-detail">
+            <h4>{{act.title}}</h4>
+            <p>{{act.location}}</p>
+        </div>
+    </div>
+    }
+    @empty{
+    <div class="no-act">
+        <img src="assets/logo-calendar.svg" alt="logo calendrier">
+        <p>Aucune activité de passée pour le moment</p>
+    </div>
+    }
+
+
 </section>

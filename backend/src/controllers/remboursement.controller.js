@@ -37,6 +37,7 @@ export const getallUserBalance = async (req, res) => {
         firstname: sameProfil.firstname,
         initials: sameProfil.initials,
         debtAmount: balance.debtAmount,
+        userId: balance.userId,
       };
     });
 

@@ -54,7 +54,7 @@ export class ProfilService {
         //il faut mettre Bearer pour que Node puisse comprendre qu'il s'agit
         //d'un jeton d'authentification
         const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` })
-        //pipe et tap permettent de relier avec un tuyau le flux de données via pipe et tap permet de choper la données
+
         return this.http.get<string>(`${this.apiUrl}/name`, { headers }).pipe(tap((dataDepuisServeur) => {
             this.initialsCache = dataDepuisServeur
         }))
