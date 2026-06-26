@@ -28,7 +28,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         //et si la connection fonctionne on le redirige directement vers le lien qu'il
         //a renseigné dans l'url de navigation (le returnUrl), le state sers à récupérer tout
         //l'url
-        router.navigate(["/auth/login"], { queryParams: { returnUrl: state.url } })
+        router.navigate(["/introduction"], { queryParams: { returnUrl: state.url } })
         return false
     }
 

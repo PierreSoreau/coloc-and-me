@@ -1,0 +1,195 @@
+.login {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+    height: 60px;
+
+    .login-button {
+        width: 250px;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        color: var(--text-on-primary);
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+
+        background-color: var(--primary);
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s;
+
+
+
+        img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        &:hover {
+            background-color: var(--primary-hover);
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+
+        &:focus-visible {
+            box-shadow: 0 0 0 4px rgba(204, 74, 0, 0.35);
+        }
+    }
+}
+
+/* --- SECTION INTRODUCTION --- */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 60px 24px;
+    max-width: 650px;
+    margin: 0 auto;
+
+    /* On décale un peu vers le bas pour centrer visuellement dans la page */
+    margin-top: 10vh;
+
+    /* --- TITRE PRINCIPAL (Gérez votre coloc) --- */
+    h2 {
+        font-size: 32px;
+        font-weight: 400;
+        color: var(--text-main);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    /* --- SOUS-TITRE ORANGE (sans prise de tête) --- */
+    h3 {
+        font-size: 32px;
+        font-weight: 400;
+        color: var(--primary);
+        margin: 8px 0 24px 0;
+        line-height: 1.2;
+    }
+
+    /* --- TEXTE EXPLICATIF --- */
+    h4 {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin: 0 0 40px 0;
+    }
+
+    /* --- CONTENEUR DU BOUTON --- */
+    /* On écrase ton ancien .login qui était en position: fixed */
+    .login {
+        position: relative;
+        /* Annule le fixed */
+        top: auto;
+        right: auto;
+        height: auto;
+        padding: 0;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+        .login-button {
+            width: auto;
+            min-width: 280px;
+            /* Un peu plus large sur mobile pour être bien cliquable */
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+
+            color: var(--text-on-primary);
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+
+            background-color: var(--primary);
+            border-radius: 12px;
+            /* Garde ton arrondi */
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s;
+
+            img {
+                width: 20px;
+                height: 20px;
+                object-fit: contain;
+                filter: brightness(0) invert(1);
+            }
+
+            p {
+                margin: 0;
+                padding: 0;
+            }
+
+            &:hover {
+                background-color: var(--primary-hover);
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0 4px rgba(204, 74, 0, 0.35);
+            }
+        }
+    }
+}
+
+/* --- RESPONSIVE (Tablette et Desktop) --- */
+@media (min-width: 768px) {
+    section {
+        padding: 0px 32px;
+        max-width: 750px;
+
+        h2 {
+            font-size: 46px;
+            /* Titre beaucoup plus gros sur PC, comme sur la maquette */
+        }
+
+        h3 {
+            font-size: 46px;
+            margin: 8px 0 32px 0;
+        }
+
+        h4 {
+            font-size: 18px;
+            /* Texte légèrement plus lisible */
+            margin: 0 0 48px 0;
+        }
+
+        .login {
+            .login-button {
+                min-width: 320px;
+                /* Bouton plus imposant sur grand écran */
+                font-size: 18px;
+                padding: 18px 32px;
+            }
+        }
+    }
+}

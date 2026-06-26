@@ -1,7 +1,9 @@
 import { depensesRoutes } from './features/depenses/depenses.routes';
 import { Routes } from '@angular/router';
 import { authGuard } from './_core/guards/auth.guards';
-import { Mainlayout } from './mainlayout/mainlayout';
+import { Mainlayout } from './layout/mainlayout/mainlayout';
+import { Introductionlayout } from './layout/introductionlayout/introductionlayout';
+import { IntroductionPage } from './features/introduction-page/introduction-page';
 import { Dashboard } from './features/dashboard/dashboard-home/dashboard';
 
 
@@ -17,7 +19,16 @@ export const routes: Routes = [
     //passe à la route suivante pour chercher une correspondance !
     //si jamais l'utilisateur tape http://localhost:4200/dashboard alors ça le ramène à dashboard
 
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: '/introduction', pathMatch: 'full' },
+
+    {
+        path: 'introduction',
+        component: Introductionlayout,
+        children: [
+            { path: '', component: IntroductionPage }
+        ]
+    },
+
     {
         path: "auth", loadChildren: () => import("./features/authentification/auth.routes")
             .then(m => m.authRoutes)
@@ -32,6 +43,7 @@ export const routes: Routes = [
         canActivateChild: [authGuard],
 
         children: [
+
             {
                 path: "dashboard", component: Dashboard
             },
@@ -66,7 +78,7 @@ export const routes: Routes = [
     }
 
     ,
-    { path: '**', redirectTo: '/auth/login' }
+    { path: '**', redirectTo: '/introduction', pathMatch: 'full' }
 ];
 
 

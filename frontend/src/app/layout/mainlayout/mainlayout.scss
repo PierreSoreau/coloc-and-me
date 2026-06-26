@@ -1,0 +1,27 @@
+/* 1. On dit au MainLayout de prendre toute la place disponible laissée par app-root */
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+}
+
+/* 2. On dit à la zone de contenu de s'étirer au maximum pour repousser le footer */
+.content-area {
+    flex: 1;
+    width: 100%;
+
+    /* Optionnel mais très utile : transforme aussi cette zone en conteneur flex 
+     au cas où tu aurais besoin de centrer les pages à l'intérieur */
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px;
+    padding-bottom: 90px;
+}
+
+@media (min-width: 1000px) {
+    .content-area {
+        padding-top: 110px;
+        padding-bottom: 20px;
+    }
+}

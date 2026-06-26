@@ -1,0 +1,143 @@
+/* --- HEADER INTRODUCTION (Mobile First) --- */
+.introduction {
+    /* C'est LE HEADER qui est fixé en haut, pas ses enfants */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: var(--bg-app);
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    /* Flexbox aligne parfaitement le logo à gauche et le bouton à droite */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    /* Espace réduit pour mobile */
+
+    /* --- GAUCHE : LE LOGO --- */
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        /* Remplace le margin-right, plus propre en flexbox */
+
+        .logo-container {
+            background-color: var(--primary);
+            border-radius: 8px;
+            height: 28px;
+            /* Plus petit sur mobile */
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .brand-logo {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .brand-title {
+            color: var(--primary);
+            font-size: 18px;
+            /* Plus petit sur mobile */
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+    }
+
+    /* --- DROITE : LE BOUTON LOGIN --- */
+    .login {
+        display: flex;
+        align-items: center;
+
+        .login-button {
+            width: auto;
+            /* S'adapte à la taille du texte sur mobile */
+            padding: 10px 16px;
+            /* Bouton plus compact */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            color: var(--text-on-primary);
+            font-size: 14px;
+            /* Police réduite */
+            font-weight: 500;
+            text-decoration: none;
+
+            background-color: var(--primary);
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease, box-shadow 0.2s;
+
+            img {
+                width: 18px;
+                height: 18px;
+                object-fit: contain;
+                filter: brightness(0) invert(1);
+            }
+
+            p {
+                margin: 0;
+                padding: 0;
+            }
+
+            &:hover {
+                background-color: var(--primary-hover);
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0 4px rgba(204, 74, 0, 0.35);
+            }
+        }
+    }
+}
+
+/* --- RESPONSIVE (Tablette et Desktop) --- */
+@media (min-width: 768px) {
+    .introduction {
+        height: 70px;
+        /* Header un peu plus grand sur PC */
+        padding: 0 32px;
+        /* On laisse respirer sur les bords */
+
+        .brand {
+            .logo-container {
+                height: 45px;
+            }
+
+            .brand-title {
+                font-size: 25px;
+            }
+        }
+
+        .login {
+            .login-button {
+                width: 200px;
+                /* On remet ta largeur fixe voulue sur PC */
+                padding: 14px 24px;
+                font-size: 16px;
+                border-radius: 12px;
+                gap: 10px;
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+    }
+}
