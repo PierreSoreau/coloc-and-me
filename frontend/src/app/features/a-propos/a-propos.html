@@ -1,0 +1,78 @@
+<section class="a-propos">
+    <div class="title-box">
+        <h2>À propos</h2>
+        <h3>Informations légales et contact pour l'application <span class="brand-name">Coloc&Me</span>.</h3>
+    </div>
+    <div class="colocandme-description">
+        <div class="brand-box">
+            <div class="brand">
+                <div class="logo-container">
+                    <img src="assets/logo-house.png" alt="Logo Coloc&Me" class="brand-logo" />
+                </div>
+                <h1 class="brand-title">Coloc&Me</h1>
+            </div>
+            <p><span class="brand-name">Coloc&Me</span> est une application de gestion de colocation qui simplifie le
+                quotidien des colocataires : suivi
+                des dépenses partagées, organisation des tâches ménagères et planification des activités communes.</p>
+        </div>
+    </div>
+    <div class="contact">
+        <div class="contact-title">
+            <img src="assets/logo-envelope.png" alt="logo email" />
+            <h4>Contact</h4>
+        </div>
+        <div class="contact-detail">
+            <img src="assets/logo-envelope.png" alt="logo email" />
+            <h4>colocandme@gmail.com</h4>
+        </div>
+    </div>
+    <div class="legal-information">
+        <div class="title-box" (click)="openBox1 = !openBox1">
+            <div class="title">
+                <img src="assets/logo-file-text.svg" alt="logo fichier mentions légales" />
+                <p>Mentions légales</p>
+            </div>
+            <img src="assets/logo-chevron-down.svg" alt="logo ouverture contenu" [class.rotate]="openBox1" />
+        </div>
+        @if(openBox1){
+        <div class="box-legal-content">
+            <div class="legal-title">
+                <h4>Directeur de la publication</h4>
+                <p>Pierre Soreau</p>
+            </div>
+        </div>
+        }
+    </div>
+    <div class="legal-information">
+        <div class="title-box" (click)="openBox2 = !openBox2">
+            <div class="title">
+                <img src="assets/logo-file-text.svg" alt="logo fichier mentions légales" />
+                <p>Politique de confidentialité</p>
+            </div>
+            <img src="assets/logo-chevron-down.svg" alt="logo d'ouverture" [class.rotate]="openBox2" />
+        </div>
+        @if(openBox2){
+        <div class="box-legal-content">
+            <p><span class="brand-name">Coloc&Me</span> s'engage à protéger les données personnelles de ses utilisateurs
+                conformément au Règlement
+                Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.</p>
+            <div class="legal-title">
+                <h4>Données collectées</h4>
+                <p>Nous collectons uniquement les données nécessaires au fonctionnement du service : adresse e-mail,
+                    prénom, nom, données de colocation (dépenses, tâches, activités).</p>
+            </div>
+            <div class="legal-title">
+                <h4>Finalité</h4>
+                <p>Les données sont utilisées exclusivement pour fournir le service Coloc&Me. Elles ne sont ni vendues,
+                    ni cédées à des tiers.</p>
+            </div>
+            <div class="legal-title">
+                <h4>Durée de conservation</h4>
+                <p>Les données sont conservées pendant toute la durée d'utilisation du service, puis supprimées dans un
+                    délai de 30 jours après résiliation du compte.</p>
+            </div>
+        </div>
+        }
+    </div>
+
+</section>

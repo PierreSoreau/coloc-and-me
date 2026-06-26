@@ -1,5 +1,5 @@
 import { ButtonRecord } from './../../../_shared/button/button_record/button-record';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { InputComponent } from '../../../_shared/input/input';
 import { HeaderAuth } from '../../../_shared/header-auth/header-auth';
 import { AuthService, LoginCredentials } from '../services/auth.services';
@@ -22,12 +22,15 @@ export class Login implements OnInit {
   private router = inject(Router)
   private loginTitle = inject(Title)
   private groupService = inject(GroupService)
+  private cdr = inject(ChangeDetectorRef)
 
 
   ngOnInit(): void {
     this.loginTitle.setTitle('Coloc&Me | Connection')
   }
   loginForm: FormGroup
+  wrongForm: boolean = false
+  invalidForm: boolean = false
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -45,6 +48,8 @@ export class Login implements OnInit {
 
   async onSubmit() {
     if (this.loginForm.invalid) {
+      this.invalidForm = true
+      this.cdr.detectChanges()
       return
     }
 
@@ -63,6 +68,8 @@ export class Login implements OnInit {
       this.groupService.loadUserGroup().subscribe({
 
         next: (response) => {
+          this.invalidForm = false
+          this.wrongForm = false
 
           this.router.navigate(['/dashboard', response.groupId]);
         },
@@ -76,7 +83,11 @@ export class Login implements OnInit {
     }
 
     catch (error) {
+      this.wrongForm = true
+      this.cdr.detectChanges()
+
       console.error("Echec de la connection", error);
+
     }
   }
 

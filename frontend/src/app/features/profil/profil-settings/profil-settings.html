@@ -18,6 +18,9 @@
             <a routerLink="/profil/new-password"><img src="assets/logo-padlock.png" alt="logo cadenas" />
                 <p>Changer le mot de passe</p>
             </a>
+            <a routerLink="/legal-information"><img src="assets/logo-about.svg" alt="logo information" />
+                <p>A propos</p>
+            </a>
             @if(groupDisplay){
             <button type="button" (click)="deleteGroup()"><img src="/assets/logo-group.svg"
                     alt="logo suppression groupe" />
@@ -28,9 +31,7 @@
             <button type="button" (click)="logOut()"><img src="/assets/logo-unplug.svg" alt="logo deconnection" />
                 <p>Se déconnecter</p>
             </button>
-            <a routerLink="/legal-information"><img src="assets/logo-about.svg" alt="logo information" />
-                <p>A propos</p>
-            </a>
+
         </div>
     </div>
     <div class="profil-data">

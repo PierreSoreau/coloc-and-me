@@ -5,6 +5,7 @@ import { Mainlayout } from './layout/mainlayout/mainlayout';
 import { Introductionlayout } from './layout/introductionlayout/introductionlayout';
 import { IntroductionPage } from './features/introduction-page/introduction-page';
 import { Dashboard } from './features/dashboard/dashboard-home/dashboard';
+import { APropos } from './features/a-propos/a-propos';
 
 
 
@@ -26,6 +27,7 @@ export const routes: Routes = [
         component: Introductionlayout,
         children: [
             { path: '', component: IntroductionPage }
+
         ]
     },
 
@@ -50,8 +52,9 @@ export const routes: Routes = [
             {
                 path: "dashboard/:groupId", component: Dashboard
             },
-
-
+            {
+                path: "a-propos", component: APropos
+            },
 
             {
                 path: "profil",

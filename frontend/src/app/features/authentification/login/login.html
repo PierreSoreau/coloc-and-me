@@ -15,6 +15,12 @@
         <app-button-record buttonText="Se connecter"></app-button-record>
 
     </form>
+    @if(wrongForm){
+    <p>Le mot de passe ou l'adresse email est incorrect</p>
+    }
+    @if(invalidForm){
+    <p>Les champs ne sont pas remplis correctement</p>
+    }
     <a routerLink="/auth/forgot-password" class="forgot-link">Mot de passe oublié ?</a>
 
 </section>

@@ -1,0 +1,267 @@
+/* --- CONTENEUR PRINCIPAL --- */
+.a-propos {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+
+    /* MOBILE FIRST : Flexbox en colonne */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* --- EN-TÊTE DE LA PAGE --- */
+    /* On utilise > pour cibler uniquement le title-box parent et pas ceux des cartes */
+    >.title-box {
+        margin-bottom: 8px;
+
+        h2 {
+            margin: 0 0 8px 0;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+    }
+
+    /* --- STYLE COMMUN À TOUTES LES CARTES --- */
+    .colocandme-description,
+    .contact,
+    .legal-information {
+        background-color: var(--bg-app);
+        border: 1px solid var(--border-element);
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* --- CARTE 1 : DESCRIPTION --- */
+    .colocandme-description {
+        padding: 20px;
+
+        .brand-box {
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 16px;
+
+                .logo-container {
+                    width: 48px;
+                    height: 48px;
+                    background-color: var(--primary);
+                    border-radius: 12px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .brand-logo {
+                        width: 24px;
+                        height: 24px;
+                        /* Force le logo en blanc pur */
+                        filter: brightness(0) invert(1);
+                    }
+                }
+
+                .brand-title {
+                    margin: 0;
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: var(--primary);
+                }
+            }
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                line-height: 1.5;
+                color: var(--text-muted);
+
+            }
+        }
+    }
+
+    /* --- CARTE 2 : CONTACT --- */
+    .contact {
+        padding: 20px;
+        gap: 16px;
+
+        .contact-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+                width: 20px;
+                height: 20px;
+                /* Filtre magique : Transforme le SVG noir en Orange var(--primary) */
+                filter: invert(39%) sepia(74%) saturate(3015%) hue-rotate(8deg) brightness(93%) contrast(101%);
+            }
+
+            h4 {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--text-main);
+            }
+        }
+
+        /* Le petit encart orange avec l'email */
+        .contact-detail {
+            background-color: var(--bg-logo);
+            /* Fond orange très clair */
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            img {
+                width: 24px;
+                height: 24px;
+                /* Filtre magique Orange */
+                filter: invert(39%) sepia(74%) saturate(3015%) hue-rotate(8deg) brightness(93%) contrast(101%);
+            }
+
+            h4 {
+                margin: 0;
+                font-size: 15px;
+                font-weight: 500;
+                color: var(--primary);
+            }
+        }
+    }
+
+    /* --- CARTES 3 & 4 : INFORMATIONS LÉGALES (Accordéons) --- */
+    .legal-information {
+        /* Pas de padding global ici, on le gère sur les enfants pour la ligne de séparation */
+
+        .title-box {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            /* Indique à l'utilisateur que c'est cliquable */
+
+            .title {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                    /* Filtre magique Orange */
+                    filter: invert(39%) sepia(74%) saturate(3015%) hue-rotate(8deg) brightness(93%) contrast(101%);
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: var(--text-main);
+                }
+            }
+
+            /* Le Chevron */
+            >img {
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+                transition: transform 0.3s ease;
+                /* Ajoute une belle animation fluide */
+
+                /* La classe dynamique ajoutée par Angular */
+                &.rotate {
+                    transform: rotate(180deg);
+                    /* Fait tourner la flèche vers le haut */
+                }
+            }
+        }
+
+    }
+
+    .box-legal-content {
+        padding: 0 20px 20px 20px;
+        border-top: 1px solid var(--border-element);
+
+        /* S'il y a un <p> directement (comme dans la 2ème carte) */
+        >p {
+            margin: 16px 0 0 0;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .legal-title {
+            margin-top: 16px;
+
+            h4 {
+                margin: 0 0 4px 0;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--text-main);
+            }
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                line-height: 1.5;
+                color: var(--text-muted);
+            }
+        }
+    }
+}
+
+
+/* --- RESPONSIVE (Tablette & Desktop) --- */
+@media (min-width: 768px) {
+    .a-propos {
+        padding: 32px;
+        gap: 24px;
+        max-width: 900px;
+
+        >.title-box {
+            margin-bottom: 16px;
+
+            h2 {
+                font-size: 32px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+
+        }
+
+        .colocandme-description,
+        .contact {
+            padding: 24px;
+        }
+
+        .legal-information {
+            .title-box {
+                padding: 24px;
+            }
+
+            .box-legal-content {
+                padding: 0 24px 24px 24px;
+            }
+        }
+    }
+}
+
+.brand-name {
+    font-weight: 500;
+    color: var(--primary);
+}
