@@ -7,6 +7,14 @@
         </a>
     </div>
 
+    @if(actDatas.length === 0 && pastActDatas.length === 0 ){
+    <div class="no-act-global">
+        <img src="assets/logo-calendar.svg" alt="logo calendrier">
+        <p>Aucune activité de prévue pour le moment</p>
+    </div>
+    }
+    @else{
+
     <!-- LA MAGIE EST ICI : Le grand conteneur qui gère le Flexbox -->
     <div class="global-activities">
 
@@ -77,6 +85,14 @@
                     }
                 </div>
             </div>
+            @if(actDatas.length === 1){
+            <a [routerLink]="['/activites/new-act',groupId,null]" class="act-create-card">
+                <div class="icon-box">
+                    <img src="assets/logo-plus.svg" alt="Plus" />
+                </div>
+                <p>Nouvelle activité</p>
+            </a>
+            }
             }
             @empty{
             <div class="no-act">
@@ -109,5 +125,6 @@
         </div>
 
     </div>
+    }
 
 </section>

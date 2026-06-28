@@ -50,25 +50,38 @@ export class LinkToJoin implements OnInit {
   }
 
   copy() {
+    // Solution de repli robuste pour les iframes et navigateurs stricts
+    try {
+      // élément input temporaire
+      const tempInput = document.createElement("input");
+      tempInput.value = this.guestlink;
+      document.body.appendChild(tempInput);
 
-    //navigator.clipboard.writeText c'est la fonctionnalité interne au navigateur 
-    //qui permet de copier un élément dans le press papier
-    navigator.clipboard.writeText(this.guestlink).then(() => {
-      // 2. Si un chronomètre était déjà en cours, on le supprime !
+      // On sélectionne et on copie son contenu
+      tempInput.select();
+      document.execCommand("copy");
+
+      // On nettoie en supprimant l'input
+      document.body.removeChild(tempInput);
+
+      // 4. On gère l'affichage de la notification
       if (this.timeoutId) {
-        clearTimeout(this.timeoutId)
+        clearTimeout(this.timeoutId);
       }
-      this.copyAlertEmit = true
+
+      this.copyAlertEmit = true;
       this.changeDetectorRef.detectChanges();
 
-      setTimeout(() => { this.copyAlertEmit = false; this.changeDetectorRef.detectChanges(); }, 3000)
-      console.log("lien cliqué")
+      this.timeoutId = setTimeout(() => {
+        this.copyAlertEmit = false;
+        this.changeDetectorRef.detectChanges();
+      }, 3000);
 
-    })
-      .catch((err) => {
-        // 5. La sécurité : si le navigateur bloque la copie, on l'affiche dans la console
-        console.error("Échec de la copie dans le presse-papier :", err);
-      });
+      console.log("Lien copié avec succès !");
+
+    } catch (err) {
+      console.error("Échec de la copie dans le presse-papier :", err);
+    }
   }
 
 }

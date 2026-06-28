@@ -53,8 +53,20 @@
             flex-shrink: 0;
 
             @media (max-width: 600px) {
-                padding: 8px 12px;
-                gap: 6px;
+                position: fixed;
+                bottom: 90px;
+                /* Laisse de la place pour ta barre de navigation (ajuste si besoin) */
+                left: 50%;
+                transform: translateX(-50%);
+                /* Permet de le centrer parfaitement */
+                z-index: 100;
+                padding: 14px 28px;
+                /* Un peu plus grand pour faciliter le clic tactile */
+                gap: 8px;
+                box-shadow: 0 8px 24px var(--shadow-important);
+                /* Belle ombre pour le détacher du fond */
+                width: max-content;
+
             }
 
             &:hover {
@@ -102,6 +114,8 @@
             /* Dès 800px (Ordi/Tablette) : Grille stricte 70% / 30% ! */
             grid-template-columns: 7fr 3fr;
             align-items: start;
+
+
         }
     }
 
@@ -111,6 +125,8 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 16px;
         width: 100%;
+
+
         /* On retire les règles flex inutiles */
     }
 
@@ -121,6 +137,12 @@
         width: 100%;
         gap: 16px;
         /* On retire les règles flex inutiles */
+        padding-bottom: 30px;
+
+        @media (min-width: 600px) {
+            padding-bottom: 0px;
+
+        }
     }
 
     /* --- Titres de SÉPARATION --- */
@@ -408,7 +430,8 @@
     }
 
     /* --- BOX VIDE (AUCUNE ACTIVITÉ) --- */
-    .no-act {
+    .no-act,
+    .no-act-global {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -432,6 +455,78 @@
             @media (max-width: 600px) {
                 font-size: 13px;
             }
+        }
+    }
+}
+
+
+.act-create-card {
+    /* On reprend les mêmes dimensions et structure que act-detail */
+    background-color: transparent;
+    /* Fond transparent pour bien voir les pointillés */
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    min-height: 200px;
+    /* Assure la même hauteur que tes cartes remplies */
+    border: 2px dashed var(--text-muted);
+    /* Style "ajout" */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 16px;
+    text-decoration: none;
+    /* Si c'est un lien <a> */
+
+    &:hover {
+        border-color: var(--primary);
+        background-color: rgba(var(--primary-rgb), 0.05);
+        /* Laisse supposer la couleur primaire */
+        transform: translateY(-4px);
+    }
+
+    .icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background-color: var(--surface-element);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.2s ease;
+
+        img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+    }
+
+    p {
+        margin: 0;
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 16px;
+    }
+
+    /* Effet au survol de la carte pour faire réagir l'icône */
+    &:hover {
+        .icon-box {
+            background-color: var(--primary);
+
+            img {
+                filter: brightness(0) invert(1);
+                opacity: 1;
+            }
+        }
+
+        p {
+            color: var(--primary);
         }
     }
 }

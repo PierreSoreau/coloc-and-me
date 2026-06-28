@@ -70,8 +70,19 @@
                 /* CRUCIAL : Empêche le bouton de s'écraser */
 
                 @media (max-width: 600px) {
-                    padding: 8px 12px;
-                    gap: 6px;
+                    position: fixed;
+                    bottom: 90px;
+                    /* Laisse de la place pour ta barre de navigation (ajuste si besoin) */
+                    left: 50%;
+                    transform: translateX(-50%);
+                    /* Permet de le centrer parfaitement */
+                    z-index: 100;
+                    padding: 14px 28px;
+                    /* Un peu plus grand pour faciliter le clic tactile */
+                    gap: 8px;
+                    box-shadow: 0 8px 24px var(--shadow-important);
+                    /* Belle ombre pour le détacher du fond */
+                    width: max-content;
                 }
 
                 &:hover {
@@ -229,8 +240,13 @@
 
         @media (min-width: 800px) {
             flex: 1;
+            padding-bottom: 0px;
             /* Chaque colonne prend exactement 50% de l'écran */
         }
+    }
+
+    .task-container-done {
+        padding-bottom: 20px;
     }
 
     /* --- 4. Titres de section (EN COURS / TERMINEES) --- */

@@ -89,6 +89,14 @@
                 </div>
             </div>
             }
+
+            }
+            @if(taskFiltreesByNameDone.length === 0){
+            <div class="no-task">
+                <img src="assets/logo-clipboard-check.svg" alt="logo tâche" />
+                <p>Aucune tâche terminée pour <span>{{filterChange}}</span> cette semaine</p>
+            </div>
+
             }
         </div>
     </div>

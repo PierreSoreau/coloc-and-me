@@ -17,6 +17,7 @@ import { Location } from '@angular/common';
 })
 export class NewPassword {
 
+  wrongForm: string | null = null
   updatePasswordForm: FormGroup
   private router = inject(Router)
   private authService = inject(AuthService)
@@ -59,6 +60,7 @@ export class NewPassword {
   async onSubmit() {
 
     if (this.updatePasswordForm.invalid) {
+      this.wrongForm = "Certains champs sont invalides ou pas renseignés"
       return
     }
 

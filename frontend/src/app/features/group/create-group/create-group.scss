@@ -2,9 +2,24 @@
    STYLE PAR DÉFAUT (TÉLÉPHONE - MOBILE FIRST)
    ========================================= */
 :host {
-    display: block;
-    padding: 20px 10px;
-    /* Moins d'espace perdu sur les petits écrans */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+
+
+
+}
+
+.header-box {
+    width: 100%;
+    max-width: 664px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     h2 {
         text-align: center;
@@ -24,6 +39,14 @@
         margin-bottom: 24px;
         padding: 0 10px;
     }
+
+    .back {
+        max-width: 664px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
 }
 
 
@@ -32,7 +55,7 @@
     background-color: var(--bg-app);
     /* Sur mobile, on aère en enlevant les bordures lourdes, 
      juste un petit trait de séparation en haut */
-    border: 1px solid var(--border-element);
+    border: 2px solid var(--border-element);
     padding: 24px 16px;
     border-radius: 8px;
     margin: 0 auto;
@@ -82,7 +105,7 @@
             gap: 10px;
             width: 100%;
             background-color: transparent;
-            border: 1px solid var(--primary);
+            border: 2px solid var(--primary);
             border-radius: 8px;
             padding: 14px;
             margin-top: 8px;
@@ -139,10 +162,22 @@
 
     .create-group {
         /* Sur grand écran, on encadre la carte et on lui donne du volume */
-        border: 1px solid var(--border-element);
+        border: 2px solid var(--border-element);
         border-radius: 12px;
         padding: 32px;
-        max-width: 600px;
+        max-width: 664px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        width: 100%;
     }
+}
+
+.error-msg {
+
+    color: var(--text-alert);
+    font-size: 13px;
+    /* Aligné sur ton .error-text */
+    font-weight: 700;
+    text-align: center;
+    margin-top: 16px;
+    animation: fadeIn 0.3s ease;
 }

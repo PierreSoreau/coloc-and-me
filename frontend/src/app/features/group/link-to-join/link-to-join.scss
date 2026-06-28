@@ -40,7 +40,7 @@ section.invitation {
     width: 100%;
     max-width: 600px;
     background-color: var(--surface-active);
-    border: 1px solid var(--surface-box);
+    border: 2px solid var(--border-element);
     border-radius: 16px;
     padding: 32px;
     text-align: left;
@@ -156,7 +156,7 @@ section.invitation {
 .notification-copiage {
     /* Flotte par-dessus le reste de l'application */
     position: fixed;
-    top: 60px;
+    top: 90px;
     /* Juste en dessous du header */
     right: 20px;
     /* À 20px du bord droit de l'écran */

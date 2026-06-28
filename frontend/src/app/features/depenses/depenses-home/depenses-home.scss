@@ -4,9 +4,11 @@
     flex-direction: column;
     align-items: center;
     max-width: 500px;
-    padding: 24px;
+    padding: 24px 24px 34px 24px;
     margin: 0 auto;
     width: 100%;
+
+
 }
 
 .back {
@@ -111,6 +113,43 @@ app-depenses-input {
     transition: all 0.2s ease;
     margin-top: 8px;
 
+    @media (max-width: 600px) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: var(--primary);
+        border-radius: 24px;
+        text-decoration: none;
+        transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+        flex-shrink: 0;
+        position: fixed;
+        bottom: 90px;
+        /* Laisse de la place pour ta barre de navigation (ajuste si besoin) */
+        left: 50%;
+        transform: translateX(-50%);
+        /* Permet de le centrer parfaitement */
+        z-index: 100;
+        padding: 14px 28px !important;
+        /* Un peu plus grand pour faciliter le clic tactile */
+        gap: 8px;
+        box-shadow: 0 8px 24px var(--shadow-important);
+        /* Belle ombre pour le détacher du fond */
+        width: max-content !important;
+
+        img {
+            width: 12px !important;
+            height: 12px !important;
+            filter: brightness(0) invert(1) !important;
+        }
+
+        p {
+            font-size: 13px !important;
+            color: var(--text-on-primary) !important;
+        }
+    }
+
     &:hover {
         background-color: var(--surface-element);
         border-style: solid;
@@ -133,6 +172,7 @@ app-depenses-input {
 @media (min-width: 768px) {
     :host {
         max-width: 700px;
+        padding: 24px;
     }
 
     .reimboursement-or-expense {

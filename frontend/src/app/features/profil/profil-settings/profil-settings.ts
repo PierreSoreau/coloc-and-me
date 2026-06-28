@@ -150,6 +150,8 @@ export class ProfilSettings implements OnInit {
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
+      this.groupService.clearCurrentGroupId();
+      this.dataProfil.clearCaches();
 
 
       this.router.navigate(["/introduction"])
@@ -192,6 +194,10 @@ export class ProfilSettings implements OnInit {
         //ou il veut pas afficher un élément qui arrive après qu'il
         //ait affiché tout une page
         this.changeDetectorRef.detectChanges();
+
+        if (this.groupId) {
+          this.groupService.loadNameAndInitials(this.groupId)
+        }
 
         setTimeout(() => { this.snackBar = false; this.changeDetectorRef.detectChanges(); }, 3000)
 

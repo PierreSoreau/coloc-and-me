@@ -7,6 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ButtonRecord } from '../../../_shared/button/button_record/button-record';
 import { InputDynamique } from '../../../_shared/input-dynamique/input-dynamique';
 import { ProfilService } from '../../profil/services/profil.services';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 export interface dataInput {
   firstname: string
@@ -14,7 +15,7 @@ export interface dataInput {
 
 @Component({
   selector: 'app-create-group',
-  imports: [InputDynamique, ReactiveFormsModule, ButtonRecord, InputComponent],
+  imports: [InputDynamique, ReactiveFormsModule, ButtonRecord, InputComponent, ButtonBack],
   templateUrl: './create-group.html',
   styleUrl: './create-group.scss',
 })
@@ -24,6 +25,7 @@ export class CreateGroup {
 
   createGroupForm: FormGroup
   inputContentTable: Array<dataInput> = [];
+  wrongForm: string | null = null
   private groupService = inject(GroupService)
   private router = inject(Router)
 
@@ -70,10 +72,19 @@ export class CreateGroup {
       return
     }
 
+    if (this.createGroupForm.get('group')?.invalid) {
+      this.wrongForm = "des champs sont invalides"
+      return;
+    }
+
+    const rawParticipants: string[] = this.createGroupForm.get("participants")?.value || [];
+
+    const cleanParticipantsList = rawParticipants.filter(participant => participant && participant.trim().length > 0);
+
 
     const groupData = {
       groupName: this.createGroupForm.get("group")?.value,
-      participantsList: this.createGroupForm.get("participants")?.value,
+      participantsList: cleanParticipantsList
     }
 
     this.groupService.newGroup(groupData).subscribe({

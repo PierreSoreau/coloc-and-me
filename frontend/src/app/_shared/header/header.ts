@@ -22,6 +22,26 @@ export class Header implements OnInit {
 
   ngOnInit(): void {
     this.initials();
+
+    const groupEnCache = this.groupService.getCurrentGroupId();
+
+    if (!groupEnCache) {
+      this.groupService.loadUserGroup().subscribe(
+        {
+          next: (response) => {
+
+
+            this.currentGroupId = response.groupId
+
+            this.cdr.detectChanges();
+
+          },
+
+          error: (err) => {
+            console.error("Erreur de chargement des initiales", err)
+          }
+        })
+    }
     //on écoute la radio et currenGroup$ qui informe
     //si currentGroup existe ou pas 
     this.groupService.currentGroup$.subscribe(groupId => {

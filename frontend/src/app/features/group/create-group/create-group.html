@@ -1,5 +1,10 @@
-<h2>Créer un groupe de colocation</h2>
-<p>Donnez un nom à votre groupe et ajoutez les participants</p>
+<div class="header-box">
+    <div class="back">
+        <app-button-back></app-button-back>
+    </div>
+    <h2>Créer un groupe de colocation</h2>
+    <p>Donnez un nom à votre groupe et ajoutez les participants</p>
+</div>
 <section class="create-group">
     <div create-group-title>
         <img src="assets/logo-group.svg" />
@@ -24,6 +29,7 @@
             <p>Ajouter un participant</p>
         </button>
         <app-button-record buttonText="Créer le groupe"></app-button-record>
+        <p class="error-msg">{{wrongForm}}</p>
     </form>
 
 

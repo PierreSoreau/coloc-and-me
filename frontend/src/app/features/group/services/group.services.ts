@@ -92,10 +92,10 @@ export class GroupService {
         return this.http.get<loadGroupResponse>(`${this.apiUrl}/my-group`)
     }
 
-    // getCurrentGroupId() {
-    //     const group = this.currentGroup.getValue()
-    //     return group ? group.groupId : null;
-    // }
+    getCurrentGroupId() {
+        const group = this.currentGroup.getValue()
+        return group ? group : null;
+    }
 
     clearCurrentGroupId() {
         this.currentGroup.next(null)

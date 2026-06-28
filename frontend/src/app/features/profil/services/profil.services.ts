@@ -34,32 +34,20 @@ export class ProfilService {
     private initialsCache: string | null = null
 
     getInitials(token: string): Observable<string> {
-        if (this.initialsCache) {
-            console.log("les initiales ont été récupérées du cache Angular ")
-            return of(this.initialsCache)
-        }
-
-        console.log("initiales récupérées du serveur Node")
-
-        return this.http.get<string>(`${this.apiUrl}/name`).pipe(tap((dataDepuisServeur) => {
-            this.initialsCache = dataDepuisServeur
-        }))
+        return this.http.get<string>(`${this.apiUrl}/name`)
     }
 
     getDataProfil(token: string): Observable<profilData> {
-        if (this.profilCache) {
-            console.log("les données du profil ont été récupérées du cache Angular ")
-            return of(this.profilCache)
-        }
-
-        return this.http.get<profilData>(`${this.apiUrl}/dataProfil`).pipe(tap((dataDepuisServeur) => {
-            console.log("Informations du profil récupérées du serveur Node", dataDepuisServeur)
-            this.profilCache = dataDepuisServeur
-        }))
+        return this.http.get<profilData>(`${this.apiUrl}/dataProfil`)
     }
 
     logOut(token: string): Observable<string> {
         return this.http.post<string>("http://localhost:4000/api/auth/logout", {});
+    }
+
+    clearCaches() {
+        this.profilCache = null;
+        this.initialsCache = null;
     }
 
     updateProfil(credential: dataForUpdate): Observable<string> {
