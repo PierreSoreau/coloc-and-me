@@ -47,7 +47,6 @@ export class DetailDepenses implements OnInit {
             this.initialsPayer = response.expenseData.initials
             this.firstnamePayer = response.expenseData.firstnamePayer
             this.expenseAmount = response.expenseData.expense_amount
-            this.debtAmount = response.debtData.debt_amount
             this.debtData = response.debtData.debtData
 
 

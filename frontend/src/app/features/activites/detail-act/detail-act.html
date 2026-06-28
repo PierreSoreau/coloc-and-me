@@ -147,8 +147,8 @@
                             <p>Accepte</p>
                         </div>
                         }
-                        @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) === 'à
-                        discuter') {
+                        @if((checkActiviteForm.get('authorisation')?.value || actdetail.authorisationStatus) ===
+                        'à discuter') {
                         <div class="yellow-flag">
                             <img src="assets/logo-message.svg" alt="logo discussion" />
                             <p>À discuter</p>
@@ -176,9 +176,8 @@
                             <p>Peut-être</p>
                         </div>
                         }
-                        @if((checkActiviteForm.get('participation')?.value || actdetail.participationStatus) === 'ne
-                        peux
-                        pas')
+                        @if((checkActiviteForm.get('participation')?.value || actdetail.participationStatus) ===
+                        'ne peux pas')
                         {
                         <div class="red-flag">
                             <img src="assets/logo-circle-refuse.svg" alt="logo refus" />
@@ -250,15 +249,14 @@
         </div>
     </div>
 
-    @for(actdetail of targetActData.authorisationAndParticipationStatus; track actdetail.profilId){
-    @if(actdetail.profilId === userId){
+
+    @if(isUserTheOrganizer(userId)){
     <div class="update-btn">
         <app-button-update (clickUpdate)="update(actId)"></app-button-update>
         <app-button-delete (clickDelete)="delete(actId)" deleteText="Supprimer"></app-button-delete>
     </div>
     }
 
-    }
     }
 
 

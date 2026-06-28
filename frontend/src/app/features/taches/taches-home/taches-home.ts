@@ -50,79 +50,58 @@ export class TachesHome implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.groupId = params.get("groupId")
-      if (this.groupId) {
+      this.groupId = params.get("groupId");
+      if (!this.groupId) return;
 
-        const tachesEnCache = this.tasksService.getCurrentTasks()
-        const nomsUsersInCache = this.groupService.getCurrentNames()
-        //s'il n'y a pas d'élément dans le behaviorsubject dans ce cas
-        //on fait la requette sinon on se branche juste au behaviorsubject
-        if (tachesEnCache.length === 0) {
-          this.tasksService.loadAllDashboardData(this.groupId)
-        }
+      // 1. Initialisation unique : génération du calendrier
+      this.dateTableforWeeks = this.tasksService.generateWeeksCalendar();
 
-        if (nomsUsersInCache.length === 0) {
-          this.groupService.loadNameAndInitials(this.groupId)
-        }
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const indexSemaineActuelle = this.dateTableforWeeks.findIndex(week => {
+        const lundi = new Date(week.lundi);
+        lundi.setHours(0, 0, 0, 0);
+        const dimanche = new Date(week.dimanche);
+        dimanche.setHours(0, 0, 0, 0);
+        return today >= lundi && today <= dimanche;
+      });
 
-        //on se branche au behavior pour les noms des utilisateurs du groupe
-        const subNames = this.groupService.namesUsers$.subscribe((names) => {
-          this.namesUsers = names
-          console.log("Noms des utilisateurs mis à jour :", this.namesUsers)
-          this.changeDetectorRef.detectChanges()
-            ;
-        })
-
-        //on se branche au behavior pour les taches
-        const subTasks = this.tasksService.tasks$.subscribe((tasks) => {
-          this.taskDatas = tasks
-          this.changeDetectorRef.detectChanges();
+      this.currentIndex = indexSemaineActuelle !== -1 ? indexSemaineActuelle : 0;
 
 
 
-          // 1. Génère le calendrier
-          this.dateTableforWeeks = this.tasksService.generateWeeksCalendar();
 
-          if (this.currentWeek.lundi === "") {
+      // 3. Charger les données si nécessaire
+      const tachesEnCache = this.tasksService.getCurrentTasks();
+      const nomsUsersInCache = this.groupService.getCurrentNames();
 
-            //Trouve l'index de la semaine actuelle
-            const today = new Date();
-            const indexSemaineActuelle = this.dateTableforWeeks.findIndex(week => {
-              const lundi = new Date(week.lundi);
-              const dimanche = new Date(week.dimanche);
-              return today >= lundi && today <= dimanche;
-            });
-
-            //Applique l'index (ou 0 par défaut si on est hors année)
-            this.currentIndex = indexSemaineActuelle !== -1 ? indexSemaineActuelle : 0;
-          }
-
-          else {
-            if (this.currentIndex >= this.dateTableforWeeks.length) {
-              this.currentIndex = 0;
-            }
-          }
-
-          // 4. Initialise l'affichage pour cette semaine spécifique
-          this.currentWeek = this.tasksService.updateCurrentWeekDisplay(this.dateTableforWeeks, this.currentIndex);
-          this.currentYear = this.getYear(this.dateTableforWeeks[this.currentIndex].dimanche);
-          this.rafraichirAffichage();
-          this.filterchange(this.filterChange);
-
-          this.changeDetectorRef.detectChanges()
-
-
-          console.log("Tâches mises à jour :", this.taskDatas);
-        })
-
-
-
-        this.subscriptions.add(subTasks)
-
-        this.subscriptions.add(subNames)
-
+      if (tachesEnCache.length === 0) {
+        this.tasksService.loadAllDashboardData(this.groupId);
       }
-    })
+      if (nomsUsersInCache.length === 0) {
+        this.groupService.loadNameAndInitials(this.groupId);
+      }
+
+      // 4. Souscriptions (les branchements)
+      const subNames = this.groupService.namesUsers$.subscribe((names) => {
+        this.namesUsers = names;
+        this.changeDetectorRef.detectChanges();
+      });
+
+      const subTasks = this.tasksService.tasks$.subscribe((tasks) => {
+        this.taskDatas = tasks;
+
+        // On met à jour l'affichage avec l'index DÉJÀ calculé ci-dessus
+        this.currentWeek = this.tasksService.updateCurrentWeekDisplay(this.dateTableforWeeks, this.currentIndex);
+        this.currentYear = this.getYear(this.dateTableforWeeks[this.currentIndex].dimanche);
+
+        this.rafraichirAffichage();
+        this.changeDetectorRef.detectChanges();
+      });
+
+      this.subscriptions.add(subTasks);
+      this.subscriptions.add(subNames);
+    });
   }
 
   getYear(dateString: string): number {
@@ -186,6 +165,10 @@ export class TachesHome implements OnInit, OnDestroy {
         this.taskDatas
       );
 
+      console.log("liste des dates des semaines pris pour rafraichiraffichage", this.dateTableforWeeks)
+      console.log("index de la semaine actuelle pris pour rafraichiraffichage", this.currentIndex)
+      console.log("liste des dates pris pour rafraichiraffichage", this.taskDatas)
+
       this.filterchange(this.filterChange);
       this.changeDetectorRef.detectChanges();
     }
@@ -194,6 +177,9 @@ export class TachesHome implements OnInit, OnDestroy {
   //fonction qui permet de filtrer uniquement les tâches associées au nom des colocataires
   filterchange(name: string) {
     this.filterChange = name
+
+    console.log("Liste totale de la semaine :", this.tasksListOfWeek);
+    console.log("Filtre appliqué :", name);
 
     if (name === 'Tous') {
       this.taskFiltreesByName = this.tasksListOfWeek.filter((task) => {

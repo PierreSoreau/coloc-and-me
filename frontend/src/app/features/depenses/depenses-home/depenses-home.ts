@@ -33,7 +33,7 @@ export class DepensesHome implements OnInit {
         this.depenseService.getExpensesData(this.groupId).subscribe({
           next: (response) => {
             this.totalExpenseValue = response.globalStats.totalExpenseGroup
-            this.totalDebtAmount = response.globalStats.totalDebt
+            this.totalDebtAmount = Number(response.globalStats.totalDebt.toFixed(2))
             this.expenseList = response.finalExpenseList
 
             this.changeDetectorRef.detectChanges();

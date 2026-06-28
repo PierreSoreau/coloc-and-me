@@ -37,15 +37,17 @@ export const getAllActs = async (req, res) => {
 };
 
 export const updateStatus = async (req, res) => {
-  const token = req.headers["authorization"];
+  const token = req.headers.authorization;
   const ParticipationStatus = req.body.participationStatus;
   const AuthorisationStatus = req.body.authorisationStatus;
+  const actId = req.body.actId;
 
   try {
     const updateData = await actsService.updatStatusOfUser(
       token,
       ParticipationStatus,
       AuthorisationStatus,
+      actId,
     );
     return res.status(200).json(updateData);
   } catch (error) {

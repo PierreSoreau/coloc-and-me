@@ -35,7 +35,11 @@ export const calculateUserBalance = async (userId) => {
     totalExpenseAmount = totalExpenseAmount + expenseAmount.expense_amount;
   }
 
-  const totalDebtAmount = totalExpenseAmount - totalFirstDebtAmount;
+  let totalDebtAmount = totalExpenseAmount - totalFirstDebtAmount;
+
+  //indispensable pour éviter les buggs de calcul de javascript quand
+  //il fait des additions et soustractions
+  totalDebtAmount = Math.round(totalDebtAmount * 100) / 100;
 
   return { userId: userId, debtAmount: totalDebtAmount };
 };
@@ -127,14 +131,17 @@ export const insertDebtValue = async (groupId) => {
 
     // On trouve le montant à échanger (le plus petit des deux)
     // On utilise Math.abs() car la dette est un nombre négatif
-    let amount = Math.min(Math.abs(debt.debtAmount), credit.debtAmount);
+    let amountBrut = Math.min(Math.abs(debt.debtAmount), credit.debtAmount);
+    //On arrondit le montant de la transaction avant de l'insérer
+    //toujours pour éviter les buggs de javascript
+    let amount = Math.round(amountBrut * 100) / 100;
 
     // On insère tout de suite la ligne dans Supabase
     await debtLineInSupabase(groupId, debt, credit, amount);
 
     //On met à jour les portefeuilles en mémoire
-    debt.debtAmount += amount; // La dette remonte vers 0
-    credit.debtAmount -= amount; // La créance descend vers 0
+    debt.debtAmount = Math.round((debt.debtAmount + amount) * 100) / 100; // La dette remonte vers 0
+    credit.debtAmount = Math.round((credit.debtAmount - amount) * 100) / 100; // La créance descend vers 0
 
     // Si la dette du débiteur 'i' est réglée, on ajoute 1 à 'i' pour passer au débiteur suivant.
     if (Math.abs(debt.debtAmount) < 0.01) {

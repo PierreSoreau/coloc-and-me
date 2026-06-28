@@ -78,10 +78,10 @@ export interface NameUserDebt {
     initials: string
     firstnameUserDebt: string
     debtUserId: string
+    debtAmount: number
 }
 
 export interface DetailDebt {
-    debt_amount: number
     debtData: NameUserDebt[]
 }
 

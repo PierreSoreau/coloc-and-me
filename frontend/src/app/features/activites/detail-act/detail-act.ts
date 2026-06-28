@@ -167,24 +167,26 @@ export class DetailAct implements OnInit, OnDestroy {
     const token = localStorage.getItem("token")
 
     if (token) {
+      if (this.actId) {
 
-      const newStatus = this.checkActiviteForm.value
-
-
-
-      this.actService.updateStatus(token, newStatus.participation, newStatus.authorisation).subscribe({
-        next: (response) => {
-          console.log("mise à jour du statut du coloc pour l'activité faite:", response)
-          this.router.navigate(["/activites/act-home", this.groupId])
-
-        },
-
-        error: (err) => {
-          console.error("impossible de mettre à jour le statut du coloc pour l'activité", err)
-        }
+        const newStatus = this.checkActiviteForm.value
 
 
-      })
+
+        this.actService.updateStatus(token, newStatus.participation, newStatus.authorisation, this.actId).subscribe({
+          next: (response) => {
+            console.log("mise à jour du statut du coloc pour l'activité faite:", response)
+            this.router.navigate(["/activites/act-home", this.groupId])
+
+          },
+
+          error: (err) => {
+            console.error("impossible de mettre à jour le statut du coloc pour l'activité", err)
+          }
+
+
+        })
+      }
     }
 
 

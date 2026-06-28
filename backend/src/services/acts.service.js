@@ -167,6 +167,7 @@ export const updatStatusOfUser = async (
   token,
   participationStatus,
   authorisationStatus,
+  actId,
 ) => {
   const userId = await getUUID(token);
 
@@ -181,6 +182,7 @@ export const updatStatusOfUser = async (
       participation_status: participationStatus,
     })
     .eq("profil_id", userId)
+    .eq("activites_id", actId)
     .select("*")
     .single();
 

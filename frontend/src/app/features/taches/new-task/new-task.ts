@@ -230,6 +230,7 @@ export class NewTask {
               next: (response) => {
                 // Ce next() ne s'exécute QUE si les 3 requêtes ont réussi à la suite !
                 console.log("Séquence de mise à jour terminée avec succès", response);
+                this.tasksService.loadAllDashboardData(this.groupId!)
                 this.changeDetectorRef.detectChanges();
                 this.router.navigate(["/taches", this.groupId]);
               },

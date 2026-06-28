@@ -193,14 +193,11 @@ export class WriteDepense implements OnInit {
         this.debtAmount = response.debtAmount
         console.log("Enregistrement des données de la nouvelle dépense")
 
-        const debtTable = this.detailExpenseForm.get("debtUsers") as FormArray
-        // Arrondit à 2 décimales et le garde en format nombre
-        this.debtPieceAmount = Number((this.debtAmount / debtTable?.length).toFixed(2));
-        const debtTablevalue = this.detailExpenseForm.get("debtUsers")?.value
+        const debtTableId = this.detailExpenseForm.get("debtUsers")?.value
         const debtCredential = {
-          profilIdTable: debtTablevalue,
-          debt_amount: this.debtPieceAmount,
-          expenses_id: this.expenseId
+          profilIdTable: debtTableId,
+          debt_amount: response.debtAmount,
+          expenses_id: response.expense_id
         }
 
         this.depenseService.newDebtData(debtCredential).subscribe({

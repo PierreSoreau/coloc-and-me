@@ -79,6 +79,7 @@ export class TasksService {
     loadTasks(groupId: string): void {
         this.getAllTasks(groupId).subscribe({
             next: (data) => {
+                console.log("Données reçues du serveur :", data);
                 // On met à jour le cerveau des tâches
                 this.tasksSubject.next(data);
             },
@@ -108,26 +109,7 @@ export class TasksService {
     newTask(credential: newTaskCredential): Observable<any> {
         return this.http.post<any>(`${this.apiUrl}/new-task`, credential, {
             params: { groupId: credential.groupId }
-        }).pipe(
-            // Le "tap" permet d'exécuter du code au passage de la réponse 
-
-            // SANS modifier la réponse pour le composant qui a cliqué
-
-            tap((response) => {
-
-                const currentTasks = this.tasksSubject.getValue()
-
-                //permet de construire un tableau même si c'est un ibjet en retour
-                const nouvellesTaches = Array.isArray(response) ? response : [response];
-
-                //on insère les deux tableaux dans un autre tableau mais les ... font que 
-                //les crochets des tableaux sont flingués
-                const newTaskBehaviorSubject = [...nouvellesTaches, ...currentTasks]
-                this.tasksSubject.next(newTaskBehaviorSubject)
-
-
-
-            }))
+        })
     }
 
 
@@ -376,50 +358,12 @@ export class TasksService {
     deleteTasksAfterCurrentDay(modelTaskId: number): Observable<{ message: string }> {
         return this.http.delete<{ message: string }>(`${this.apiUrl}/delete-tasks-after-current-day`, {
             params: { taskId: modelTaskId }
-        }).pipe(tap((response) => {
-
-
-            const currentTasks = this.tasksSubject.getValue()
-
-            const newCurrentTasks = currentTasks.filter((task) => {
-
-                if (task.taskId !== modelTaskId) {
-                    return true
-                }
-
-                //on met la date d'aujourd'hui à minuit et la date comparée
-                //du tableau à minuit aussi pour être sur de comparer à heure comparable
-                //sinon une date du tableau à 16h50 sera plus tard que minuit date du controle
-                const currentDate = new Date()
-                currentDate.setHours(0, 0, 0, 0)
-
-                const taskDate = new Date(task.date)
-
-                taskDate.setHours(0, 0, 0, 0)
-
-                return taskDate <= currentDate
-
-
-            });
-
-            this.tasksSubject.next(newCurrentTasks)
-
-        }))
+        })
     }
 
     newTasksForModelAfterToday(modelTaskId: number): Observable<TaskResponse[]> {
         return this.http.post<TaskResponse[]>(`${this.apiUrl}/create-tasks-after-current-day`, { taskId: modelTaskId })
-            .pipe(tap((response) => {
 
-                const currentTasks = this.tasksSubject.getValue()
-
-                const newCurrentTasks = [...currentTasks, ...response]
-
-
-                this.tasksSubject.next(newCurrentTasks)
-
-
-            }))
     }
 
     //----------------------------------------------------------------------

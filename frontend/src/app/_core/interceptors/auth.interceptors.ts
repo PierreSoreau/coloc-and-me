@@ -46,6 +46,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return from(supabase.auth.getSession()).pipe(
         switchMap(({ data }) => {
             const token = data.session?.access_token;
+            const userId = data.session?.user?.id;
+
+            // Enregistrement systématique dans le localStorage
+            if (token && userId) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', userId);
+            }
 
             // On crée un clone de la requête pour la modifier
             let authReq = req;

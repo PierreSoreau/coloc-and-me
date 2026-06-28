@@ -99,23 +99,64 @@ export const newExpense = async (
   };
 };
 
-export const newDebt = async (profilIdTable, debtAmount, expenseId) => {
-  for (const profilId of profilIdTable) {
-    const { data: debtRecord, error: debtError } = await supabase
-      .from("expenses_profil")
-      .insert([
-        {
-          profil_id: profilId,
-          debt_amount: debtAmount,
-          expenses_id: expenseId,
-        },
-      ]);
+export const calculateDebtDistribution = (totalAmount, payerIds) => {
+  const count = payerIds.length;
+  // On travaille en centimes pour éviter les erreurs de virgule flottante
+  // En gros par exemple 9.65 donne 965
+  const totalCents = Math.round(totalAmount * 100);
+  //calcul du montant à rembourser pour chacun
+  const basePartCents = Math.floor(totalCents / count);
+  //calcul du reste après la division par le nombre de participant
+  const remainder = totalCents % count;
 
-    if (debtError) {
-      throw new Error(
-        `Erreur au moment de l'enregistrement de la dette,${debtError.message}`,
-      );
+  //   Explication du map avec un montant de 10 euros et 3 personnes en jeu :
+
+  //   Index 0 : 0 < 1 est vrai. Il paie 333 + 1 = 334 centimes (3,34 €).
+
+  //   Index 1 : 1 < 1 est faux. Il paie 333 + 0 = 333 centimes (3,33 €).
+
+  //   Index 2 : 2 < 1 est faux. Il paie 333 + 0 = 333 centimes (3,33 €).
+
+  return payerIds.map((id, index) => {
+    let debtAmountInCents = basePartCents;
+
+    // Si on a un reste de centimes à distribuer, on en ajoute un
+    // aux premiers participants de la liste.
+    if (index < remainder) {
+      debtAmountInCents += 1;
     }
+
+    const debtAmount = debtAmountInCents / 100;
+
+    return {
+      profilId: id,
+      amount: debtAmount,
+    };
+  });
+};
+
+export const newDebt = async (profilIdTable, totalAmount, expenseId) => {
+  const debtTable = await calculateDebtDistribution(totalAmount, profilIdTable);
+
+  if (!debtTable) {
+    throw new Error(
+      "Erreur lors de la récupération du tableau de dépense par utilisateur",
+    );
+  }
+  const dataToInsert = debtTable.map((item) => ({
+    profil_id: item.profilId,
+    debt_amount: item.amount,
+    expenses_id: expenseId,
+  }));
+
+  const { error: debtError } = await supabase
+    .from("expenses_profil")
+    .insert(dataToInsert);
+
+  if (debtError) {
+    throw new Error(
+      `Erreur au moment de l'enregistrement de la dette,${debtError.message}`,
+    );
   }
 };
 
@@ -196,10 +237,11 @@ export const getdetailDebt = async (expenseId) => {
       initials: initials,
       firstnameUserDebt: debt.profils.firstname,
       debtUserId: debt.profil_id,
+      debtAmount: debt.debt_amount,
     });
   }
 
-  return { debt_amount: debtData[0].debt_amount, debtData: debtProfil };
+  return { debtData: debtProfil };
 };
 
 export const deleteExpense = async (expenseId) => {

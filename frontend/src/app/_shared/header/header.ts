@@ -6,7 +6,7 @@ import { ProfilService } from '../../features/profil/services/profil.services';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
