@@ -18,6 +18,7 @@
     <a class="btn-choice" routerLinkActive="active" [routerLink]="['/depenses/remboursement',groupId]">Remboursement</a>
 </div>
 
+
 @for (expense of expenseList; track $index) {
 <app-depenses-input [linkRedirection]="['/depenses/detail-depenses',groupId,expense.expense_id]"
     [expenseAmount]="expense.expense_amount" [expenseDate]="expense.expense_date" [expenseTitle]="expense.expense_title"

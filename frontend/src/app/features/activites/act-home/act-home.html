@@ -7,107 +7,107 @@
         </a>
     </div>
 
-    <p class="is-coming">À VENIR</p>
+    <!-- LA MAGIE EST ICI : Le grand conteneur qui gère le Flexbox -->
+    <div class="global-activities">
 
-    @for(act of actDatas; track act.actId){
-    <div class="act-detail" (click)="detail(act.actId)">
+        <!-- COLONNE 1 : Activités à venir -->
+        <div class="activities-coming">
+            <p class="is-coming">À VENIR</p>
 
-        <div class="header-logo">
+            @for(act of actDatas; track act.actId){
+            <div class="act-detail" (click)="detail(act.actId)">
+                <div class="header-logo">
+                    @if(act.typeLocation === "coloc"){
+                    <div class="img-box-orange">
+                        <img src="assets/logo-house.png" alt="logo application coloc&me" />
+                    </div>
+                    } @else {
+                    <div class="img-box-bleue">
+                        <img src="assets/logo-navigation.svg" alt="logo navigation" />
+                    </div>
+                    }
 
-            @if(act.typeLocation === "coloc"){
-            <div class="img-box-orange">
-                <img src="assets/logo-house.png" alt="logo application coloc&me" />
-            </div>
-            } @else {
-            <div class="img-box-bleue">
-                <img src="assets/logo-navigation.svg" alt="logo navigation" />
-            </div>
-            }
-
-            @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
-            @if(actdetail.profilId === userId){
-            <div class="parametres" (click)="toggle(act.actId,$event)">
-                <img src="assets/logo-three-points.svg" alt="logo paramètres" />
-                @if(menuOuvert===act.actId){
-                <div class="menu-parametres">
-                    <button (click)="update(act.actId,$event)">
-                        <img src="assets/logo-pencil.svg" alt="logo modifier" />
-                        <p>Modifier</p>
-                    </button>
-                    <button (click)="suppress(act.actId,$event)">
-                        <img src="assets/logo-bin.svg" alt="logo supprimer" />
-                        <p>Supprimer</p>
-                    </button>
-
+                    @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
+                    @if(actdetail.profilId === userId){
+                    <div class="parametres" (click)="toggle(act.actId,$event)">
+                        <img src="assets/logo-three-points.svg" alt="logo paramètres" />
+                        @if(menuOuvert===act.actId){
+                        <div class="menu-parametres">
+                            <button (click)="update(act.actId,$event)">
+                                <img src="assets/logo-pencil.svg" alt="logo modifier" />
+                                <p>Modifier</p>
+                            </button>
+                            <button (click)="suppress(act.actId,$event)">
+                                <img src="assets/logo-bin.svg" alt="logo supprimer" />
+                                <p>Supprimer</p>
+                            </button>
+                        </div>
+                        }
+                    </div>
+                    }}
                 </div>
-                }
+
+                <h3>{{ act.title }}</h3>
+
+                <div class="date-box">
+                    <img src="assets/logo-clock.svg" alt="logo horloge" />
+                    <p>{{ act.date | date:'dd/MM/yyyy à HH:mm' }}</p>
+                </div>
+
+                <div class="location-box">
+                    <img src="assets/logo-location.svg" alt="logo pointage localisation" />
+                    <p>{{ act.location }}</p>
+                </div>
+
+                <div class="guest-box">
+                    <img src="assets/logo-group.svg" alt="logo groupe" />
+                    <p>
+                        <span class="yes">{{ act.numberYes }} oui . </span>
+                        <span class="maybe">{{ act.numberMaybe }} peut-être . </span>
+                        <span class="no">{{ act.numberNo }} non . </span>
+                        <span class="no-answer">{{ act.numberWaiting }} en attente</span>
+                    </p>
+                </div>
+
+                <div class="creator-name-event">
+                    @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
+                    @if(actdetail.profilStatus === "organisateur"){
+                    <p>Organisé par <span class="creator-name">{{ actdetail.firstname }}</span></p>
+                    }
+                    }
+                </div>
             </div>
-            }}
-
-
-
-        </div>
-
-
-
-
-        <h3>{{ act.title }}</h3>
-
-        <div class="date-box">
-            <img src="assets/logo-clock.svg" alt="logo horloge" />
-            <p>{{ act.date | date:'dd/MM/yyyy à HH:mm' }}</p>
-        </div>
-
-        <div class="location-box">
-            <img src="assets/logo-location.svg" alt="logo pointage localisation" />
-            <p>{{ act.location }}</p>
-        </div>
-
-        <div class="guest-box">
-            <img src="assets/logo-group.svg" alt="logo groupe" />
-            <p>
-                <span class="yes">{{ act.numberYes }} oui . </span>
-                <span class="maybe">{{ act.numberMaybe }} peut-être . </span>
-                <span class="no">{{ act.numberNo }} non . </span>
-                <span class="no-answer">{{ act.numberWaiting }} en attente</span>
-            </p>
-        </div>
-
-        <div class="creator-name-event">
-            @for(actdetail of act.authorisationAndParticipationStatus; track actdetail.profilId){
-            @if(actdetail.profilStatus === "organisateur"){
-            <p>Organisé par <span class="creator-name">{{ actdetail.firstname }}</span></p>
             }
+            @empty{
+            <div class="no-act">
+                <img src="assets/logo-calendar.svg" alt="logo calendrier">
+                <p>Aucune activité de prévue pour le moment</p>
+            </div>
             }
         </div>
-    </div>
-    }
-    @empty{
-    <div class="no-act">
-        <img src="assets/logo-calendar.svg" alt="logo calendrier">
-        <p>Aucune activité de prévue pour le moment</p>
-    </div>
-    }
 
-    <p class="past">PASSÉES</p>
-    @for(act of pastActDatas; track act.actId){
-
-    <div class="past-act">
-        <div class="date">
-            <p> {{act.date | date:'dd/MM/yyyy'}}</p>
+        <!-- COLONNE 2 : Activités passées -->
+        <div class="activities-past">
+            <p class="past">PASSÉES</p>
+            @for(act of pastActDatas; track act.actId){
+            <div class="past-act">
+                <div class="date">
+                    <p> {{act.date | date:'dd/MM/yyyy'}}</p>
+                </div>
+                <div class="past-act-detail">
+                    <h4>{{act.title}}</h4>
+                    <p>{{act.location}}</p>
+                </div>
+            </div>
+            }
+            @empty{
+            <div class="no-act">
+                <img src="assets/logo-calendar.svg" alt="logo calendrier">
+                <p>Aucune activité de passée pour le moment</p>
+            </div>
+            }
         </div>
-        <div class="past-act-detail">
-            <h4>{{act.title}}</h4>
-            <p>{{act.location}}</p>
-        </div>
-    </div>
-    }
-    @empty{
-    <div class="no-act">
-        <img src="assets/logo-calendar.svg" alt="logo calendrier">
-        <p>Aucune activité de passée pour le moment</p>
-    </div>
-    }
 
+    </div>
 
 </section>

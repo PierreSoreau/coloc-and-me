@@ -78,7 +78,7 @@ h2 {
 /* --- Carte 1 : En-tête du profil --- */
 .name-profil-container {
     background-color: var(--bg-app);
-    border: 1px solid var(--border-element);
+    border: 2px solid var(--border-element);
     border-radius: 16px;
     padding: 40px 20px;
     display: flex;
@@ -168,7 +168,7 @@ h2 {
     }
 
     button {
-        border: 1px solid var(--text-alert);
+        border: 2px solid var(--text-alert);
         color: var(--text-alert);
 
         img {
@@ -185,7 +185,7 @@ h2 {
 /* --- Carte 3 : Formulaire de modification --- */
 .profil-data {
     background-color: var(--bg-app);
-    border: 1px solid var(--border-element);
+    border: 2px solid var(--border-element);
     border-radius: 16px;
     padding: 30px 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
@@ -237,7 +237,7 @@ h2 {
 }
 
 .new-email-box {
-    border: 1px solid var(--primary);
+    border: 2px solid var(--primary);
     /* Bordure orange comme les vrais inputs */
     background-color: var(--surface-element);
     height: 55px;

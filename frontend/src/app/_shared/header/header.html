@@ -10,29 +10,29 @@
     <nav class="nav-container">
         <ul class="nav-list">
             <li>
-                <a [routerLink]="currentGroupId ? ['/dashboard',currentGroupId] : null" routerLinkActive="active"
-                    class="nav-link">
+                <a [routerLink]="currentGroupId ? ['/dashboard',currentGroupId] : null"
+                    [class.active]="currentUrl.includes('/dashboard')" class="nav-link">
                     <img src="assets/logo-home.svg" alt="Icône Accueil" class="nav-icon" />
                     <span class="nav-text">Accueil</span>
                 </a>
             </li>
             <li>
                 <a [routerLink]="currentGroupId ? ['/depenses/depenses-home',currentGroupId] : null"
-                    routerLinkActive="active" class="nav-link">
+                    [class.active]="currentUrl.includes('/depenses')" class="nav-link">
                     <img src="assets/logo-wallet.svg" alt="Icône Dépenses" class="nav-icon" />
                     <span class="nav-text">Dépenses</span>
                 </a>
             </li>
             <li>
-                <a [routerLink]="currentGroupId ? ['/taches',currentGroupId] : null" routerLinkActive="active"
-                    class="nav-link">
+                <a [routerLink]="currentGroupId ? ['/taches',currentGroupId] : null"
+                    [class.active]="currentUrl.includes('/taches')" class="nav-link">
                     <img src="assets/logo-clipboard-check.svg" alt="Icône Tâches" class="nav-icon" />
                     <span class="nav-text">Tâches</span>
                 </a>
             </li>
             <li>
                 <a [routerLink]="currentGroupId ? ['/activites/act-home',currentGroupId] : null"
-                    routerLinkActive="active" class="nav-link">
+                    [class.active]="currentUrl.includes('/activites')" class="nav-link">
                     <img src="assets/logo-calendar.svg" alt="Icône Activités" class="nav-icon" />
                     <span class="nav-text">Activités</span>
                 </a>

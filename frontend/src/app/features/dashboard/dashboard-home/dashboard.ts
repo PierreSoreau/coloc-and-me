@@ -6,11 +6,11 @@ import { DepensesService } from '../../depenses/services/depenses.services';
 import { ActService, ActResponse } from '../../activites/services/act.services';
 import { Subscription } from 'rxjs';
 import { ProfilService } from '../../profil/services/profil.services';
-import { DatePipe } from '@angular/common';
+import { DatePipe, SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, SlicePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -31,6 +31,7 @@ export class Dashboard implements OnInit {
   userId: string | null = localStorage.getItem("userId")
   token: string | null = localStorage.getItem("token")
   firstname: string | null = null
+  boxTask: boolean = false
 
 
   ngOnInit(): void {
@@ -136,11 +137,15 @@ export class Dashboard implements OnInit {
 
       }
 
-
-
-
-
     })
+
+  }
+
+  isOpen(event: Event): void {
+    event.preventDefault()
+    event.stopPropagation()
+    this.boxTask = !this.boxTask
+
 
   }
 

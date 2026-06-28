@@ -5,20 +5,23 @@
 }
 
 .btn-delete {
-    border: 1px solid var(--text-alert);
+    border: 2px solid var(--text-alert);
     color: var(--text-alert);
+
+    box-shadow: 0 12px 12px var(--shadow-negative);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px var(--shadow-negative-hover);
+    }
 
 
     img {
         filter: invert(34%) sepia(85%) saturate(7460%) hue-rotate(349deg) brightness(95%) contrast(85%);
     }
 
-    &:hover {
-        opacity: 1;
-        background-color: rgba(211, 47, 47, 0.05);
-        /* Fond rouge très léger au survol */
-        transform: scale(1.05);
-    }
+
 }
 
 button {

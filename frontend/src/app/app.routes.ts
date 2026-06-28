@@ -47,9 +47,6 @@ export const routes: Routes = [
         children: [
 
             {
-                path: "dashboard", component: Dashboard
-            },
-            {
                 path: "dashboard/:groupId", component: Dashboard
             },
             {

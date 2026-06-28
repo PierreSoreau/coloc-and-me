@@ -43,7 +43,9 @@
             }
         </div>
         <app-button-record [buttonText]="buttonValue"></app-button-record>
-        <p>{{wrongForm}}</p>
+        <div class="box-error">
+            <p class="error-message">{{wrongForm}}</p>
+        </div>
 
     </form>
 </section>

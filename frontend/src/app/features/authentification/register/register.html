@@ -33,6 +33,9 @@
         <app-button-record buttonText="S'inscrire"></app-button-record>
 
     </form>
+    @if(wrongForm){
+    <p class="error-message">{{wrongForm}}</p>
+    }
     <a routerLink="/auth/login" class="back-home">Retour à la connection</a>
 </section>
 }

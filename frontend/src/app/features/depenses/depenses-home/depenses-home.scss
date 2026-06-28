@@ -129,3 +129,26 @@ app-depenses-input {
         color: var(--primary);
     }
 }
+
+@media (min-width: 768px) {
+    :host {
+        max-width: 700px;
+    }
+
+    .reimboursement-or-expense {
+        max-width: 700px;
+    }
+
+    app-depenses-input {
+        max-width: 700px;
+    }
+
+    .add-expense {
+        max-width: 700px;
+    }
+
+    .expense-container {
+        max-width: 700px;
+    }
+
+}

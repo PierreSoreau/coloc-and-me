@@ -1,13 +1,14 @@
 .activites {
     width: 100%;
-    max-width: 800px;
+    /* On passe à 1200px pour laisser la place aux deux colonnes */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
-    display: block;
+    display: flex;
+    flex-direction: column;
 
     @media (max-width: 600px) {
         padding: 16px 12px;
-        /* On réduit le padding global pour gagner de la place */
     }
 
     /* --- 1. En-tête --- */
@@ -17,12 +18,12 @@
         align-items: center;
         margin-bottom: 24px;
         gap: 12px;
-        /* Empêche le bouton de coller au texte */
 
         @media (max-width: 600px) {
             margin-bottom: 16px;
             align-items: flex-start;
-            /* Aligne en haut si le titre passe à la ligne */
+            flex-direction: column;
+            /* Le bouton passe sous le titre sur petit téléphone */
         }
 
         h2 {
@@ -37,7 +38,6 @@
             }
         }
 
-        /* --- Le Bouton "Nouvelle Tâche" --- */
         .btn-nouvelle-activite {
             display: inline-flex;
             align-items: center;
@@ -51,7 +51,6 @@
             transition: background-color 0.2s ease, transform 0.1s ease;
             cursor: pointer;
             flex-shrink: 0;
-            /* CRUCIAL : Empêche le bouton de s'écraser */
 
             @media (max-width: 600px) {
                 padding: 8px 12px;
@@ -90,386 +89,339 @@
             }
         }
     }
-}
 
-/* --- TITRE DE SÉPARATION --- */
-.is-coming {
-    font-size: 12px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    margin-top: 16px;
-}
+    /* --- LA MAGIE EST ICI (TÉLÉPHONE VS ORDI) --- */
+    .global-activities {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* Par défaut sur téléphone : 1 seule colonne */
+        gap: 32px;
+        width: 100%;
 
-/* --- LA CARTE ACTIVITÉ --- */
-.act-detail {
-    background-color: var(--bg-app);
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
-    /* Ombre très douce pour décoller la carte du fond */
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    display: flex;
-    flex-direction: column;
-    position: relative; // Pratique si tu veux rajouter le badge "Participe" plus tard
-    border: 1px solid var(--border-element);
-    max-width: 350px;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-
-
-    &:hover {
-        transform: scale(1.05);
+        @media (min-width: 800px) {
+            /* Dès 800px (Ordi/Tablette) : Grille stricte 70% / 30% ! */
+            grid-template-columns: 7fr 3fr;
+            align-items: start;
+        }
     }
 
-    .header-logo {
+    .activities-coming {
+        display: grid;
+        /* Sur mobile 1 colonne, mais si tu as de la place, ça passera à 2 colonnes à l'intérieur ! */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        width: 100%;
+        /* On retire les règles flex inutiles */
+    }
+
+    .activities-past {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 16px;
+        /* On retire les règles flex inutiles */
+    }
 
-        /* Les boîtes d'icônes (Maison / Navigation) */
-        .img-box-orange,
-        .img-box-bleue {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    /* --- Titres de SÉPARATION --- */
+    .is-coming,
+    .past {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0 0 4px 0;
+    }
 
-            img {
-                width: 24px;
-                height: 24px;
-                filter: brightness(0) invert(1);
-            }
+    .is-coming {
+        grid-column: 1 / -1;
+        /* LA CORRECTION: Force le titre à prendre toute la ligne de la grille interne */
+        margin-bottom: 12px;
+        /* Ajoute un peu de marge avant de commencer les cartes */
+    }
+
+    /* --- LA CARTE ACTIVITÉ (À VENIR) --- */
+    .act-detail {
+        background-color: var(--bg-app);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 12px 12px var(--shadow-important);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border: 2px solid var(--primary);
+        width: 100%;
+        /* S'étend sur toute la colonne (plus de max-width: 350px) */
+        cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: translateY(-4px);
+            /* Effet de soulèvement plus propre qu'un scale */
+            box-shadow: 0 12px 12px var(--shadow-important-hover);
         }
 
-        .parametres {
+        .header-logo {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            position: relative;
+            justify-content: space-between;
 
-            img {
-                width: 30px;
-                height: 30px;
-            }
-
-            @media (min-width: 768px) {
-                display: none;
-            }
-
-
-
-
-
-            .menu-parametres {
-                /* Positionnement du menu flottant */
-                position: absolute;
-                top: 50px;
-                /* À ajuster légèrement selon la taille de ton icône 3 points */
-                right: 0;
-                z-index: 10;
-
-                /* Design de la "boîte" */
-                background-color: var(--bg-app, #ffffff);
-                border: 1px solid var(--border-element);
-                /* Bordure douce comme ta carte */
-                border-radius: 8px;
-                /* Arrondi léger */
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                /* Ombre douce pour détacher le menu du fond */
-
+            .img-box-orange,
+            .img-box-bleue {
+                width: 48px;
+                height: 48px;
+                border-radius: 14px;
                 display: flex;
-                flex-direction: column;
-                min-width: 150px;
-                overflow: hidden;
-                /* Garde le hover à l'intérieur des bords arrondis */
+                justify-content: center;
+                align-items: center;
 
-                button {
-                    /* Reset du style bouton par défaut */
-                    background: none;
-                    border: none;
-                    width: 100%;
-                    padding: 12px 16px;
-                    cursor: pointer;
+                img {
+                    width: 24px;
+                    height: 24px;
+                    filter: brightness(0) invert(1);
+                }
+            }
 
-                    /* Alignement icône + texte */
+            .img-box-orange {
+                background-color: var(--primary);
+            }
+
+            .img-box-bleue {
+                background-color: var(--bg-navigation);
+            }
+
+            .parametres {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                position: relative;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                @media (min-width: 768px) {
+                    display: none;
+                }
+
+                .menu-parametres {
+                    position: absolute;
+                    top: 50px;
+                    right: 0;
+                    z-index: 10;
+                    background-color: var(--bg-app, #ffffff);
+                    border: 1px solid var(--border-element);
+                    border-radius: 8px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                     display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    /* Espace parfait entre le logo et le texte */
-                    transition: background-color 0.2s ease;
+                    flex-direction: column;
+                    min-width: 150px;
+                    overflow: hidden;
 
-                    img {
-                        width: 18px;
-                        height: 18px;
-                        opacity: 0.7;
-                        /* Adoucit un peu l'icône pour faire pro */
-                    }
+                    button {
+                        background: none;
+                        border: none;
+                        width: 100%;
+                        padding: 12px 16px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        transition: background-color 0.2s ease;
 
-                    p {
-                        margin: 0;
-                        font-size: 14px;
-                        font-weight: 500;
-                        color: var(--text-main, #333333);
-                    }
-
-                    /* Effet au survol */
-                    &:hover {
-                        background-color: var(--surface-element, #f5f5f5);
-                    }
-
-                    /* --- Style spécifique pour le bouton Supprimer --- */
-                    &:last-child {
-                        border-top: 1px solid var(--surface-element, #f0f0f0);
-                        /* Petite ligne de séparation */
-
-                        p {
-                            color: var(--text-alert, #D32F2F);
-                            /* Texte en rouge */
+                        img {
+                            width: 18px;
+                            height: 18px;
+                            opacity: 0.7;
                         }
 
-                        /* Si tu as appliqué la logique des filtres pour tes SVG précédemment, 
-                   tu peux aussi mettre l'icône corbeille en rouge ici */
-                        img {
-                            filter: invert(24%) sepia(55%) saturate(4496%) hue-rotate(344deg) brightness(90%) contrast(94%);
-                            opacity: 1;
+                        p {
+                            margin: 0;
+                            font-size: 14px;
+                            font-weight: 500;
+                            color: var(--text-main, #333333);
                         }
 
                         &:hover {
-                            background-color: rgba(211, 47, 47, 0.05);
-                            /* Survol légèrement rougeté */
+                            background-color: var(--surface-element, #f5f5f5);
+                        }
+
+                        &:last-child {
+                            border-top: 1px solid var(--surface-element, #f0f0f0);
+
+                            p {
+                                color: var(--text-alert, #D32F2F);
+                            }
+
+                            img {
+                                filter: invert(24%) sepia(55%) saturate(4496%) hue-rotate(344deg) brightness(90%) contrast(94%);
+                                opacity: 1;
+                            }
+
+                            &:hover {
+                                background-color: rgba(211, 47, 47, 0.05);
+                            }
                         }
                     }
                 }
             }
         }
 
+        h3 {
+            font-size: 22px;
+            color: var(--text-main);
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        .date-box,
+        .location-box,
+        .guest-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+
+            img {
+                width: 18px;
+                height: 18px;
+                opacity: 0.6;
+            }
+
+            p {
+                margin: 0;
+                font-size: 15px;
+                color: var(--text-muted);
+
+                .yes {
+                    color: var(--text-success);
+                    font-weight: 500;
+                }
+
+                .maybe {
+                    color: var(--primary);
+                    font-weight: 500;
+                }
+
+                .no {
+                    color: var(--text-alert);
+                    font-weight: 500;
+                }
+
+                .no-answer {
+                    color: var(--text-muted);
+                }
+            }
+        }
+
+        .creator-name-event {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-element);
+            /* Optionnel: Séparateur visuel propre */
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                color: var(--text-muted);
+
+                .creator-name {
+                    color: var(--primary);
+                    font-weight: 500;
+                }
+            }
+        }
     }
 
-
-
-    .img-box-orange {
-        background-color: var(--primary);
-    }
-
-    .img-box-bleue {
-        background-color: var(--bg-navigation);
-    }
-
-    /* Titre de l'événement */
-    h3 {
-        font-size: 22px;
-        color: var(--text-main);
-        margin: 16px 0;
-        font-weight: 500;
-    }
-
-    /* Lignes d'informations (Date, Lieu, Invités) */
-    .date-box,
-    .location-box,
-    .guest-box {
+    /* --- LIGNE D'ACTIVITÉ (PASSÉES) --- */
+    .past-act {
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 12px;
+        gap: 16px;
+        padding: 12px 16px;
+        background-color: var(--bg-app);
+        border: 1px solid var(--border-element);
+        border-radius: 12px;
+        opacity: 0.65;
 
-        img {
-            width: 18px;
-            height: 18px;
-            opacity: 0.6;
-            /* Grise légèrement l'icône pour coller à la maquette */
+
+        @media (max-width: 600px) {
+            padding: 10px 12px;
+            gap: 12px;
         }
 
-        p {
-            margin: 0;
-            font-size: 15px;
-            color: var(--text-muted);
+        .date {
+            background-color: var(--surface-box);
+            padding: 8px 12px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            text-align: center;
 
-            /* Couleurs spécifiques pour les compteurs */
-            .yes {
-                color: var(--text-success);
-                font-weight: 500;
+            @media (max-width: 600px) {
+                padding: 6px 10px;
             }
 
-            .maybe {
-                color: var(--primary);
+            p {
+                margin: 0;
+                font-size: 14px;
                 font-weight: 500;
-            }
-
-            .no {
-                color: var(--text-alert);
-                font-weight: 500;
-            }
-
-
-            .no-answer {
                 color: var(--text-muted);
+
+                @media (max-width: 600px) {
+                    font-size: 13px;
+                }
             }
         }
-    }
 
-    /* --- PIED DE CARTE (Créateur) --- */
-    .creator-name-event {
-        margin-top: 16px;
-        padding-top: 16px;
-
-        p {
+        .past-act-detail {
+            padding: 0;
             margin: 0;
-            font-size: 14px;
-            color: var(--text-muted);
+            border: none;
+            box-shadow: none;
+            background-color: transparent;
+            max-width: 100%;
+            display: block;
 
+            h4 {
+                margin: 0 0 4px 0;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--text-main);
 
-            .creator-name {
-                color: var(--primary);
+                @media (max-width: 600px) {
+                    font-size: 15px;
+                }
+            }
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                color: var(--text-muted);
+
+                @media (max-width: 600px) {
+                    font-size: 13px;
+                }
             }
         }
     }
-}
 
-
-/* --- RESPONSIVE (Tablette et Desktop) --- */
-@media (min-width: 768px) {
-    .activites {
-        padding: 32px;
-
-        .act-detail {
-            padding: 24px;
-
-            h3 {
-                font-size: 24px;
-            }
-        }
-    }
-}
-
-.no-act {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
-    background-color: var(--surface-element);
-    /* Un fond gris très léger */
-    border: 1px dashed var(--border-element);
-    /* Bordure en pointillés pour l'effet "vide" */
-    border-radius: 16px;
-    margin-bottom: 12px;
-    text-align: center;
-    gap: 10px;
-
-    @media (max-width: 600px) {
-        padding: 16px;
-    }
-
-    p {
-        margin: 0;
-        font-size: 14px;
-        color: var(--text-muted);
-
-        @media (max-width: 600px) {
-            font-size: 13px;
-        }
-
-
-    }
-}
-
-/* --- TITRE DE SÉPARATION (PASSÉES) --- */
-.past {
-    /* On reprend exactement le même style que .is-coming */
-    font-size: 12px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-    margin-top: 32px;
-    /* Un peu plus d'espace pour bien séparer les deux sections */
-}
-
-/* --- LA LIGNE D'ACTIVITÉ PASSÉE --- */
-.past-act {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    background-color: var(--bg-app);
-    border: 1px solid var(--border-element);
-    border-radius: 12px;
-
-    /* Effet visuel "passé" : on rend la ligne légèrement transparente */
-    opacity: 0.65;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
-    cursor: default;
-
-    /* Responsive mobile */
-    @media (max-width: 600px) {
-        padding: 10px 12px;
-        gap: 12px;
-    }
-
-    &:hover {
-        opacity: 1;
-        /* Revient à la couleur normale quand on passe la souris */
+    /* --- BOX VIDE (AUCUNE ACTIVITÉ) --- */
+    .no-act {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
         background-color: var(--surface-element);
-    }
-
-    /* Le petit encart de la date à gauche */
-    .date {
-        background-color: var(--surface-box);
-        padding: 8px 12px;
-        border-radius: 8px;
-        flex-shrink: 0;
-        /* Empêche la date de s'écraser si le titre est long */
+        border: 1px dashed var(--border-element);
+        border-radius: 16px;
         text-align: center;
+        gap: 10px;
 
         @media (max-width: 600px) {
-            padding: 6px 10px;
-        }
-
-        p {
-            margin: 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-muted);
-
-            @media (max-width: 600px) {
-                font-size: 13px;
-            }
-        }
-    }
-
-    /* 🚨 L'ANNULATION DU STYLE CARTE 🚨 */
-    /* On cible le .act-detail qui est DANS le .past-act pour écraser les gros styles */
-    .past-act-detail {
-        /* On remet tout à zéro */
-        padding: 0;
-        margin: 0;
-        border: none;
-        box-shadow: none;
-        background-color: transparent;
-        max-width: 100%;
-        display: block;
-        /* Annule le flex column de la grosse carte */
-
-        &:hover {
-            transform: none;
-            /* Annule l'effet de zoom de la grosse carte */
-        }
-
-        h4 {
-            margin: 0 0 4px 0;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-main);
-
-            @media (max-width: 600px) {
-                font-size: 15px;
-            }
+            padding: 16px;
         }
 
         p {

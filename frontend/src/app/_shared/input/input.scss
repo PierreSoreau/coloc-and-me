@@ -16,7 +16,7 @@
 /*On ne met pas plus de 3 niveau de hiérarchie dans un scss 
 donc c'est pour ça que input box n'est pas dans input container*/
 .input-box {
-    border: 1px solid var(--primary);
+    border: 2px solid var(--primary);
     background-color: var(--surface-element);
     height: 55px;
     font-size: 16px;
@@ -83,7 +83,7 @@ au focus de tous les éléments de input-box*/
 }
 
 .error-text {
-    color: #D32F2F;
+    color: var(--text-alert);
     font-size: 13px;
     margin-left: 5px;
     animation: fadeIn 0.3s ease;

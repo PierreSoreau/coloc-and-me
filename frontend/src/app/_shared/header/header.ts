@@ -1,6 +1,6 @@
 import { GroupService } from './../../features/group/services/group.services';
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ProfilService } from '../../features/profil/services/profil.services';
 
 
@@ -15,8 +15,10 @@ export class Header implements OnInit {
   private profil = inject(ProfilService)
   private cdr = inject(ChangeDetectorRef)
   private groupService = inject(GroupService)
+  private router = inject(Router)
   userInitials: string = ""
   currentGroupId: string | null = null
+  currentUrl: string = ""
 
   ngOnInit(): void {
     this.initials();
@@ -26,7 +28,22 @@ export class Header implements OnInit {
       this.currentGroupId = groupId
       this.cdr.detectChanges();
     })
+
+    //on attribut l'url initial du premier clic du header
+    this.currentUrl = this.router.url
+
+    //on écoute les moindres changement d'url
+    this.router.events.subscribe((event) => {
+      //si le changement de page donc le changement d'url est effectif
+      //alors on attribut le nouvel url à currentUrl
+      if (event instanceof NavigationEnd) {
+        this.currentUrl = event.urlAfterRedirects
+
+      }
+    })
   }
+
+
 
 
 

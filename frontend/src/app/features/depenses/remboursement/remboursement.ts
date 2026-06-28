@@ -3,10 +3,11 @@ import { DepensesInput } from '../../../_shared/depenses-input/depenses-input';
 import { DepensesService, UserBalanceResponse, ReimboursementResponse } from '../services/depenses.services';
 import { GroupService } from '../../group/services/group.services';
 import { ActivatedRoute, RouterLink, RouterLinkActive, } from '@angular/router';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 @Component({
   selector: 'app-remboursement',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ButtonBack],
   templateUrl: './remboursement.html',
   styleUrl: './remboursement.scss',
 })

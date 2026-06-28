@@ -7,10 +7,11 @@ import { endOfWeek, startOfWeek, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { GroupService, groupInitialAndNameResponse } from '../../group/services/group.services';
 import { DatePipe } from '@angular/common';
+import { ButtonBack } from '../../../_shared/button/button-back/button-back';
 
 @Component({
   selector: 'app-taches-home',
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, ButtonBack],
   templateUrl: './taches-home.html',
   styleUrl: './taches-home.scss',
 })
@@ -29,6 +30,7 @@ export class TachesHome implements OnInit, OnDestroy {
   taskFiltreesByNameDone: TaskResponse[] = []
   selectedYear: number = new Date().getFullYear();
   finalDateTask: string = ""
+  openTaskDone: boolean = true
 
 
 
@@ -74,6 +76,8 @@ export class TachesHome implements OnInit, OnDestroy {
         //on se branche au behavior pour les taches
         const subTasks = this.tasksService.tasks$.subscribe((tasks) => {
           this.taskDatas = tasks
+          this.changeDetectorRef.detectChanges();
+
 
 
           // 1. Génère le calendrier
@@ -81,7 +85,7 @@ export class TachesHome implements OnInit, OnDestroy {
 
           if (this.currentWeek.lundi === "") {
 
-            // 2. Trouve l'index de la semaine actuelle
+            //Trouve l'index de la semaine actuelle
             const today = new Date();
             const indexSemaineActuelle = this.dateTableforWeeks.findIndex(week => {
               const lundi = new Date(week.lundi);
@@ -89,7 +93,7 @@ export class TachesHome implements OnInit, OnDestroy {
               return today >= lundi && today <= dimanche;
             });
 
-            // 3. Applique l'index (ou 0 par défaut si on est hors année)
+            //Applique l'index (ou 0 par défaut si on est hors année)
             this.currentIndex = indexSemaineActuelle !== -1 ? indexSemaineActuelle : 0;
           }
 
@@ -223,11 +227,8 @@ export class TachesHome implements OnInit, OnDestroy {
     this.tasksService.updateTaskStatus(dateFaitLe, taskId, newStatus).subscribe({
       next: (response) => {
 
-
         this.tasksService.loadAllDashboardData(this.groupId!)
 
-
-        this.changeDetectorRef.detectChanges();
 
         console.log("Mise à jour du statut de la tâche faite", response)
       },

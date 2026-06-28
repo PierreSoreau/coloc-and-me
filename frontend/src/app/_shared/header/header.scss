@@ -17,7 +17,8 @@
         align-items: center;
         padding: 0 20px;
         z-index: 100;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+        border-bottom: 2px solid var(--border-element);
 
         .logo-container {
             background-color: var(--primary);
@@ -160,6 +161,7 @@
             height: auto;
             box-shadow: none;
             padding: 0;
+            border-bottom: none;
 
             .logo-container {
                 height: 45px;

@@ -60,6 +60,7 @@ export class ProfilSettings implements OnInit {
         // Le composant redémarre, demande à Node.js, trouve le groupe, et affiche le bouton !
         this.groupId = response.groupId;
         this.groupDisplay = true;
+        this.groupService.notifyHeaderOfGroupChange(this.groupId)
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
@@ -151,7 +152,7 @@ export class ProfilSettings implements OnInit {
       localStorage.removeItem("userId");
 
 
-      this.router.navigate(["/auth/login"])
+      this.router.navigate(["/introduction"])
     }
     catch (error) {
       console.log("Erreur au moment de la deconnection", error)

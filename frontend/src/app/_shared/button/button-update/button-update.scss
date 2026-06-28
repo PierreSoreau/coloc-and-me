@@ -5,12 +5,14 @@
 }
 
 .btn-edit {
-    border: 1px solid var(--border-element);
+    border: 2px solid var(--border-element);
     color: var(--text-main);
+    box-shadow: 0 12px 12px var(--shadow-information);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
     &:hover {
-        background-color: var(--surface-element);
-        transform: scale(1.05);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px var(--shadow-information-hover);
     }
 }
 

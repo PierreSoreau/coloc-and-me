@@ -2,13 +2,22 @@
     display: flex;
     align-items: center;
     background-color: var(--bg-app);
-    border: 1px solid var(--border-element);
     /* Utilisation stricte du root */
     border-radius: 24px;
     padding: 16px 24px;
     width: 100%;
     max-width: 500px;
     text-decoration: none;
+    border: 2px solid var(--border-element);
+    box-shadow: 0 12px 12px var(--shadow-information);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+    &:hover {
+
+        transform: translateY(-4px);
+
+        box-shadow: 0 12px 24px var(--shadow-information-hover);
+    }
 
     .initials {
         display: flex;
@@ -77,5 +86,11 @@
                 color: var(--text-muted);
             }
         }
+    }
+}
+
+@media(min-width:768px) {
+    .expense-container {
+        max-width: 700px;
     }
 }

@@ -10,6 +10,16 @@
     flex-direction: column;
     gap: 16px;
 
+    .grid-dashboard {
+        /* PASSAGE EN GRID ! */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+        align-items: stretch;
+        /* Les cartes côte à côte feront la même hauteur */
+        gap: 10px;
+    }
+
     /* --- TITRE DE LA PAGE --- */
     &-title {
         margin-bottom: 8px;
@@ -32,15 +42,22 @@
     /* --- LES CARTES (Solde, Tâches, Activité) --- */
     &-detail {
         background-color: var(--bg-app);
-        border: 1px solid var(--border-element);
         border-radius: 16px;
         padding: 20px;
         position: relative;
-        /* Permet de placer le solde en haut à droite */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         display: flex;
         flex-direction: column;
         text-decoration: none;
+        border: 2px solid var(--border-element);
+        box-shadow: 0 12px 12px var(--shadow-information);
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+
+        &:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow: 0 12px 24px var(--shadow-information-hover);
+        }
 
         /* L'en-tête de la carte (Icône + Titre) */
         .text-box {
@@ -69,8 +86,14 @@
         .negative-sold,
         .zero-sold {
             margin: 0;
-            font-size: 18px;
+            font-size: 40px !important;
             font-weight: 600;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
         }
 
         .positive-sold {
@@ -86,39 +109,39 @@
         }
 
         /* --- LES TÂCHES --- */
-        /* --- LES TÂCHES --- */
         .task-list {
             margin: 0;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            align-items: center;
+            justify-content: center;
 
             .task-detail-box {
-                display: flex;
+                background-color: var(--primary);
+                display: grid;
+                width: 200px;
+                grid-template-columns: 20px 55%;
                 align-items: center;
-                /* 1. LE SECRET N°1 : Centre verticalement l'image et le texte */
-                justify-content: flex-start;
-                /* ('left' n'est pas valide en flexbox, on utilise flex-start) */
+                justify-content: center;
+
+
+
                 gap: 12px;
                 /* L'espace parfait entre l'astérisque et le texte */
-                padding: 0px 0;
-                /* Un peu d'espace pour que la ligne respire */
+                padding: 5px 10px;
+                border-radius: 10px;
 
 
 
-
-                /* Enlève la ligne de séparation sous la TOUTE DERNIÈRE tâche */
-                &:last-of-type {
-                    border-bottom: none;
-                    padding-bottom: 0;
-                }
 
                 img {
-                    width: 16px;
+                    width: 100%;
                     /* Légèrement réduit pour bien coller à la taille du texte */
-                    height: 16px;
+                    height: auto;
                     opacity: 0.8;
                     flex-shrink: 0;
+                    filter: brightness(0) invert(1);
                     /* Empêche le logo de s'écraser si le texte est long */
                 }
 
@@ -126,15 +149,20 @@
                     margin: 0;
                     /* 2. LE SECRET N°2 : Supprime les marges par défaut du <p> ! */
                     font-size: 14px;
-                    color: var(--text-main);
+                    color: var(--text-on-primary);
+                    text-align: left;
+
                 }
             }
+
+
         }
 
         /* --- L'ACTIVITÉ --- */
         .act-detail-box {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 16px;
 
             .header-logo {
@@ -195,24 +223,30 @@
     }
 }
 
+.more-info {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
 /* --- RESPONSIVE (Tablette & Bureau) --- */
 @media (min-width: 768px) {
     .dashboard {
         padding: 32px;
         gap: 24px;
-        max-width: 600px;
+        max-width: 1400px;
         /* Un peu plus large pour laisser respirer la grille */
 
-        /* PASSAGE EN GRID ! */
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        /* 2 colonnes de même taille */
-        align-items: stretch;
-        /* Les cartes côte à côte feront la même hauteur */
+
 
         &-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
             margin-bottom: 8px;
-            grid-column: 1 / -1;
             /* Le titre prend toute la largeur */
 
             h2 {
@@ -227,10 +261,7 @@
         &-detail {
             padding: 24px;
 
-            /* La première carte (Solde) prend toute la largeur en haut */
-            &:nth-of-type(1) {
-                grid-column: 1 / -1;
-            }
+
 
             .text-box h3 {
                 font-size: 18px;
@@ -243,6 +274,8 @@
             }
 
             .act-detail-box {
+                flex: 1;
+
                 .header-logo {
 
                     .img-box-orange,

@@ -2,10 +2,10 @@
     font-family: var(--font-principale);
     padding: 24px;
     background-color: var(--bg-app);
-    width: 100%;
-    max-width: 500px;
+    width: 320px;
     margin: 0 auto;
     border-radius: 12px;
+    border: 2px solid var(--border-element);
 
     /* --- 1. En-tête (Bouton retour et Titre page) --- */
     .task-header {
@@ -96,7 +96,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 15px;
 
         /* On force tes composants Angular à prendre 50% de l'espace chacun */
         app-button-update,
@@ -113,7 +113,9 @@
 @media (min-width: 768px) {
     .task-detail {
         /* Apparition de la bordure sur grand écran, comme pour les dépenses */
-        border: 1px solid var(--border-element);
+
         margin-top: 40px;
+        max-width: 500px;
+        width: 100%;
     }
 }

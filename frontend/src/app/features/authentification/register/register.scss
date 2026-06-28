@@ -18,6 +18,16 @@ app-header-auth {
     }
 }
 
+.error-message {
+    color: var(--text-alert);
+    font-size: 13px;
+    margin-left: 5px;
+    animation: fadeIn 0.3s ease;
+    font-family: var(--font-principale);
+    font-weight: 700;
+    text-align: center;
+}
+
 .register-card {
     /* STYLES MOBILE (Par défaut) */
     background-color: var(--bg-card, #FFFFFF);
@@ -61,7 +71,7 @@ app-header-auth {
 
     /* --- 💊 TABLETTE (768px et plus) --- */
     @media (min-width: 768px) {
-        max-width: 500px;
+        max-width: 550px;
         padding: 40px 50px;
         margin-top: 20px;
 
@@ -81,7 +91,6 @@ app-header-auth {
 
     /* -ORDINATEUR (1024px et plus) */
     @media (min-width: 1024px) {
-        max-width: 650px;
         margin-top: 20px;
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 
@@ -175,12 +184,12 @@ app-header-auth {
     }
 
     @media (min-width: 768px) {
-        max-width: 500px;
+        max-width: 550px;
         padding: 40px 50px;
     }
 
     @media (min-width: 1024px) {
-        max-width: 650px;
+
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
     }
 }

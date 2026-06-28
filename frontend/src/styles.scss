@@ -1,4 +1,14 @@
 :root {
+  /*les ombres des cards*/
+  --shadow-information: rgba(0, 0, 0, 0.3);
+  --shadow-information-hover: rgba(0, 0, 0, 0.5);
+  --shadow-important: rgba(213, 103, 13, 0.3);
+  --shadow-important-hover: rgba(213, 103, 13, 0.5);
+  --shadow-negative: rgba(213, 116, 116, 0.3);
+  --shadow-negative-hover: rgba(213, 116, 116, 0.5);
+
+
+
   /* --- 1. Les Fonds (Backgrounds) --- */
   --bg-app: #FFFFFF;
   --bg-card: #EBE5DC;
@@ -25,6 +35,7 @@
   /* Fond du bouton toggle actif (Connexion) */
   --border-element: #707070;
   /* Bordure accessible sur les inputs*/
+  --border-claire: #ada5a5;
   --surface-box: #EBE7E0;
   /* Fond de la div bouton */
 

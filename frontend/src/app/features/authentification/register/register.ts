@@ -25,8 +25,10 @@ export class Register {
   private registerTitle = inject(Title);
   private authService = inject(AuthService)
   private router = inject(Router)
-  isEmitEmail: boolean = false;
   private changeDetectorRef = inject(ChangeDetectorRef)
+  isEmitEmail: boolean = false;
+  wrongForm: string | null = null
+
   ngOnInit() {
     this.registerTitle.setTitle("Coloc & Me | Inscription")
   }
@@ -74,6 +76,7 @@ export class Register {
 
       await this.authService.register(cleanData)
 
+      this.wrongForm = null
 
 
       this.isEmitEmail = true
@@ -81,7 +84,8 @@ export class Register {
 
     }
 
-    catch (error) {
+    catch (error: any) {
+      this.wrongForm = error.message
       console.error("Erreur d'inscription", error)
     }
   }

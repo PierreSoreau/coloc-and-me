@@ -1,14 +1,19 @@
 .act-detail {
-    width: 100%;
-    max-width: 600px;
+    width: 95%;
+    max-width: 500px;
     /* Limite la largeur sur grand écran pour un bon rendu */
     margin: 0 auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    border: 1px solid var(--border-element);
+    border: 2px solid var(--border-element);
     border-radius: 12px;
+
+
+    @media (min-width:800px) {
+        max-width: 800px;
+    }
 
     /* --- HEADER & TITRE --- */
     .task-header {
@@ -31,6 +36,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            justify-content: center;
 
             .img-box-orange,
             .img-box-bleue {
@@ -69,6 +75,48 @@
     }
 }
 
+.global-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.act-information {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+
+    .description-box {
+        @media (min-width:800px) {
+            width: 500px;
+        }
+    }
+}
+
+
+
+.participants-choice {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    @media (min-width:800px) {
+        flex-direction: row;
+        align-items: stretch;
+        flex: 1;
+        gap: 30px;
+    }
+}
+
 /* --- INFOS (Date/Lieu/Description) --- */
 .date-box,
 .location-box {
@@ -94,6 +142,7 @@
     padding: 16px;
     border-radius: 12px;
     border: 2px solid var(--primary);
+    width: 100%;
 
     p {
         margin: 0;
@@ -409,12 +458,19 @@ form {
 }
 
 
-.separator {
+.separator,
+.separator-top {
     width: 100px;
     height: 1px;
     background-color: var(--border-element);
     margin: auto;
 
+}
+
+.separator-top {
+    @media(min-width: 800px) {
+        display: none;
+    }
 }
 
 .update-btn {

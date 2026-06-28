@@ -1,6 +1,6 @@
 .new-task {
     width: 100%;
-    max-width: 500px;
+    max-width: 800px;
     padding: 24px;
     background-color: var(--bg-app);
     position: relative;
@@ -58,7 +58,7 @@
             padding: 16px;
             /* Équivalent au padding-left du .no-logo */
             border-radius: 8px;
-            border: 1px solid var(--primary);
+            border: 2px solid var(--primary);
             background-color: var(--surface-element);
             color: var(--text-main);
             font-size: 16px;
@@ -110,7 +110,7 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                border: 1px solid var(--surface-element);
+                border: 2px solid var(--border-element);
                 border-radius: 16px;
                 background-color: var(--bg-app);
                 cursor: pointer;
@@ -120,7 +120,7 @@
                     width: 44px;
                     height: 44px;
                     border-radius: 50%;
-                    background-color: var(--border-element);
+                    background-color: var(--primary);
                     color: var(--bg-app);
                     display: flex;
                     justify-content: center;
@@ -138,10 +138,10 @@
 
                 /* --- ÉTAT SÉLECTIONNÉ --- */
                 &.selected {
-                    border: 1.5px solid var(--primary);
+                    border: 2px solid var(--primary);
 
                     .avatar {
-                        background-color: var(--primary);
+
                         color: var(--text-on-primary);
                     }
                 }

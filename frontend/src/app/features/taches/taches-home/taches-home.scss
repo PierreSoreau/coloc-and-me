@@ -1,6 +1,7 @@
 .taches-menageres {
     width: 100%;
-    max-width: 800px;
+    /* 1. LA CORRECTION MAJEURE : On libère l'espace pour l'écran PC */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
     display: block;
@@ -10,11 +11,13 @@
         /* On réduit le padding global pour gagner de la place */
     }
 
+
     /* --- 1. En-tête --- */
     .head-section {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
         margin-bottom: 24px;
         gap: 12px;
         /* Empêche le bouton de coller au texte */
@@ -25,67 +28,81 @@
             /* Aligne en haut si le titre passe à la ligne */
         }
 
-        h2 {
-            font-size: 28px;
-            font-weight: 500;
-            color: var(--text-main);
-            margin: 0;
-            line-height: 1.2;
-
-            @media (max-width: 600px) {
-                font-size: 22px;
-            }
+        .back {
+            display: flex;
+            text-align: left;
+            width: 100%;
         }
 
-        /* --- Le Bouton "Nouvelle Tâche" --- */
-        .btn-nouvelle-tache {
-            display: inline-flex;
+        .title-box {
+            display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: var(--primary);
-            color: var(--text-on-primary);
-            padding: 10px 20px;
-            border-radius: 24px;
-            text-decoration: none;
-            transition: background-color 0.2s ease, transform 0.1s ease;
-            cursor: pointer;
-            flex-shrink: 0;
-            /* CRUCIAL : Empêche le bouton de s'écraser */
+            justify-content: space-between;
+            width: 100%;
 
-            @media (max-width: 600px) {
-                padding: 8px 12px;
-                gap: 6px;
-            }
 
-            &:hover {
-                background-color: var(--primary-hover);
-                transform: translateY(-1px);
-            }
-
-            &:active {
-                transform: translateY(1px);
-            }
-
-            img {
-                width: 14px;
-                height: 14px;
-                filter: brightness(0) invert(1);
+            h2 {
+                font-size: 28px;
+                font-weight: 500;
+                color: var(--text-main);
+                margin: 0;
+                line-height: 1.2;
 
                 @media (max-width: 600px) {
-                    width: 12px;
-                    height: 12px;
+                    font-size: 22px;
                 }
             }
 
-            p {
-                margin: 0;
-                font-family: var(--font-principale);
-                font-size: 15px;
-                font-weight: 500;
+            /* --- Le Bouton "Nouvelle Tâche" --- */
+            .btn-nouvelle-tache {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                background-color: var(--primary);
+                color: var(--text-on-primary);
+                padding: 10px 20px;
+                border-radius: 24px;
+                text-decoration: none;
+                transition: background-color 0.2s ease, transform 0.1s ease;
+                cursor: pointer;
+                flex-shrink: 0;
+                /* CRUCIAL : Empêche le bouton de s'écraser */
 
                 @media (max-width: 600px) {
-                    font-size: 13px;
+                    padding: 8px 12px;
+                    gap: 6px;
+                }
+
+                &:hover {
+                    background-color: var(--primary-hover);
+                    transform: translateY(-1px);
+                }
+
+                &:active {
+                    transform: translateY(1px);
+                }
+
+                img {
+                    width: 14px;
+                    height: 14px;
+                    filter: brightness(0) invert(1);
+
+                    @media (max-width: 600px) {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+
+                p {
+                    margin: 0;
+                    font-family: var(--font-principale);
+                    font-size: 15px;
+                    font-weight: 500;
+
+                    @media (max-width: 600px) {
+                        font-size: 13px;
+                    }
                 }
             }
         }
@@ -97,9 +114,10 @@
         justify-content: space-between;
         align-items: center;
         padding: 12px 24px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--border-element);
         border-radius: 32px;
         margin-bottom: 24px;
+
 
         @media (max-width: 600px) {
             padding: 10px 16px;
@@ -132,31 +150,41 @@
     }
 
     /* --- 3. Filtres (Utilisateurs) --- */
-    button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 20px;
-        margin-right: 12px;
-        margin-bottom: 24px;
-        border-radius: 32px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        background-color: var(--bg-app);
-        cursor: pointer;
-        transition: all 0.2s ease;
+    .filter-name {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 6px 20px !important;
+        margin-right: 12px !important;
+        margin-bottom: 24px !important;
+        border-radius: 32px !important;
+        border: 2px solid var(--border-element) !important;
+        background-color: var(--bg-app) !important;
+        cursor: pointer !important;
+        box-shadow: 0 12px 12px var(--shadow-information) !important;
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out !important;
 
         &.active {
-            background-color: var(--primary);
-            border-color: var(--primary);
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+            box-shadow: 0 12px 12px var(--shadow-important) !important;
 
             p {
-                color: var(--text-on-primary);
+                color: var(--text-on-primary) !important;
             }
         }
 
         /* QUAND ON SURVOLE UN BOUTON NON CLIQUÉ (Gris clair) */
         &:hover:not(.active) {
-            background-color: var(--surface-element);
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 24px var(--shadow-information-hover) !important;
+            background-color: var(--surface-element) !important;
+        }
+
+        &.active:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 24px var(--shadow-important-hover) !important;
+            background-color: var(--primary) !important;
         }
 
         @media (max-width: 600px) {
@@ -175,27 +203,47 @@
             }
         }
 
-        &[data-filter="tous"] {
-            background-color: var(--primary);
-            border-color: var(--primary);
+    }
 
-            p {
-                color: var(--text-on-primary);
-            }
+    /* --- LA MAGIE EST ICI (TÉLÉPHONE VS ORDI) --- */
+    .global-tasks {
+        display: flex;
+        flex-direction: column;
+        /* Par défaut sur téléphone : empilé haut/bas */
+        gap: 32px;
+        width: 100%;
+
+        @media (min-width: 800px) {
+            flex-direction: row;
+            /* Dès 800px (Ordi/Tablette) : côte à côte ! */
+            align-items: flex-start;
         }
+    }
 
-        &:hover:not([data-filter="tous"]) {
-            background-color: var(--surface-element);
+    .task-container-not-done,
+    .task-container-done {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+
+        @media (min-width: 800px) {
+            flex: 1;
+            /* Chaque colonne prend exactement 50% de l'écran */
         }
     }
 
     /* --- 4. Titres de section (EN COURS / TERMINEES) --- */
-    >p {
+    .task-not-done,
+    .task-done {
         font-size: 12px;
         color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-bottom: 12px;
+    }
+
+    .task-not-done {
         margin-top: 16px;
     }
 
@@ -206,28 +254,34 @@
 
     /* --- 5. Cartes des tâches --- */
     .task-box {
+
         display: flex;
         align-items: center;
+        justify-content: space-between;
         padding: 16px 24px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--primary);
         border-radius: 16px;
         background-color: var(--bg-app);
-        margin-bottom: 12px;
+        margin-bottom: 20px;
         gap: 20px;
-        transition: box-shadow 0.2s ease;
-
-        @media (max-width: 600px) {
-            padding: 16px;
-            gap: 12px;
-            flex-wrap: wrap;
-            /* Permet le retour à la ligne */
-            align-items: flex-start;
-            /* Garde le cercle aligné en haut avec le titre */
-        }
-
+        box-shadow: 0 12px 12px var(--shadow-important);
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
         &:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px var(--shadow-important-hover);
+        }
+
+        @media (max-width: 400px) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .task-information-box {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
         }
 
         /* Le cercle à cocher */
@@ -236,7 +290,6 @@
 
             @media (max-width: 600px) {
                 margin-top: 2px;
-                /* Aligne optiquement le cercle avec le texte h3 */
             }
 
             button {
@@ -260,14 +313,9 @@
             flex-direction: column;
             gap: 4px;
 
-            @media (max-width: 600px) {
-                /* Force la pastille à passer à la ligne sur mobile */
-                flex-basis: calc(100% - 40px);
-            }
-
             h3 {
                 margin: 0;
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: 400;
                 color: var(--text-main);
             }
@@ -285,7 +333,7 @@
 
                 p {
                     margin: 0;
-                    font-size: 13px;
+                    font-size: 14px;
                     color: var(--text-muted);
                 }
             }
@@ -301,14 +349,10 @@
             margin: 0;
             flex-shrink: 0;
 
-            @media (max-width: 600px) {
-                /* On l'aligne parfaitement sous le texte, après le cercle */
-                margin-left: 36px;
+            @media (max-width: 400px) {
                 margin-top: 4px;
                 padding: 4px 10px;
-                /* On affine la pastille sur mobile */
                 font-size: 11px;
-                /* Texte plus discret */
             }
         }
     }
@@ -320,9 +364,7 @@
         align-items: center;
         padding: 24px;
         background-color: var(--surface-element);
-        /* Un fond gris très léger */
         border: 1px dashed var(--border-element);
-        /* Bordure en pointillés pour l'effet "vide" */
         border-radius: 16px;
         margin-bottom: 12px;
         text-align: center;
@@ -344,22 +386,42 @@
             span {
                 font-weight: 500;
                 color: var(--primary);
-                /* On met le prénom en évidence avec ta couleur principale */
             }
         }
     }
 }
 
 /* --- 6. Cartes des tâches TERMINÉES --- */
+
+.done-task-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    >img {
+        width: 20px;
+        height: 20px;
+        opacity: 0.6;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+
+        &.rotate {
+            transform: rotate(180deg);
+        }
+
+        &:hover {
+            transform: scale(1.5);
+        }
+    }
+}
+
 .task-box-done {
     display: flex;
     align-items: center;
     padding: 16px 24px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    /* Bordure encore plus douce que les tâches actives */
+    border: 1px solid var(--border-claire);
     border-radius: 16px;
     background-color: #FCFAF8;
-    /* Un fond très légèrement teinté pour l'effet "désactivé" */
     margin-bottom: 12px;
     gap: 20px;
 
@@ -386,7 +448,6 @@
 
             img {
                 width: 22px;
-                /* Un poil plus grand pour bien mettre en valeur la validation */
                 height: 22px;
             }
         }
@@ -399,40 +460,32 @@
         flex-direction: column;
         gap: 6px;
 
-        /* Le titre barré */
         h3.task-description {
             margin: 0;
             font-size: 16px;
             font-weight: 400;
             color: #9E9E9E;
-            /* Un gris neutre clair */
             text-decoration: line-through;
-            /* La ligne qui barre le texte */
         }
 
-        /* La ligne Utilisateur • Date */
         .infos-done {
             display: flex;
             align-items: center;
             gap: 8px;
-            /* Espace régulier entre chaque élément */
             flex-wrap: wrap;
 
             img {
                 width: 13px;
                 height: 13px;
                 opacity: 0.4;
-                /* Icône estompée */
             }
 
             p {
                 margin: 0;
                 font-size: 13px;
                 color: #8C8C8C;
-                /* Texte grisé */
             }
 
-            /* Le petit point de séparation */
             .separator {
                 font-size: 14px;
                 color: #C4C4C4;

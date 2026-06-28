@@ -3,10 +3,10 @@
     padding: 24px;
     background-color: var(--bg-app);
     width: 100%;
-    max-width: 500px;
+    max-width: 320px;
     margin: 0 auto;
-    // border: 1px solid var(--border-element);
     border-radius: 12px;
+    border: 2px solid var(--border-element);
 
     .back {
 
@@ -127,18 +127,22 @@
         }
 
         .btn-edit {
-            border: 1px solid var(--border-element);
+            border: 2px solid var(--border-element);
             color: var(--text-main);
+            box-shadow: 0 12px 12px var(--shadow-information);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
             &:hover {
-                background-color: var(--surface-element);
-                transform: scale(1.1);
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px var(--shadow-information-hover);
             }
         }
 
         .btn-delete {
-            border: 1px solid var(--text-alert);
+            border: 2px solid var(--text-alert);
             color: var(--text-alert);
+            box-shadow: 0 12px 12px var(--shadow-negative);
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 
 
             img {
@@ -146,10 +150,8 @@
             }
 
             &:hover {
-                opacity: 1;
-                background-color: rgba(211, 47, 47, 0.05);
-                /* Fond rouge très léger au survol */
-                transform: scale(1.1);
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px var(--shadow-negative-hover);
             }
         }
     }
@@ -158,6 +160,6 @@
 @media (min-width: 768px) {
 
     .expense-detail {
-        border: 1px solid var(--border-element);
+        max-width: 500px;
     }
 }

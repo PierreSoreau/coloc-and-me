@@ -182,90 +182,97 @@ export class NewTask {
 
   onSubmit() {
 
-    if (this.newTaskForm.invalid) {
-      this.wrongForm = "Tous les champs du formulaire doivent être renseignés"
-      return
-    }
+    if (this.groupId) {
 
-    //le getRawValue est indispensable ici parce que sinon ça ne prend pas
-    //les valeurs disabled
-    const taskData = this.newTaskForm.getRawValue()
-
-    if (this.taskId) {
-      if (taskData.frequency === "") {
-        this.tasksService.updateTaskDetail(this.taskId, taskData.comments!,
-          taskData.nom!, taskData.date!,
-          taskData.taskUserId!,
-          null).subscribe({
-            next: (response) => {
-              console.log(response)
-              this.router.navigate(["/taches", this.groupId])
-            },
-            error: (err) => {
-              console.error("Erreur lors de la mise à jour de la tâche", err)
-            }
-          });
-        return;
+      if (this.newTaskForm.invalid) {
+        this.wrongForm = "Tous les champs du formulaire doivent être renseignés"
+        return
       }
 
-      else {
-        this.tasksService.updateTaskDetail(
-          this.taskId,
-          taskData.comments!,
-          taskData.nom!,
-          taskData.date!,
-          taskData.taskUserId!,
-          taskData.frequency!
-        ).pipe(
-          //concatMap permet d'éviter de faire des susbscribe imbriqués qu'Angular gère mal
-          // 1. Dès que l'update est terminé, on lance la suppression
-          concatMap(() => this.tasksService.deleteTasksAfterCurrentDay(this.idDuModele!)),
+      //le getRawValue est indispensable ici parce que sinon ça ne prend pas
+      //les valeurs disabled
+      const taskData = this.newTaskForm.getRawValue()
 
-          // 2. Dès que la suppression est terminée, on lance la création
-          concatMap(() => this.tasksService.newTasksForModelAfterToday(this.idDuModele!))
-        )
-          .subscribe({
-            next: (response) => {
-              // Ce next() ne s'exécute QUE si les 3 requêtes ont réussi à la suite !
-              console.log("Séquence de mise à jour terminée avec succès", response);
-              this.router.navigate(["/taches", this.groupId]);
-            },
-            error: (err) => {
-              // Une seule gestion d'erreur centralisée !
-              // Si l'une des 3 requêtes plante, le code saute directement ici.
-              console.error("Erreur dans la séquence de mise à jour des occurences :", err);
-            }
-          });
+      if (this.taskId) {
+        if (taskData.frequency === "") {
+          this.tasksService.updateTaskDetail(this.taskId, taskData.comments!,
+            taskData.nom!, taskData.date!,
+            taskData.taskUserId!,
+            null).subscribe({
+              next: (response) => {
+                console.log(response)
+                this.router.navigate(["/taches", this.groupId])
+              },
+              error: (err) => {
+                console.error("Erreur lors de la mise à jour de la tâche", err)
+              }
+            });
+          return;
+        }
 
-        return;
+        else {
+          this.tasksService.updateTaskDetail(
+            this.taskId,
+            taskData.comments!,
+            taskData.nom!,
+            taskData.date!,
+            taskData.taskUserId!,
+            taskData.frequency!
+          ).pipe(
+            //concatMap permet d'éviter de faire des susbscribe imbriqués qu'Angular gère mal
+            // 1. Dès que l'update est terminé, on lance la suppression
+            concatMap(() => this.tasksService.deleteTasksAfterCurrentDay(this.idDuModele!)),
+
+            // 2. Dès que la suppression est terminée, on lance la création
+            concatMap(() => this.tasksService.newTasksForModelAfterToday(this.idDuModele!))
+          )
+            .subscribe({
+              next: (response) => {
+                // Ce next() ne s'exécute QUE si les 3 requêtes ont réussi à la suite !
+                console.log("Séquence de mise à jour terminée avec succès", response);
+                this.changeDetectorRef.detectChanges();
+                this.router.navigate(["/taches", this.groupId]);
+              },
+              error: (err) => {
+                // Une seule gestion d'erreur centralisée !
+                // Si l'une des 3 requêtes plante, le code saute directement ici.
+                console.error("Erreur dans la séquence de mise à jour des occurences :", err);
+              }
+            });
+
+          return;
 
 
+        }
       }
-    }
 
-    const taskArguments = {
-      taskName: taskData.nom!,
-      taskDescription: taskData.comments!,
-      frequency: taskData.frequency || null,
-      date: taskData.date || null,
-      userForTask: taskData.taskUserId || null,
-      groupId: this.groupId!,
-      //format transforme en un string un type Date pour pouvoir le transporter vers node
-      ancre: taskData.frequency && this.tasksService.ancre(taskData.frequency)
-        ? format(this.tasksService.ancre(taskData.frequency)!, 'yyyy-MM-dd')
-        : null
-    }
-
-    this.tasksService.newTask(taskArguments).subscribe({
-      next: (response) => {
-        console.log("Nouvelle tâche enregistrée", response)
-        this.router.navigate(["/taches", this.groupId])
-      },
-      error: (err) => {
-        console.error("Erreur lors de la création de la tâche", err)
+      const taskArguments = {
+        taskName: taskData.nom!,
+        taskDescription: taskData.comments!,
+        frequency: taskData.frequency || null,
+        date: taskData.date || null,
+        userForTask: taskData.taskUserId || null,
+        groupId: this.groupId!,
+        //format transforme en un string un type Date pour pouvoir le transporter vers node
+        ancre: taskData.frequency && this.tasksService.ancre(taskData.frequency)
+          ? format(this.tasksService.ancre(taskData.frequency)!, 'yyyy-MM-dd')
+          : null
       }
-    });
 
+      this.tasksService.newTask(taskArguments).subscribe({
+        next: (response) => {
+          console.log("Nouvelle tâche enregistrée", response)
+          this.tasksService.loadAllDashboardData(this.groupId!)
+
+
+          this.router.navigate(["/taches", this.groupId])
+        },
+        error: (err) => {
+          console.error("Erreur lors de la création de la tâche", err)
+        }
+      });
+
+    }
   }
 }
 

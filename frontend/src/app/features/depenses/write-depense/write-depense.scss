@@ -76,7 +76,7 @@ section {
 
             width: 84px;
             height: 84px;
-            border: 1px solid var(--border-element);
+            border: 2px solid var(--border-element);
             border-radius: 12px;
             background-color: var(--bg-app);
             transition: all 0.2s ease-in-out;
@@ -121,5 +121,19 @@ section {
             grid-column: 1 / -1;
             margin-top: 32px; // Décolle bien le bouton du reste du formulaire
         }
+    }
+}
+
+.box-error {
+    grid-column: 1/-1;
+
+    .error-message {
+        color: var(--text-alert);
+        font-size: 13px;
+        margin-left: 5px;
+        font-family: var(--font-principale);
+        font-weight: 700;
+        text-align: center;
+
     }
 }

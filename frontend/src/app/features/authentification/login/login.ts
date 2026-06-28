@@ -29,8 +29,8 @@ export class Login implements OnInit {
     this.loginTitle.setTitle('Coloc&Me | Connection')
   }
   loginForm: FormGroup
-  wrongForm: boolean = false
-  invalidForm: boolean = false
+  wrongForm: string | null = null
+
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({
@@ -48,7 +48,7 @@ export class Login implements OnInit {
 
   async onSubmit() {
     if (this.loginForm.invalid) {
-      this.invalidForm = true
+      this.wrongForm = "Les champs ne sont pas remplis correctement"
       this.cdr.detectChanges()
       return
     }
@@ -63,13 +63,12 @@ export class Login implements OnInit {
     try {
 
       await this.authService.login(cleanData);
+      this.wrongForm = null
 
 
       this.groupService.loadUserGroup().subscribe({
 
         next: (response) => {
-          this.invalidForm = false
-          this.wrongForm = false
 
           this.router.navigate(['/dashboard', response.groupId]);
         },
@@ -82,8 +81,8 @@ export class Login implements OnInit {
 
     }
 
-    catch (error) {
-      this.wrongForm = true
+    catch (error: any) {
+      this.wrongForm = error.message
       this.cdr.detectChanges()
 
       console.error("Echec de la connection", error);

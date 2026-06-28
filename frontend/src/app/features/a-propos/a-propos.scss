@@ -36,7 +36,7 @@
     .contact,
     .legal-information {
         background-color: var(--bg-app);
-        border: 1px solid var(--border-element);
+        border: 2px solid var(--border-element);
         border-radius: 16px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         display: flex;
@@ -179,10 +179,16 @@
                 opacity: 0.6;
                 transition: transform 0.3s ease;
                 /* Ajoute une belle animation fluide */
+                cursor: pointer;
 
                 /* La classe dynamique ajoutée par Angular */
                 &.rotate {
                     transform: rotate(180deg);
+                    /* Fait tourner la flèche vers le haut */
+                }
+
+                &:hover {
+                    transform: scale(1.5);
                     /* Fait tourner la flèche vers le haut */
                 }
             }
