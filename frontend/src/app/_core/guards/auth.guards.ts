@@ -19,16 +19,13 @@ import { map, catchError, of } from "rxjs";
 
 export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
-    const groupService = inject(GroupService)
     const token = localStorage.getItem("token")
 
 
     if (!token) {
-        //si l'utilisateur n'est pas connecté alors on le redirige vers auth/login
-        //et si la connection fonctionne on le redirige directement vers le lien qu'il
-        //a renseigné dans l'url de navigation (le returnUrl), le state sers à récupérer tout
-        //l'url
-        router.navigate(["/introduction"], { queryParams: { returnUrl: state.url } })
+        //si l'utilisateur n'est pas connecté alors on le redirige vers la page d'introduction
+        //de l'application       
+        router.navigate(["/introduction"])
         return false
     }
 
