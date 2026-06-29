@@ -57,7 +57,7 @@ cd backend
 
 npm install 
 ```
-### Créez un fichier .env à la racine du backend avec : 
+#### Créez un fichier .env à la racine du backend avec : 
 
 SUPABASE_URL=votre_url_supabase 
 
@@ -73,7 +73,7 @@ cd frontend
 
 npm install 
 ```
-### Configurez vos variables d'environnement dans src/environments/environment.ts : 
+#### Configurez vos variables d'environnement dans src/environments/environment.ts : 
 
 supabaseUrl: 'votre_url_supabase', 
 
