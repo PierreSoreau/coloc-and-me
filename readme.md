@@ -46,7 +46,7 @@ La sécurité a été placée au cœur du développement :
 
 ## **1. Cloner le projet** 
 ```
-git clone [https://github.com/PierreSoreau/coloc-and-me.git](https://github.com/PierreSoreau/ coloc-and-me.git) 
+git clone https://github.com/PierreSoreau/coloc-and-me.git 
 
 cd coloc-and-me
 ```
