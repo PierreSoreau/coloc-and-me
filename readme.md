@@ -45,40 +45,40 @@ La sécurité a été placée au cœur du développement :
 - Un projet Supabase actif 
 
 ## **1. Cloner le projet** 
+```
+git clone https://github.com/PierreSoreau/coloc-and-me.git 
 
-git clone [https://github.com/PierreSoreau/coloc-and-me.git](https://github.com/PierreSoreau/ coloc-and-me.git) 
-
-cd coloc-and-me 
+cd coloc-and-me
+```
 
 ## **2. Lancer le Backend** 
-
+```
 cd backend 
 
 npm install 
+```
+#### Créez un fichier .env à la racine du backend avec : 
 
-# Créez un fichier .env à la racine du backend avec : 
+SUPABASE_URL=votre_url_supabase 
 
-# SUPABASE_URL=votre_url_supabase 
+SUPABASE_KEY=votre_service_role_key 
 
-# SUPABASE_KEY=votre_service_role_key 
-
-npm run start 
-
+```
+npm run start
+ 
+```
 ## **3. Lancer le Frontend** 
-
+```
 cd frontend 
 
 npm install 
+```
+#### Configurez vos variables d'environnement dans src/environments/environment.ts : 
 
-# Configurez vos variables d'environnement dans src/environments/environment.ts : 
+supabaseUrl: 'votre_url_supabase', 
 
-# supabaseUrl: 'votre_url_supabase', 
-
-# supabaseKey: 'votre_anon_key' 
-
+supabaseKey: 'votre_anon_key' 
+```
 ng serve 
-
-L'application sera accessible sur http://localhost:4200. 
-
-_Projet développé par Pierre Soreau._ 
+```
 
