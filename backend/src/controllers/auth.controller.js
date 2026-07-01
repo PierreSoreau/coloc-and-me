@@ -16,6 +16,7 @@ export const register = async (req, res) => {
   //si elle renvoit une erreur dans ces cas là avec le throw de la fonction le code s'arrête
   //et vu qu'on a une erreur qui est balancé et bien on arrive dans le catch du register
   try {
+    const id = req.body.id;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
     const password = req.body.password;
@@ -41,14 +42,8 @@ export const register = async (req, res) => {
       });
     }
 
-    if (password && !checkPasswordWithRegex(password)) {
-      return res.status(400).json({
-        error: "Le format du mot de passe est invalide.",
-      });
-    }
-
     const resultRegister = await authService.registerUser(
-      password,
+      id,
       firstname,
       lastname,
       email_adress,

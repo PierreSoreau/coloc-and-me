@@ -81,3 +81,26 @@ app-root {
 * {
   box-sizing: border-box;
 }
+
+//SCSS qui permet d'éviter que le alt ne s'affiche à l'ouverture d'une page dans le cas ou 
+//l'image n'est pas encore arrivé sur l'écran
+
+// .lazy-img {
+//   /* Réserve l'espace pour éviter le saut (change le ratio selon tes besoins) */
+//   aspect-ratio: 16 / 9;
+//   background-color: var(--surface-element);
+//   /* Couleur de fond neutre */
+
+//   /* Masque le texte alt tant que la classe 'loaded' n'est pas présente */
+//   color: transparent;
+
+//   /* Transition douce à l'apparition */
+//   opacity: 0;
+//   transition: opacity 0.3s ease-in;
+// }
+
+// .lazy-img.loaded {
+//   opacity: 1;
+//   color: inherit;
+//   /* Réaffiche le texte si l'image crash, utile pour le debug */
+// }
